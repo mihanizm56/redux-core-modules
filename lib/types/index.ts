@@ -28,12 +28,12 @@ export type CustomReducerType = Reducer<
 
 export type InjectAsyncSagaParams = {
   store: IAdvancedStore;
-  sagaName: string;
+  name: string;
   saga: any;
 };
 
 export type InjectAsyncReducer = {
   store: IAdvancedStore;
   name: string;
-  asyncReducer: Reducer;
+  reducer: Reducer;
 };

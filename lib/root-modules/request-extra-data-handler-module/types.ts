@@ -1,6 +1,6 @@
 import { Action, BaseAction } from '../../types';
 
-export type OptionsType = Array<{
+export type InitRequestHandlerActionType = Array<{
   fieldName: string;
   action: Action<any> | BaseAction;
 }>;

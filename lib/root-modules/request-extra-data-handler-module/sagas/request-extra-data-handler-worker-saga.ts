@@ -1,9 +1,9 @@
 import { put } from 'redux-saga/effects';
-import { OptionsType } from '../types';
+import { InitRequestHandlerActionType } from '../types';
 
 type ParamsType = {
   data: any; // 'cause we can have various types of data
-  options: OptionsType;
+  options: InitRequestHandlerActionType;
 };
 
 export function* requestExtraDataHandlerWorkerSaga({
