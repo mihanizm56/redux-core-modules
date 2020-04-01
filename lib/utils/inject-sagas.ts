@@ -2,7 +2,7 @@ import { InjectAsyncSagaParams } from '@/types';
 
 export const injectAsyncSaga = ({
   store,
-  sagaName,
+  name,
   saga,
 }: InjectAsyncSagaParams) => {
   // get add injected sagas
@@ -12,7 +12,7 @@ export const injectAsyncSaga = ({
   // get run func
   const runSaga = store.sagaMiddleware.run;
   // get if saga was injected earlier
-  const isInjected = Boolean(store.asyncSagas[sagaName]);
+  const isInjected = Boolean(store.asyncSagas[name]);
 
   if (isInjected) {
     return;
@@ -22,5 +22,5 @@ export const injectAsyncSaga = ({
   const sagaToAdd = runSaga(saga, { dispatch });
 
   // inject saga
-  injectedSagas[sagaName] = sagaToAdd;
+  injectedSagas[name] = sagaToAdd;
 };

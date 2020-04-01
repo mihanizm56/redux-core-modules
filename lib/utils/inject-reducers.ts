@@ -4,7 +4,7 @@ import { createReducer } from '@/store/create-reducer';
 export const injectAsyncReducer = ({
   store,
   name,
-  asyncReducer,
+  reducer,
 }: InjectAsyncReducer) => {
   const asyncReducersInStore = store.asyncReducers;
   const wasReducerInjected = Boolean(asyncReducersInStore[name]);
@@ -14,7 +14,7 @@ export const injectAsyncReducer = ({
   }
 
   // get reducer from store
-  asyncReducersInStore[name] = asyncReducer;
+  asyncReducersInStore[name] = reducer;
 
   // define new reducer
   const newReducer: CustomReducerType = createReducer({
