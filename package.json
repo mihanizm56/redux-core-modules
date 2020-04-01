@@ -1,6 +1,6 @@
 {
   "name": "@mihanizm56/redux-core-modules",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "core redux modules",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
