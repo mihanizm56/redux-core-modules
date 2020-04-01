@@ -12,3 +12,4 @@ export {NotificationType, setModalAction, getModalStack} from './root-modules/no
 export {IRedirectManagerPayload} from './root-modules/redirect-manager-module'
 export {InitRequestHandlerActionType} from './root-modules/request-extra-data-handler-module'
 export {getPageIsLoading, getIsAppError} from './root-modules/ui-module'
+
