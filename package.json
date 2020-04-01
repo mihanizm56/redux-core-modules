@@ -1,0 +1,78 @@
+{
+  "name": "@mihanizm56/redux-core-modules",
+  "version": "0.0.1",
+  "description": "core redux modules",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test:watch": "jest --watch",
+    "test": "set CI=true && jest",
+    "test:coverage": "jest --coverage",
+    "compile": "tsc --project tsconfig.json && tscpaths -p tsconfig.json -s ./lib -o ./dist",
+    "lint": "npx eslint . --ext .ts --fix",
+    "commit": "git add . && git commit --no-edit",
+    "packages-vulnerability-check": "check-audit",
+    "save": "npm run commit && git push && git push && npm run pub",
+    "pub": "npm publish --access=public",
+    "size": "pkgfiles"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mihanizm56/redux-core-modules.git"
+  },
+  "author": "mihanizm56",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mihanizm56/redux-core-modules/issues"
+  },
+  "homepage": "https://github.com/mihanizm56/redux-core-modules#readme",
+  "dependencies": {
+    "@mihanizm56/fetch-api": "3.0.3",
+    "lodash-es": "4.17.15",
+    "redux": "4.0.5",
+    "redux-batched-actions": "0.5.0",
+    "redux-devtools-extension": "2.13.8",
+    "redux-saga": "1.1.3",
+    "reselect": "4.0.0",
+    "router5": "8.0.1",
+    "typescript": "3.8.3"
+  },
+  "devDependencies": {
+    "@types/lodash-es": "4.17.3",
+    "@commitlint/cli": "8.2.0",
+    "@types/jest": "24.9.1",
+    "@typescript-eslint/eslint-plugin": "2.5.0",
+    "@typescript-eslint/parser": "2.5.0",
+    "commitizen": "4.0.3",
+    "cz-customizable": "6.2.0",
+    "eslint": "6.8.0",
+    "eslint-config-airbnb-base": "14.1.0",
+    "eslint-config-prettier": "6.5.0",
+    "eslint-import-resolver-alias": "1.1.2",
+    "eslint-import-resolver-typescript": "2.0.0",
+    "eslint-loader": "3.0.2",
+    "eslint-plugin-import": "2.18.2",
+    "eslint-plugin-prettier": "3.1.1",
+    "eslint-plugin-security": "1.4.0",
+    "husky": "3.0.9",
+    "jest": "25.1.0",
+    "npm-audit-resolver": "2.1.0",
+    "pkgfiles": "2.3.2",
+    "prettier": "1.18.2",
+    "ts-jest": "25.2.1",
+    "tsconfig-paths": "3.9.0",
+    "tscpaths": "0.0.9",
+    "typescript-transform-paths": "1.1.14"
+  },
+  "files": [
+    "dist"
+  ],
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-customizable"
+    },
+    "cz-customizable": {
+      "config": "config/git/commitizen.js"
+    }
+  }
+}
