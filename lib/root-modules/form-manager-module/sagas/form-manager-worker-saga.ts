@@ -4,7 +4,7 @@ import { getFormattedResponseErrorText } from '@mihanizm56/fetch-api';
 import {
   setModalAction,
   DEFAULT_SUCCESS_NOTIFICATION_MESSAGE,
-} from '@/root-modules/notifications';
+} from '@/root-modules/notifications-module';
 import { requestExtraDataHandlerActionSaga } from '@/root-modules/request-extra-data-handler-module';
 import { FormManagerType } from '../types';
 

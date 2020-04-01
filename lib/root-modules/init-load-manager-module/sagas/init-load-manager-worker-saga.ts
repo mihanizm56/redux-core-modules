@@ -2,8 +2,8 @@ import { put, call, all } from 'redux-saga/effects';
 import { uniqueId } from 'lodash-es';
 import { getFormattedResponseErrorText } from '@mihanizm56/fetch-api';
 import { setAppErrorAction } from '@/root-modules/ui-module';
-import { DEFAULT_SUCCESS_NOTIFICATION_MESSAGE } from '@/root-modules/notifications/constants';
-import { setModalAction } from '@/root-modules/notifications';
+import { DEFAULT_SUCCESS_NOTIFICATION_MESSAGE } from '@/root-modules/notifications-module/constants';
+import { setModalAction } from '@/root-modules/notifications-module';
 import { requestExtraDataHandlerActionSaga } from '@/root-modules/request-extra-data-handler-module';
 import { InitLoadManagerActionPayloadType } from '../types';
 
