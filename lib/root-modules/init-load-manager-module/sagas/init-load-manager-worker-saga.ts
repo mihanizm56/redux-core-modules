@@ -1,7 +1,7 @@
-import { put, call, all } from 'redux-saga/effects';
+import { put, call, all, select } from 'redux-saga/effects';
 import { uniqueId } from 'lodash-es';
 import { getFormattedResponseErrorText } from '@mihanizm56/fetch-api';
-import { setAppErrorAction } from '@/root-modules/ui-module';
+import { setAppErrorAction, UIStorageSelector } from '@/root-modules/ui-module';
 import { DEFAULT_SUCCESS_NOTIFICATION_MESSAGE } from '@/root-modules/notifications-module/constants';
 import { setModalAction } from '@/root-modules/notifications-module';
 import { requestExtraDataHandlerActionSaga } from '@/root-modules/request-extra-data-handler-module';
@@ -15,7 +15,7 @@ export function* initLoadManagerWorkerSaga({
 }: {
   payload: InitLoadManagerActionPayloadType;
 }) {
-  ('initLoadManagerWorkerSaga goes');
+  const { errorsMap } = yield select(UIStorageSelector);
 
   let counterRequests = 0;
 
@@ -99,7 +99,10 @@ export function* initLoadManagerWorkerSaga({
     } catch (error) {
       // get formatted error message
       const formattedErrorText = !withoutFormattingError
-        ? getFormattedResponseErrorText(error.message)
+        ? getFormattedResponseErrorText({
+            errorTextKey: error.message,
+            errorsMap,
+          })
         : error.message;
       console.error(
         'error',

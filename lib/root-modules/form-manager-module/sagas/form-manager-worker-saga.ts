@@ -1,6 +1,7 @@
-import { put, all, call } from 'redux-saga/effects';
+import { put, all, call, select } from 'redux-saga/effects';
 import { uniqueId } from 'lodash-es';
 import { getFormattedResponseErrorText } from '@mihanizm56/fetch-api';
+import { UIStorageSelector } from '@/root-modules/ui-module';
 import {
   setModalAction,
   DEFAULT_SUCCESS_NOTIFICATION_MESSAGE,
@@ -31,6 +32,8 @@ export function* formManagerWorkerSaga({
     withoutFormattingError,
   },
 }: IFormManagerWorkerParams) {
+  const { errorsMap } = yield select(UIStorageSelector);
+
   // set new "initial" form data - react-final-form needs because if rerender form - "initial" values will be from the very beginning
   if (resetInitialDataAction) {
     yield put(resetInitialDataAction(formValues));
@@ -88,7 +91,10 @@ export function* formManagerWorkerSaga({
   } catch (error) {
     // get formatted error message
     const formattedErrorText = !withoutFormattingError
-      ? getFormattedResponseErrorText(error.message)
+      ? getFormattedResponseErrorText({
+          errorTextKey: error.message,
+          errorsMap,
+        })
       : error.message;
     console.error('error', 'error in formRequest', error.message);
 

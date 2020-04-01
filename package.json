@@ -1,6 +1,6 @@
 {
   "name": "@mihanizm56/redux-core-modules",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "core redux modules",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -12,7 +12,6 @@
     "lint": "npx eslint . --ext .ts --fix",
     "commit": "git add . && git commit --no-edit",
     "packages-vulnerability-check": "check-audit",
-    "save": "npm run commit && git push && git push && npm run pub",
     "pub": "npm publish --access=public",
     "size": "pkgfiles"
   },

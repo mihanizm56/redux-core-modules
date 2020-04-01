@@ -1,14 +1,14 @@
 import { createSelector } from 'reselect';
 import { IUIState, IUIStatePart } from './types';
 
-const UIStorageSelector = (store: IUIStatePart) => store.UIStateStorage;
+export const UIStorageSelector = (store: IUIStatePart) => store.UIStateStorage;
 
 export const getPageIsLoading = createSelector(
   [UIStorageSelector],
-  (UIStorage: IUIState) => UIStorage.pageIsLoadingState,
+  (storage: IUIState) => storage.pageIsLoadingState,
 );
 
 export const getIsAppError = createSelector(
   [UIStorageSelector],
-  (UIStorage: IUIState) => UIStorage.isAppError,
+  (storage: IUIState) => storage.isAppError,
 );
