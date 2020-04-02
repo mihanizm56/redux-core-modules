@@ -37,3 +37,8 @@ export type InjectAsyncReducer = {
   name: string;
   reducer: Reducer;
 };
+
+export type ErrorTextParams = {
+  errorTextKey: string;
+  errorsMap: { [key: string]: string };
+};
