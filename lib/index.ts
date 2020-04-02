@@ -28,6 +28,9 @@ export {
   getModalStack,
   removeModalAction,
 } from './root-modules/notifications-module';
+export {
+  default as notificationsModuleReducer,
+} from './root-modules/ui-module';
 
 export {
   IRedirectManagerPayload,
@@ -40,5 +43,4 @@ export {
 } from './root-modules/request-extra-data-handler-module';
 
 export { getPageIsLoading, getIsAppError } from './root-modules/ui-module';
-
 export { default as uiModuleReducer } from './root-modules/ui-module';
