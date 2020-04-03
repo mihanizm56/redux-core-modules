@@ -28,6 +28,7 @@ export {
   getModalStack,
   removeModalAction,
 } from './root-modules/notifications-module';
+
 export {
   default as notificationsModuleReducer,
 } from './root-modules/ui-module';

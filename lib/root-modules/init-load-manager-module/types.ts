@@ -2,7 +2,10 @@ import { IRESTResponse, IJSONRPCResponse } from '@mihanizm56/fetch-api';
 import { Action, BaseAction } from '@/types';
 
 export type InitLoadManagerSourceType = {
-  request: () => Promise<IRESTResponse | IJSONRPCResponse>;
+  request: (
+    options?: Record<string, any>,
+  ) => Promise<IRESTResponse | IJSONRPCResponse>;
+  requestOptions?: Record<string, any>;
   actionSuccess?: Action<any> | BaseAction;
   requestDataFormatter?: (data: any) => any;
   resetAction?: BaseAction;

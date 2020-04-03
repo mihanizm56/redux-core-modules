@@ -40,6 +40,7 @@ export function* initLoadManagerWorkerSaga({
       loadingStopAction,
       loadingStartAction,
       withoutFormattingError,
+      requestOptions,
     } = requestConfigList[counterRequests];
 
     try {
@@ -54,8 +55,10 @@ export function* initLoadManagerWorkerSaga({
         yield put(loadingStartAction());
       }
 
-      // make the request
-      const { error, errorText, data } = yield call(request);
+      // make the request (optionally with params)
+      const { error, errorText, data } = Boolean(requestOptions)
+        ? yield call(request, requestOptions)
+        : yield call(request);
 
       // if an error in request
       if (error) {
