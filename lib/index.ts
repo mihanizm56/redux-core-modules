@@ -23,17 +23,6 @@ export {
 } from './root-modules/request-extra-data-handler-module';
 
 export {
-  NotificationType,
-  setModalAction,
-  getModalStack,
-  removeModalAction,
-} from './root-modules/notifications-module';
-
-export {
-  default as notificationsModuleReducer,
-} from './root-modules/ui-module';
-
-export {
   IRedirectManagerPayload,
   redirectManagerWatcherSaga,
 } from './root-modules/redirect-manager-module';

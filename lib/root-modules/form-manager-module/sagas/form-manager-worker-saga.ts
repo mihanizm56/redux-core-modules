@@ -1,11 +1,11 @@
 import { put, all, call, select } from 'redux-saga/effects';
-import { uniqueId } from 'lodash-es';
+// import { uniqueId } from 'lodash-es';
 import { getFormattedResponseErrorText } from '@mihanizm56/fetch-api';
 import { UIStorageSelector } from '@/root-modules/ui-module';
-import {
-  setModalAction,
-  DEFAULT_SUCCESS_NOTIFICATION_MESSAGE,
-} from '@/root-modules/notifications-module';
+// import {
+//   setModalAction,
+//   DEFAULT_SUCCESS_NOTIFICATION_MESSAGE,
+// } from '@/root-modules/notifications-module';
 import { requestExtraDataHandlerActionSaga } from '@/root-modules/request-extra-data-handler-module';
 import { FormManagerType } from '../types';
 
@@ -24,7 +24,7 @@ export function* formManagerWorkerSaga({
     setErrorActionsArray,
     formSuccessAction,
     formSuccessActionsArray,
-    showNotification,
+    // showNotification,
     callBackOnSuccess,
     callBackOnError,
     requestExtraDataHandlerOptions,
@@ -79,15 +79,15 @@ export function* formManagerWorkerSaga({
     }
 
     // trigger notification
-    if (showNotification) {
-      yield put(
-        setModalAction({
-          status: 'success',
-          text: DEFAULT_SUCCESS_NOTIFICATION_MESSAGE,
-          id: uniqueId('notification_'),
-        }),
-      );
-    }
+    // if (showNotification) {
+    //   yield put(
+    //     setModalAction({
+    //       status: 'success',
+    //       text: DEFAULT_SUCCESS_NOTIFICATION_MESSAGE,
+    //       id: uniqueId('notification_'),
+    //     }),
+    //   );
+    // }
   } catch (error) {
     // get formatted error message
     const formattedErrorText = !withoutFormattingError
@@ -115,15 +115,15 @@ export function* formManagerWorkerSaga({
     }
 
     // trigger notification
-    if (showNotification) {
-      yield put(
-        setModalAction({
-          status: 'error',
-          text: formattedErrorText,
-          id: uniqueId('notification_'),
-        }),
-      );
-    }
+    // if (showNotification) {
+    //   yield put(
+    //     setModalAction({
+    //       status: 'error',
+    //       text: formattedErrorText,
+    //       id: uniqueId('notification_'),
+    //     }),
+    //   );
+    // }
   } finally {
     yield put(loadingStopAction());
   }

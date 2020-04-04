@@ -108,19 +108,6 @@ const loadDataConfig = {
 this.props.dispatch(initLoadManagerActionSaga(loadDataConfig));
 ```
 
-#### Example usage of notifications-module (notifications-components module must be implemented!)
-
-```javascript
-import { setModalAction } from '@mihanizm56/redux-core-modules';
-import { uniqueId } from 'lodash-es';
-
-this.props.dispatch(setModalAction({
-    status: 'success',
-    text: 'some message',
-    id: uniqueId('notification_'),
-}));
-```
-
 #### Example usage redirect-manager-module
 
 ```javascript
