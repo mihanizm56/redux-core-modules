@@ -1,1 +1,3 @@
-console.log('HELLO, I\'m executed !!!');
+#!/usr/bin/env node
+
+console.log("HELLO, I'm executed !!!");

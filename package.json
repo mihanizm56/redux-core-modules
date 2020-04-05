@@ -1,11 +1,10 @@
 {
   "name": "@mihanizm56/redux-core-modules",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "core redux modules",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "redux-core-modules-setup-test":"node ./hello.js",
     "test:watch": "jest --watch",
     "test": "set CI=true && jest",
     "test:coverage": "jest --coverage",
@@ -15,6 +14,9 @@
     "packages-vulnerability-check": "check-audit",
     "pub": "npm publish --access=public",
     "size": "pkgfiles"
+  },
+  "bin": {
+    "redux-core-modules-setup-test": "./hello.js"
   },
   "repository": {
     "type": "git",
