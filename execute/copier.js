@@ -11,7 +11,7 @@ class Copier {
     const arrayOfPromises = this.arrayToCopy.map(pathsPair =>
       this.copyMethod(pathsPair),); // eslint-disable-line
 
-    Promise.all(arrayOfPromises).then(() => console.log('copied'));
+    Promise.all(arrayOfPromises).then(() => console.log('copied'));  // eslint-disable-line
   }
 
   copyMethod({ from, to }) {
@@ -19,8 +19,8 @@ class Copier {
       .then(() =>
         mkdir(to)
           .then(() => this.copyPaste(from, to))
-          .catch(error => console.log('error', error)),)
-      .catch(error => console.log('get error in to path, made new one', error));
+          .catch(error => console.log('error', error)),)// eslint-disable-line
+      .catch(error => console.log('get error in to path, made new one', error));// eslint-disable-line
   }
 
   copyPaste(from, to) {
@@ -38,7 +38,7 @@ class Copier {
               .then(() => this.copyPaste(pathToCopyFile, pathToDir));
           }
           return readFile(pathToCopyFile).then(content =>
-            writeFile(pathToPasteFile, content),);
+            writeFile(pathToPasteFile, content),);// eslint-disable-line
         });
       });
     });
