@@ -1,6 +1,6 @@
 {
   "name": "@mihanizm56/redux-core-modules",
-  "version": "1.2.3",
+  "version": "1.2.3-beta.1",
   "description": "core redux modules",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -16,7 +16,7 @@
     "size": "pkgfiles"
   },
   "bin": {
-    "redux-core-modules-setup-test": "./hello.js"
+    "@mihanizm56/redux-core-modules": "./hello.js"
   },
   "repository": {
     "type": "git",
