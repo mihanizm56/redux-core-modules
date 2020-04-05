@@ -20,7 +20,11 @@ class Copier {
         mkdir(to)
           .then(() => this.copyPaste(from, to))
           .catch(error => console.log('error', error)),)// eslint-disable-line
-      .catch(error => console.log('get error in to path, made new one', error));// eslint-disable-line
+      .catch(error => console.log('get error in to path, made new one and continue', error))// eslint-disable-line
+      .then(() =>
+        mkdir(to)
+          .then(() => this.copyPaste(from, to))
+          .catch(error => console.log('error', error)),)// eslint-disable-line
   }
 
   copyPaste(from, to) {
