@@ -2,9 +2,7 @@
 
 const path = require('path');
 const { Copier } = require('./copier.js');
-// const { exec } = require('./fs-promises');
-
-// process.exec('npm i @mihanizm56/redux-core-modules@beta');
+const { exec } = require('./fs-promises');
 
 const fromFolder = path.join(
   process.cwd(),
@@ -19,4 +17,13 @@ const arrayToCopy = [{ from: fromFolder, to: toFolder }];
 
 const copierStatic = new Copier({ arrayToCopy });
 
-copierStatic.init();
+const runPackage = async () => {
+  try {
+    await exec('npm i @mihanizm56/redux-core-modules');
+    copierStatic.init();
+  } catch (error) {
+    console.log('error when executing the package', error); // eslint-disable-line
+  }
+};
+
+runPackage();
