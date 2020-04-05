@@ -1,6 +1,6 @@
 {
   "name": "@mihanizm56/redux-core-modules",
-  "version": "1.2.3-beta.4",
+  "version": "1.2.3-beta.5",
   "description": "core redux modules",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -16,7 +16,7 @@
     "size": "pkgfiles"
   },
   "bin": {
-    "@mihanizm56/redux-core-modules": "./hello.js"
+    "@mihanizm56/redux-core-modules": "./execute/runner.js"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/mihanizm56/redux-core-modules#readme",
   "dependencies": {
+    "mkdirp-promise": "^5.0.1",
     "redux": "4.0.5",
     "redux-batched-actions": "0.5.0",
     "redux-devtools-extension": "2.13.8",
