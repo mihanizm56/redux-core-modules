@@ -1,5 +1,5 @@
 {
-  "name": "@wilberries/redux-core-modules",
+  "name": "@wildberries/redux-core-modules",
   "version": "0.0.1",
   "description": "core redux modules",
   "main": "dist/index.js",
