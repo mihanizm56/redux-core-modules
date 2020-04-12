@@ -13,6 +13,7 @@
     "commit": "git add . && git commit --no-edit",
     "packages-vulnerability-check": "check-audit",
     "pub": "npm publish --access=public",
+    "beta": "npm publish --tag beta --access=public",
     "size": "pkgfiles"
   },
   "license": "MIT",
