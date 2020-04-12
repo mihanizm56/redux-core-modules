@@ -1,6 +1,6 @@
 {
   "name": "@wildberries/redux-core-modules",
-  "version": "0.0.1-beta.4",
+  "version": "0.0.1-beta.5",
   "description": "core redux modules",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -21,18 +21,16 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@wildberries/notifications": "0.0.1-beta.25",
+    "redux-saga": "1.1.3"
+  },
+  "devDependencies": {
+    "@types/redux-batched-actions": "0.1.5",
+    "@types/redux-devtools-extension": "2.13.2",
     "@types/lodash-es": "4.17.3",
     "@types/react": "16.9.11",
     "@types/react-redux": "7.1.7",
-    "@types/router5": "^5.0.0",
-    "@wildberries/notifications": "0.0.1-beta.22",
-    "redux": "4.0.5",
-    "redux-batched-actions": "0.5.0",
-    "redux-devtools-extension": "2.13.8",
-    "redux-saga": "1.1.3",
-    "reselect": "4.0.0"
-  },
-  "devDependencies": {
+    "@types/router5": "5.0.0",
     "@babel/cli": "7.8.4",
     "@babel/core": "7.9.0",
     "@babel/plugin-proposal-class-properties": "7.8.3",

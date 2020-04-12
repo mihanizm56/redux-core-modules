@@ -25,6 +25,12 @@ module.exports = {
     redux: 'redux',
     reselect: 'reselect',
     router5: 'router5',
+    'redux-batched-actions': 'redux-batched-actions',
+    'redux-devtools-extension': 'redux-devtools-extension',
+    'redux-saga': 'redux-saga',
+    'redux-saga/effects': 'redux-saga/effects',
+    'redux-devtools-extension/developmentOnly':
+      'redux-devtools-extension/developmentOnly',
   },
   devtool: isDev ? 'source-map' : '',
   plugins: [new CleanWebpackPlugin()],
