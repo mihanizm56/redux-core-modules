@@ -25,6 +25,7 @@ export {
 export {
   IRedirectManagerPayload,
   redirectManagerWatcherSaga,
+  redirectManagerSagaAction,
 } from './root-modules/redirect-manager-module';
 
 export {
