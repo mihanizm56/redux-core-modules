@@ -1,7 +1,7 @@
+import notificationsState from '@wildberries/notifications';
 import UIStateStorage from '@/root-modules/ui-module';
-// import notificationsState from '@/root-modules/notifications-module';
 
 export const rootReducers = {
   UIStateStorage,
-  // notificationsState,
+  notificationsState,
 };

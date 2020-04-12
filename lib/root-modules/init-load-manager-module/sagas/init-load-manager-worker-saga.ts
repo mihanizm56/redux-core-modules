@@ -1,9 +1,11 @@
 import { put, call, all, select } from 'redux-saga/effects';
-// import { uniqueId } from 'lodash-es';
+import { uniqueId } from 'lodash-es';
 import { getFormattedResponseErrorText } from '@mihanizm56/fetch-api';
+import {
+  setModalAction,
+  DEFAULT_SUCCESS_NOTIFICATION_MESSAGE,
+} from '@wildberries/notifications';
 import { setAppErrorAction, UIStorageSelector } from '@/root-modules/ui-module';
-// import { DEFAULT_SUCCESS_NOTIFICATION_MESSAGE } from '@/root-modules/notifications-module/constants';
-// import { setModalAction } from '@/root-modules/notifications-module';
 import { requestExtraDataHandlerActionSaga } from '@/root-modules/request-extra-data-handler-module';
 import { InitLoadManagerActionPayloadType } from '../types';
 
@@ -32,11 +34,11 @@ export function* initLoadManagerWorkerSaga({
       actionSuccess,
       actionsArraySuccess,
       requestExtraDataHandlerOptions,
-      // showSuccessNotification,
+      showSuccessNotification,
       isDataCritical,
       errorAction,
       errorActionsArray,
-      // showErrorNotification,
+      showErrorNotification,
       loadingStopAction,
       loadingStartAction,
       withoutFormattingError,
@@ -90,15 +92,15 @@ export function* initLoadManagerWorkerSaga({
       }
 
       // set success notification
-      // if (showSuccessNotification) {
-      //   yield put(
-      //     setModalAction({
-      //       status: 'error',
-      //       text: DEFAULT_SUCCESS_NOTIFICATION_MESSAGE,
-      //       id: uniqueId('notification_'),
-      //     }),
-      //   );
-      // }
+      if (showSuccessNotification) {
+        yield put(
+          setModalAction({
+            status: 'error',
+            text: DEFAULT_SUCCESS_NOTIFICATION_MESSAGE,
+            id: uniqueId('notification_'),
+          }),
+        );
+      }
     } catch (error) {
       // get formatted error message
       const formattedErrorText = !withoutFormattingError
@@ -131,15 +133,15 @@ export function* initLoadManagerWorkerSaga({
       }
 
       // set error notification
-      // if (showErrorNotification) {
-      //   yield put(
-      //     setModalAction({
-      //       status: 'error',
-      //       text: formattedErrorText,
-      //       id: uniqueId('notification_'),
-      //     }),
-      //   );
-      // }
+      if (showErrorNotification) {
+        yield put(
+          setModalAction({
+            status: 'error',
+            text: formattedErrorText,
+            id: uniqueId('notification_'),
+          }),
+        );
+      }
     } finally {
       if (loadingStopAction) {
         yield put(loadingStopAction());

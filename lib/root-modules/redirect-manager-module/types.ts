@@ -4,6 +4,6 @@ export interface IRedirectManagerPayload {
   pathName: string;
   params?: any;
   actionAfterRedirect?: Action<any> | BaseAction;
-  actionAfterRedirectParams: Record<string, any>;
+  actionAfterRedirectParams?: Record<string, any>;
   reload?: boolean;
 }

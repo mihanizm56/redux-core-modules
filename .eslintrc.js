@@ -1,18 +1,15 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
   extends: [
-    'airbnb-base',
+    'airbnb',
     'plugin:prettier/recommended',
     'prettier/@typescript-eslint',
     'plugin:@typescript-eslint/recommended',
     'plugin:import/typescript',
     'plugin:security/recommended',
   ],
-  globals: {
-    fetch: false,
-  },
   parserOptions: {
-    ecmaVersion: 2019, // Allows for the parsing of modern ECMAScript features
+    ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
     sourceType: 'module', // Allows for the use of imports
   },
   env: {
@@ -20,7 +17,7 @@ module.exports = {
     node: true,
     jest: true,
   },
-  plugins: ['import', 'security'],
+  plugins: ['import', 'react-hooks', 'security'],
   rules: {
     'prettier/prettier': [
       'error',
@@ -32,8 +29,10 @@ module.exports = {
       },
     ],
     'no-implied-eval': 2,
+    'jsx-a11y/media-has-caption': 'off',
     'import/prefer-default-export': 0,
     'prefer-destructuring': 0,
+    'react/destructuring-assignment': 0,
     'import/order': [
       'error',
       {
@@ -47,10 +46,44 @@ module.exports = {
         ],
       },
     ],
+    'react/jsx-filename-extension': 'off',
     'import/no-extraneous-dependencies': 0,
     'no-console': ['error', { allow: ['error'] }],
     quotes: ['error', 'single'],
-    'function-paren-newline': 2,
+    'jsx-a11y/click-events-have-key-events': 0,
+    'jsx-a11y/label-has-for': 0,
+    'jsx-a11y/label-has-associated-control': 0,
+    'jsx-a11y/no-static-element-interactions': [
+      'error',
+      {
+        handlers: [
+          'onClick',
+          'onMouseDown',
+          'onMouseUp',
+          'onKeyPress',
+          'onKeyDown',
+          'onKeyUp',
+        ],
+      },
+    ],
+    'jsx-a11y/anchor-is-valid': [
+      'error',
+      {
+        components: ['Link'],
+        specialLink: ['routeName'],
+        aspects: ['noHref', 'invalidHref', 'preferButton'],
+      },
+    ],
+    'function-paren-newline': 0,
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'error',
+    'react/default-props-match-prop-types': 0,
+    'react/require-default-props': 0,
+    'react/jsx-wrap-multilines': [
+      'error',
+      { arrow: true, return: true, declaration: true },
+    ],
+    'react/jsx-one-expression-per-line': 0,
     'consistent-return': 0,
     '@typescript-eslint/indent': 0, // Conflicts with Prettier
     '@typescript-eslint/explicit-member-accessibility': 0,
@@ -60,6 +93,7 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 0,
     'no-case-declarations': 0,
     'no-extra-boolean-cast': 0,
+    'react/state-in-constructor': 0,
     'no-async-promise-executor': 0,
     'max-classes-per-file': ['error', 2],
     'class-methods-use-this': 0,
@@ -72,7 +106,10 @@ module.exports = {
     'import/resolver': {
       alias: {
         map: [['@', './lib']],
-        extensions: ['.ts'],
+        extensions: ['.ts', '.tsx', '.js', '.jsx'],
+      },
+      webpack: {
+        config: './webpack.config.js',
       },
     },
   },

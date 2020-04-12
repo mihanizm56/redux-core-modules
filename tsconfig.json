@@ -7,9 +7,11 @@
     "outDir": "dist",
     "strict": true,
     "esModuleInterop": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["lib/*"]
+    }
   },
-  "exclude": ["node_modules", "dist"],
-  "extends": "./tsconfig.paths.json",
-  "baseUrl": "./"
+  "exclude": ["node_modules", "dist"]
 }
