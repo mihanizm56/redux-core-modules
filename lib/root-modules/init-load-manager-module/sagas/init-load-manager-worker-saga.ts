@@ -1,5 +1,4 @@
 import { put, call, all, select } from 'redux-saga/effects';
-import { uniqueId } from 'lodash-es';
 import { getFormattedResponseErrorText } from '@mihanizm56/fetch-api';
 import {
   setModalAction,
@@ -97,7 +96,6 @@ export function* initLoadManagerWorkerSaga({
           setModalAction({
             status: 'error',
             text: DEFAULT_SUCCESS_NOTIFICATION_MESSAGE,
-            id: uniqueId('notification_'),
           }),
         );
       }
@@ -138,7 +136,6 @@ export function* initLoadManagerWorkerSaga({
           setModalAction({
             status: 'error',
             text: formattedErrorText,
-            id: uniqueId('notification_'),
           }),
         );
       }

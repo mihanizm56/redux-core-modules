@@ -108,9 +108,6 @@ module.exports = {
         map: [['@', './lib']],
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
       },
-      webpack: {
-        config: './webpack.config.js',
-      },
     },
   },
 };

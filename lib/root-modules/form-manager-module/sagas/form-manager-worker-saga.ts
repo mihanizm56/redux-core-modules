@@ -1,5 +1,4 @@
 import { put, all, call, select } from 'redux-saga/effects';
-import { uniqueId } from 'lodash-es';
 import { getFormattedResponseErrorText } from '@mihanizm56/fetch-api';
 import {
   setModalAction,
@@ -84,7 +83,6 @@ export function* formManagerWorkerSaga({
         setModalAction({
           status: 'success',
           text: DEFAULT_SUCCESS_NOTIFICATION_MESSAGE,
-          id: uniqueId('notification_'),
         }),
       );
     }
@@ -120,7 +118,6 @@ export function* formManagerWorkerSaga({
         setModalAction({
           status: 'error',
           text: formattedErrorText,
-          id: uniqueId('notification_'),
         }),
       );
     }
