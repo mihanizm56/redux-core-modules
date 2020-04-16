@@ -1,4 +1,5 @@
 import { Store, Reducer, CombinedState } from 'redux';
+import { IResponse } from '@mihanizm56/i18n-react/dist/types/types';
 
 export interface IAsyncReducers {
   [reducerName: string]: Reducer;
@@ -42,3 +43,11 @@ export type ErrorTextParams = {
   errorTextKey: string;
   errorsMap: { [key: string]: string };
 };
+
+export type TranslationRequestType = ({
+  lang,
+  url,
+}: {
+  lang: string;
+  url: string;
+}) => Promise<IResponse>;
