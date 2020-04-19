@@ -12,6 +12,12 @@ export {
 } from './root-modules/form-manager-module';
 
 export {
+  fetchMenuAction,
+  getMenuData,
+  getMenuIsLoading,
+} from './root-modules/products-manager-module';
+
+export {
   initLoadManagerActionSaga,
   InitLoadManagerSourceType,
   InitLoadManagerActionPayloadType,

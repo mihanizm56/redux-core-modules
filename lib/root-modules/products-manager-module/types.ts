@@ -1,25 +1,25 @@
-import { reducerProductsName} from './constants';
+import { reducerProductsName } from './constants';
 
 export type Menu = {
-    icon?: string;
-    name: string;
-    staticURL?: string;
-    url?: string;
-    nextLevelItems?: MenuListType;
+  icon?: string;
+  name: string;
+  staticURL?: string;
+  url?: string;
+  nextLevelItems?: MenuListType;
 };
 
 export type MenuListType = Array<Menu>;
 
 export type ProductsStateType = {
-    menu: MenuListType;
-    loading: boolean;
+  menu: MenuListType;
+  loading: boolean;
 };
 
 export type ActionType = {
-    type: string;
-    payload: ProductsStateType;
+  type: string;
+  payload: ProductsStateType;
 };
 
 export type ProductsState = {
-    [reducerProductsName]: ProductsStateType;
+  [reducerProductsName]: ProductsStateType;
 };
