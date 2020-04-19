@@ -2,15 +2,15 @@ import { createSelector } from 'reselect';
 import { reducerProductsName } from './constants';
 import { ProductsStateType, ProductsState } from './types';
 
-const ProductManagerStorageSelector = (store: ProductsState) =>
+const productsManagerStorageSelector = (store: ProductsState) =>
   store[reducerProductsName];
 
-export const getMenuData = createSelector(
-  ProductManagerStorageSelector,
-  (state: ProductsStateType) => (Boolean(state) ? state.menu : []),
+export const getProductsMenuData = createSelector(
+  productsManagerStorageSelector,
+  ({ menu }: ProductsStateType) => menu,
 );
 
-export const getMenuIsLoading = createSelector(
-  ProductManagerStorageSelector,
-  (state: ProductsStateType) => (Boolean(state) ? state.loading : []),
+export const getProductsMenuIsLoading = createSelector(
+  productsManagerStorageSelector,
+  ({ loading }: ProductsStateType) => loading,
 );

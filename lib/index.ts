@@ -13,8 +13,8 @@ export {
 
 export {
   fetchMenuAction,
-  getMenuData,
-  getMenuIsLoading,
+  getProductsMenuData,
+  getProductsMenuIsLoading,
 } from './root-modules/products-manager-module';
 
 export {
