@@ -1,14 +1,14 @@
 import { FETCH_MENU, LOAD_PRODUCT, SET_MENU, SET_LOADING } from './actions';
-import { ProductStateTypes } from './types';
+import {Action, ProductsStateType} from './types';
 
-const initialState: ProductStateTypes = {
+const initialState: ProductsStateType = {
     menu: [],
     loading: true,
 };
 
 export const reducerProducts = (
-    state: ProductStateTypes = initialState,
-    { type, payload }: { type: string; payload: ProductStateTypes },
+    state: ProductsStateType = initialState,
+    { type, payload }: Action,
 ) => {
     switch (type) {
         case SET_MENU:
@@ -31,9 +31,3 @@ export const reducerProducts = (
             return state;
     }
 };
-
-export const reducerProductsName = '@platform/products';
-
-export interface ProductsState {
-    [reducerProductsName]: ProductStateTypes;
-}

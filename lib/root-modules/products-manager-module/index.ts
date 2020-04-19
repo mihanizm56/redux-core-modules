@@ -1,3 +1,4 @@
-export { reducerProducts, reducerProductsName } from './reducer';
-export type { ProductsState } from './reducer';
-export { getMenu } from './selectors';
+export { reducerProducts } from './reducer';
+export { reducerProductsName} from './constants';
+export type { ProductsState } from './types';
+export { getMenu, getStatusLoading } from './selectors';
