@@ -10,12 +10,6 @@ export const stopPageLoadingAction: BaseAction = () => ({
   type: STOP_PAGE_LOADING,
 });
 
-export const SET_ERRORS_MAP = 'SET_ERRORS_MAP';
-export const setErrorsMapAction: Action<Record<string, any>> = payload => ({
-  type: SET_ERRORS_MAP,
-  payload,
-});
-
 export const SET_APP_ERROR_STATE = 'SET_APP_ERROR_STATE';
 export const setAppErrorAction: BaseAction = () => ({
   type: SET_APP_ERROR_STATE,

@@ -4,7 +4,8 @@ import {
   setModalAction,
   DEFAULT_SUCCESS_NOTIFICATION_MESSAGE,
 } from '@wildberries/notifications';
-import { setAppErrorAction, UIStorageSelector } from '@/root-modules/ui-module';
+import { getTranslationsDictionary } from '@mihanizm56/i18n-react';
+import { setAppErrorAction } from '@/root-modules/ui-module';
 import { requestExtraDataHandlerActionSaga } from '@/root-modules/request-extra-data-handler-module';
 import { InitLoadManagerActionPayloadType } from '../types';
 
@@ -16,7 +17,7 @@ export function* initLoadManagerWorkerSaga({
 }: {
   payload: InitLoadManagerActionPayloadType;
 }) {
-  const { errorsMap } = yield select(UIStorageSelector);
+  const langDict = yield select(getTranslationsDictionary);
 
   let counterRequests = 0;
 
@@ -56,10 +57,11 @@ export function* initLoadManagerWorkerSaga({
         yield put(loadingStartAction());
       }
 
-      // make the request (optionally with params)
-      const { error, errorText, data } = Boolean(requestOptions)
-        ? yield call(request, requestOptions)
-        : yield call(request);
+      // make the request with language dictionary (optionally with params)
+      const { error, errorText, data } = yield call(request, {
+        body: requestOptions,
+        langDict,
+      });
 
       // if an error in request
       if (error) {
@@ -104,7 +106,7 @@ export function* initLoadManagerWorkerSaga({
       const formattedErrorText = !withoutFormattingError
         ? getFormattedResponseErrorText({
             errorTextKey: error.message,
-            errorsMap,
+            languageDictionary: langDict,
           })
         : error.message;
       console.error(

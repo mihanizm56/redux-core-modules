@@ -1,13 +1,18 @@
 import { Action, BaseAction } from '../../types';
 import { IRedirectManagerPayload } from '../redirect-manager-module';
 
+type RequestParamsType = {
+  body?: any;
+  langDict: Record<string, any>;
+};
+
 export type FormManagerType = {
   resetInitialDataAction?: Action<any>;
   formValues: any;
   formValuesFormatter?: (data: any) => any;
   loadingStartAction: BaseAction;
   loadingStopAction: BaseAction;
-  formRequest: (values: any) => Promise<any>;
+  formRequest: (options: RequestParamsType) => Promise<any>;
   setErrorAction?: Action<any>;
   setErrorActionsArray?: Array<Action<string>>;
   formSuccessAction?: Action<any> | BaseAction;

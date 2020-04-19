@@ -4,7 +4,7 @@ import {
   setModalAction,
   DEFAULT_SUCCESS_NOTIFICATION_MESSAGE,
 } from '@wildberries/notifications';
-import { UIStorageSelector } from '@/root-modules/ui-module';
+import { getTranslationsDictionary } from '@mihanizm56/i18n-react';
 import { requestExtraDataHandlerActionSaga } from '@/root-modules/request-extra-data-handler-module';
 import { redirectManagerSagaAction } from '@/root-modules/redirect-manager-module';
 import { FormManagerType } from '../types';
@@ -34,7 +34,7 @@ export function* formManagerWorkerSaga({
     redirectErrorActionParams,
   },
 }: IFormManagerWorkerParams) {
-  const { errorsMap } = yield select(UIStorageSelector);
+  const langDict = yield select(getTranslationsDictionary);
 
   // set new "initial" form data - react-final-form needs because if rerender form - "initial" values will be from the very beginning
   if (resetInitialDataAction) {
@@ -44,9 +44,10 @@ export function* formManagerWorkerSaga({
   yield put(loadingStartAction());
 
   // format data before to send
-  const dataToSend = formValuesFormatter
-    ? formValuesFormatter(formValues)
-    : formValues;
+  const dataToSend = {
+    langDict,
+    body: formValuesFormatter ? formValuesFormatter(formValues) : formValues,
+  };
 
   try {
     const { error, errorText, data } = yield call(formRequest, dataToSend);
@@ -98,7 +99,7 @@ export function* formManagerWorkerSaga({
     const formattedErrorText = !withoutFormattingError
       ? getFormattedResponseErrorText({
           errorTextKey: error.message,
-          errorsMap,
+          languageDictionary: langDict,
         })
       : error.message;
     console.error('error', 'error in formRequest', error.message);
