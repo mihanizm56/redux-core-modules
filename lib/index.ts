@@ -37,3 +37,5 @@ export { getPageIsLoading, getIsAppError } from './root-modules/ui-module';
 export { default as uiModuleReducer } from './root-modules/ui-module';
 
 export { getTranslationsDictionary } from '@mihanizm56/i18n-react';
+
+export { getTranslationsLocale } from '@mihanizm56/i18n-react';
