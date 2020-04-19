@@ -15,7 +15,7 @@ export type ProductsStateType = {
     loading: boolean;
 };
 
-export type Action = {
+export type ActionType = {
     type: string;
     payload: ProductsStateType;
 };

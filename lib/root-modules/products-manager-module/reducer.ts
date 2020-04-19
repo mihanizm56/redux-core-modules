@@ -1,5 +1,5 @@
 import { FETCH_MENU, LOAD_PRODUCT, SET_MENU, SET_LOADING } from './actions';
-import {Action, ProductsStateType} from './types';
+import {ActionType, ProductsStateType} from './types';
 
 const initialState: ProductsStateType = {
     menu: [],
@@ -8,7 +8,7 @@ const initialState: ProductsStateType = {
 
 export const reducerProducts = (
     state: ProductsStateType = initialState,
-    { type, payload }: Action,
+    { type, payload }: ActionType,
 ) => {
     switch (type) {
         case SET_MENU:
