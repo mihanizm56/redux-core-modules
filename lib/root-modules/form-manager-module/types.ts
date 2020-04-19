@@ -20,6 +20,6 @@ export type FormManagerType = {
     action: Action<any> | BaseAction;
   }>;
   withoutFormattingError?: boolean;
-  redirectSuccessActionParams: IRedirectManagerPayload;
-  redirectErrorActionParams: IRedirectManagerPayload;
+  redirectSuccessActionParams?: IRedirectManagerPayload;
+  redirectErrorActionParams?: IRedirectManagerPayload;
 };
