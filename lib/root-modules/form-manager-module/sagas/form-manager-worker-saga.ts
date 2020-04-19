@@ -6,6 +6,7 @@ import {
 } from '@wildberries/notifications';
 import { UIStorageSelector } from '@/root-modules/ui-module';
 import { requestExtraDataHandlerActionSaga } from '@/root-modules/request-extra-data-handler-module';
+import { redirectManagerSagaAction } from '@/root-modules/redirect-manager-module';
 import { FormManagerType } from '../types';
 
 interface IFormManagerWorkerParams {
@@ -29,6 +30,8 @@ export function* formManagerWorkerSaga({
     requestExtraDataHandlerOptions,
     formValuesFormatter,
     withoutFormattingError,
+    redirectSuccessActionParams,
+    redirectErrorActionParams,
   },
 }: IFormManagerWorkerParams) {
   const { errorsMap } = yield select(UIStorageSelector);
@@ -86,6 +89,10 @@ export function* formManagerWorkerSaga({
         }),
       );
     }
+
+    if (redirectSuccessActionParams) {
+      yield put(redirectManagerSagaAction(redirectSuccessActionParams));
+    }
   } catch (error) {
     // get formatted error message
     const formattedErrorText = !withoutFormattingError
@@ -120,6 +127,10 @@ export function* formManagerWorkerSaga({
           text: formattedErrorText,
         }),
       );
+    }
+
+    if (redirectErrorActionParams) {
+      yield put(redirectManagerSagaAction(redirectErrorActionParams));
     }
   } finally {
     yield put(loadingStopAction());

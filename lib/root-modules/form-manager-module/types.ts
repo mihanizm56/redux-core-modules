@@ -1,4 +1,5 @@
 import { Action, BaseAction } from '../../types';
+import { IRedirectManagerPayload } from '../redirect-manager-module';
 
 export type FormManagerType = {
   resetInitialDataAction?: Action<any>;
@@ -19,4 +20,6 @@ export type FormManagerType = {
     action: Action<any> | BaseAction;
   }>;
   withoutFormattingError?: boolean;
+  redirectSuccessActionParams: IRedirectManagerPayload;
+  redirectErrorActionParams: IRedirectManagerPayload;
 };
