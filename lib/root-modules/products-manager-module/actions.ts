@@ -2,8 +2,9 @@ import { Action, BaseAction } from '@/types';
 import { MenuListType } from './types';
 
 export const FETCH_MENU_ACTION_SAGA = 'FETCH_MENU_ACTION_SAGA';
-export const fetchMenuAction: BaseAction = () => ({
+export const fetchMenuAction: Action<() => void> = (payload) => ({
   type: FETCH_MENU_ACTION_SAGA,
+  payload
 });
 
 export const SET_MENU_DATA = 'SET_MENU_DATA';

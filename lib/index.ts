@@ -19,6 +19,10 @@ export {
   setLoadingStopAction,
   getProductsMenuData,
   getProductsMenuIsLoading,
+  Menu,
+  MenuListType,
+  ProductsStateType,
+  ProductsState,
 } from './root-modules/products-manager-module';
 
 export {
