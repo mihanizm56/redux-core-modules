@@ -1,9 +1,9 @@
 import { Action, BaseAction } from '@/types';
 import { MenuListType } from './types';
 
-export const FETCH_MENU = 'FETCH_MENU';
+export const FETCH_MENU_ACTION_SAGA = 'FETCH_MENU_ACTION_SAGA';
 export const fetchMenuAction: BaseAction = () => ({
-  type: FETCH_MENU,
+  type: FETCH_MENU_ACTION_SAGA,
 });
 
 export const SET_MENU_DATA = 'SET_MENU_DATA';

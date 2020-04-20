@@ -12,6 +12,7 @@ export {
 } from './root-modules/form-manager-module';
 
 export {
+  FETCH_MENU_ACTION_SAGA,
   fetchMenuAction,
   setMenuAction,
   setLoadingStartAction,
