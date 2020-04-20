@@ -2,7 +2,6 @@ import { Action, BaseAction } from '@/types';
 
 export type InitLoadManagerSourceType = {
   request: (params: any) => Promise<any>;
-  requestSchema: any;
   requestOptions?: Record<string, any>;
   actionSuccess?: Action<any> | BaseAction;
   requestDataFormatter?: (data: any) => any;

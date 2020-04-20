@@ -8,7 +8,6 @@ export type FormManagerType = {
   loadingStartAction: BaseAction;
   loadingStopAction: BaseAction;
   formRequest: (params: any) => Promise<any>;
-  requestSchema: any;
   setErrorAction?: Action<any>;
   setErrorActionsArray?: Array<Action<string>>;
   formSuccessAction?: Action<any> | BaseAction;

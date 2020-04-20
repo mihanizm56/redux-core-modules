@@ -29,7 +29,6 @@ export function* initLoadManagerWorkerSaga({
       resetAction,
       resetActionsArray,
       request,
-      requestSchema,
       requestDataFormatter,
       actionSuccess,
       actionsArraySuccess,
@@ -62,7 +61,6 @@ export function* initLoadManagerWorkerSaga({
         body: requestOptions,
         langDict,
         isErrorTextStraightToOutput: withoutFormattingError,
-        requestSchema,
       });
 
       // if an error in request
