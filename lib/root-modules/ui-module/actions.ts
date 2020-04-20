@@ -1,4 +1,4 @@
-import { BaseAction, Action } from '@/types';
+import { BaseAction } from '@/types';
 
 export const START_PAGE_LOADING = 'START_PAGE_LOADING';
 export const startPageLoadingAction: BaseAction = () => ({
