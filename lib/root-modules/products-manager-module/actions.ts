@@ -1,10 +1,10 @@
 import { Action, BaseAction } from '@/types';
-import { MenuListType } from './types';
+import { MenuListType, fetchMenuCallbackType } from './types';
 
 export const FETCH_MENU_ACTION_SAGA = 'FETCH_MENU_ACTION_SAGA';
-export const fetchMenuAction: Action<() => void> = (payload) => ({
+export const fetchMenuAction: Action<fetchMenuCallbackType> = payload => ({
   type: FETCH_MENU_ACTION_SAGA,
-  payload
+  payload,
 });
 
 export const SET_MENU_DATA = 'SET_MENU_DATA';

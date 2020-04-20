@@ -1,6 +1,6 @@
 import { reducerProductsName } from './constants';
 
-export type Menu = {
+export type MenuType = {
   icon?: string;
   name: string;
   staticURL?: string;
@@ -8,7 +8,7 @@ export type Menu = {
   nextLevelItems?: MenuListType;
 };
 
-export type MenuListType = Array<Menu>;
+export type MenuListType = Array<MenuType>;
 
 export type ProductsStateType = {
   menu: MenuListType;
@@ -23,3 +23,5 @@ export type ActionType = {
 export type ProductsState = {
   [reducerProductsName]: ProductsStateType;
 };
+
+export type fetchMenuCallbackType = () => void;
