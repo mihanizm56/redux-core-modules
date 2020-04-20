@@ -13,6 +13,9 @@ export {
 
 export {
   fetchMenuAction,
+  setMenuAction,
+  setLoadingStartAction,
+  setLoadingStopAction,
   getProductsMenuData,
   getProductsMenuIsLoading,
 } from './root-modules/products-manager-module';

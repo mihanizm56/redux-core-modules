@@ -1,6 +1,6 @@
 {
   "name": "@wildberries/redux-core-modules",
-  "version": "0.0.6-beta.12",
+  "version": "0.0.6-beta.13",
   "description": "core redux modules",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "@commitlint/cli": "8.2.0",
-    "@mihanizm56/fetch-api": "^3.2.0-beta.15",
+    "@mihanizm56/fetch-api": "3.2.0-beta.15",
     "@types/jest": "24.9.1",
     "@types/react": "16.9.11",
     "@types/react-redux": "7.1.7",
@@ -58,7 +58,6 @@
     "pkgfiles": "2.3.2",
     "prettier": "1.18.2",
     "ts-jest": "25.2.1",
-    "ts-loader": "6.2.2",
     "tscpaths": "0.0.9",
     "typescript": "3.8.3"
   },
