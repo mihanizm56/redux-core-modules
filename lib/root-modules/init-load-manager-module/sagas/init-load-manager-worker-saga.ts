@@ -1,5 +1,4 @@
 import { put, call, all, select } from 'redux-saga/effects';
-import { getFormattedResponseErrorText } from '@mihanizm56/fetch-api';
 import {
   setModalAction,
   DEFAULT_SUCCESS_NOTIFICATION_MESSAGE,
@@ -30,6 +29,7 @@ export function* initLoadManagerWorkerSaga({
       resetAction,
       resetActionsArray,
       request,
+      requestSchema,
       requestDataFormatter,
       actionSuccess,
       actionsArraySuccess,
@@ -61,6 +61,8 @@ export function* initLoadManagerWorkerSaga({
       const { error, errorText, data } = yield call(request, {
         body: requestOptions,
         langDict,
+        isErrorTextStraightToOutput: withoutFormattingError,
+        requestSchema,
       });
 
       // if an error in request
@@ -102,18 +104,7 @@ export function* initLoadManagerWorkerSaga({
         );
       }
     } catch (error) {
-      // get formatted error message
-      const formattedErrorText = !withoutFormattingError
-        ? getFormattedResponseErrorText({
-            errorTextKey: error.message,
-            languageDictionary: langDict,
-          })
-        : error.message;
-      console.error(
-        'error',
-        'error in initLoadManagerWorkerSaga',
-        error.message,
-      );
+      console.error('error in initLoadManagerWorkerSaga', error.message);
 
       // if data in request is critical and we dont get it -> set app global error
       if (isDataCritical) {
@@ -125,11 +116,9 @@ export function* initLoadManagerWorkerSaga({
 
       // set error actions
       if (errorAction) {
-        yield put(errorAction(formattedErrorText));
+        yield put(errorAction(error.message));
       } else if (errorActionsArray) {
-        yield all(
-          errorActionsArray.map(action => put(action(formattedErrorText))),
-        );
+        yield all(errorActionsArray.map(action => put(action(error.message))));
       }
 
       // set error notification
@@ -137,7 +126,7 @@ export function* initLoadManagerWorkerSaga({
         yield put(
           setModalAction({
             status: 'error',
-            text: formattedErrorText,
+            text: error.message,
           }),
         );
       }

@@ -20,16 +20,20 @@ export function* redirectManagerWorkerSaga({
   router,
   dispatch,
 }: IFormManagerWorkerParams) {
-  yield router.navigate(pathName, params, { reload: Boolean(reload) }, () => {
-    if (actionAfterRedirect) {
-      // cast type to dispatch in BaseAction style
-      const action: BaseAction = actionAfterRedirectParams
-        ? (actionAfterRedirect.bind(null, {
-            ...actionAfterRedirectParams,
-          }) as BaseAction)
-        : (actionAfterRedirect as BaseAction);
+  try {
+    yield router.navigate(pathName, params, { reload: Boolean(reload) }, () => {
+      if (actionAfterRedirect) {
+        // cast type to dispatch in BaseAction style
+        const action: BaseAction = actionAfterRedirectParams
+          ? (actionAfterRedirect.bind(null, {
+              ...actionAfterRedirectParams,
+            }) as BaseAction)
+          : (actionAfterRedirect as BaseAction);
 
-      dispatch(action());
-    }
-  });
+        dispatch(action());
+      }
+    });
+  } catch (error) {
+    console.error('redirectManagerWorkerSaga catch error', error.message);
+  }
 }

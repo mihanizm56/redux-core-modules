@@ -10,16 +10,23 @@ export function* requestExtraDataHandlerWorkerSaga({
   data,
   options,
 }: ParamsType) {
-  const optionsLength = options.length;
+  try {
+    const optionsLength = options.length;
 
-  let optionsItem = 0;
+    let optionsItem = 0;
 
-  while (optionsItem < optionsLength) {
-    const { fieldName, action } = options[optionsItem];
-    const optionDataValue = data[fieldName];
+    while (optionsItem < optionsLength) {
+      const { fieldName, action } = options[optionsItem];
+      const optionDataValue = data[fieldName];
 
-    yield put(action(optionDataValue));
+      yield put(action(optionDataValue));
 
-    optionsItem += 1;
+      optionsItem += 1;
+    }
+  } catch (error) {
+    console.error(
+      'requestExtraDataHandlerWorkerSaga catch error',
+      error.message,
+    );
   }
 }
