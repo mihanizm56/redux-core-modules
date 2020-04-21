@@ -1,5 +1,6 @@
 import { Store, Reducer, CombinedState } from 'redux';
 import { IResponse } from '@mihanizm56/i18n-react/dist/types/types';
+import { Router } from 'router5';
 
 export interface IAsyncReducers {
   [reducerName: string]: Reducer;
@@ -13,6 +14,7 @@ export interface IAdvancedStore extends Store {
   asyncReducers: IAsyncReducers;
   asyncSagas: IAsyncSagas;
   sagaMiddleware: any;
+  router: Router;
 }
 
 export type BaseAction = () => { type: string };

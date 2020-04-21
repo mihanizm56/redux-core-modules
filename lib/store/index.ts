@@ -50,6 +50,7 @@ export const createAppStore = ({
 
   // Add a dictionary to keep track of the registered async reducers and sagas
   // and give a possibility to run saga from field sagaMiddleware
+  store.router = router;
   store.asyncReducers = {};
   store.asyncSagas = {};
   store.sagaMiddleware = sagaMiddleware;

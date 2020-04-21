@@ -7,6 +7,8 @@ export const injectAsyncSaga = ({
 }: InjectAsyncSagaParams) => {
   // get add injected sagas
   const injectedSagas = store.asyncSagas;
+  // get the router
+  const router = store.router;
   // get the true-type dispatch
   const dispatch = store.dispatch;
   // get run func
@@ -19,7 +21,7 @@ export const injectAsyncSaga = ({
   }
 
   // get saga to inject
-  const sagaToAdd = runSaga(saga, { dispatch });
+  const sagaToAdd = runSaga(saga, { dispatch, router });
 
   // inject saga
   injectedSagas[name] = sagaToAdd;
