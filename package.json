@@ -1,6 +1,6 @@
 {
   "name": "@wildberries/redux-core-modules",
-  "version": "0.0.6-beta.16",
+  "version": "0.0.6-beta.29",
   "description": "core redux modules",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -20,12 +20,11 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@mihanizm56/i18n-react": "0.0.5-beta.8",
+    "@mihanizm56/i18n-react": "0.0.5-beta.14",
     "@wildberries/notifications": "0.0.3"
   },
   "devDependencies": {
     "@commitlint/cli": "8.2.0",
-    "@mihanizm56/fetch-api": "3.2.0-beta.15",
     "@types/jest": "24.9.1",
     "@types/react": "16.9.11",
     "@types/react-redux": "7.1.7",
@@ -36,7 +35,7 @@
     "@types/router5": "5.0.0",
     "@typescript-eslint/eslint-plugin": "2.5.0",
     "@typescript-eslint/parser": "2.5.0",
-    "commitizen": "4.0.3",
+    "commitizen": "4.0.4",
     "cross-env": "7.0.2",
     "cz-customizable": "6.2.0",
     "eslint": "6.6.0",

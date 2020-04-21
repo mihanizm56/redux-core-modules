@@ -1,13 +1,7 @@
-import { IResponse } from '@mihanizm56/fetch-api';
 import { Action, BaseAction } from '@/types';
 
-type RequestParamsType = {
-  body?: any;
-  langDict: Record<string, any>;
-};
-
 export type InitLoadManagerSourceType = {
-  request: (options: RequestParamsType) => Promise<IResponse>;
+  request: (params: any) => Promise<any>;
   requestOptions?: Record<string, any>;
   actionSuccess?: Action<any> | BaseAction;
   requestDataFormatter?: (data: any) => any;

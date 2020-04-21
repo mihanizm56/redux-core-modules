@@ -1,5 +1,4 @@
 import { put, all, call, select } from 'redux-saga/effects';
-import { getFormattedResponseErrorText } from '@mihanizm56/fetch-api';
 import {
   setModalAction,
   DEFAULT_SUCCESS_NOTIFICATION_MESSAGE,
@@ -43,14 +42,12 @@ export function* formManagerWorkerSaga({
 
   yield put(loadingStartAction());
 
-  // format data before to send
-  const dataToSend = {
-    langDict,
-    body: formValuesFormatter ? formValuesFormatter(formValues) : formValues,
-  };
-
   try {
-    const { error, errorText, data } = yield call(formRequest, dataToSend);
+    const { error, errorText, data } = yield call(formRequest, {
+      langDict,
+      body: formValuesFormatter ? formValuesFormatter(formValues) : formValues,
+      isErrorTextStraightToOutput: withoutFormattingError,
+    });
 
     if (error) {
       throw new Error(errorText);
@@ -95,14 +92,7 @@ export function* formManagerWorkerSaga({
       yield put(redirectManagerSagaAction(redirectSuccessActionParams));
     }
   } catch (error) {
-    // get formatted error message
-    const formattedErrorText = !withoutFormattingError
-      ? getFormattedResponseErrorText({
-          errorTextKey: error.message,
-          languageDictionary: langDict,
-        })
-      : error.message;
-    console.error('error', 'error in formRequest', error.message);
+    console.error('error in formRequest', error.message);
 
     // put usual function callback
     if (callBackOnError) {
@@ -111,11 +101,11 @@ export function* formManagerWorkerSaga({
 
     // dispatch fail actions
     if (setErrorAction) {
-      yield put(setErrorAction(formattedErrorText));
+      yield put(setErrorAction(error.message));
     } else if (setErrorActionsArray && setErrorActionsArray.length) {
       yield all(
         setErrorActionsArray.map(errorAction =>
-          put(errorAction(formattedErrorText)),
+          put(errorAction(error.message)),
         ), // eslint-disable-line
       );
     }
@@ -125,7 +115,7 @@ export function* formManagerWorkerSaga({
       yield put(
         setModalAction({
           status: 'error',
-          text: formattedErrorText,
+          text: error.message,
         }),
       );
     }
