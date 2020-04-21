@@ -56,8 +56,5 @@ export const createAppStore = ({
 
   sagaMiddleware.run(rootSagaWithRouter);
 
-  // activate translation
-  store.dispatch(fetchLangAction('ru-RU'));
-
   return store;
 };
