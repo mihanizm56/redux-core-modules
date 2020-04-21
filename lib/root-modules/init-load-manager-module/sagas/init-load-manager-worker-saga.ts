@@ -3,7 +3,7 @@ import {
   setModalAction,
   DEFAULT_SUCCESS_NOTIFICATION_MESSAGE,
 } from '@wildberries/notifications';
-import { getTranslationsBackendErrorsDictionary } from '@mihanizm56/i18n-react';
+import { getTranslationsDictionary } from '@mihanizm56/i18n-react';
 import { setAppErrorAction } from '@/root-modules/ui-module';
 import { requestExtraDataHandlerActionSaga } from '@/root-modules/request-extra-data-handler-module';
 import { InitLoadManagerActionPayloadType } from '../types';
@@ -16,7 +16,7 @@ export function* initLoadManagerWorkerSaga({
 }: {
   payload: InitLoadManagerActionPayloadType;
 }) {
-  const langDict = yield select(getTranslationsBackendErrorsDictionary);
+  const langDict = yield select(getTranslationsDictionary);
 
   let counterRequests = 0;
 
