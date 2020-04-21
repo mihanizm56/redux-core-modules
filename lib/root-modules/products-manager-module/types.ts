@@ -5,6 +5,7 @@ export type MenuType = {
   name: string;
   staticURL?: string;
   url?: string;
+  routeName?: string;
   nextLevelItems?: MenuListType;
 };
 
