@@ -27,6 +27,19 @@ export {
 } from './root-modules/products-manager-module';
 
 export {
+  FETCH_SUPPLIERS_ACTION_SAGA,
+  fetchSuppliersAction,
+  setSuppliersLoadingStopAction,
+  setSuppliersAction,
+  setSuppliersLoadingStartAction,
+  getSuppliersData,
+  getSuppliersIsLoading,
+  SuppliersType,
+  SuppliersStateType,
+  SuppliersState,
+} from './root-modules/suppliers-manager-module';
+
+export {
   initLoadManagerActionSaga,
   InitLoadManagerSourceType,
   InitLoadManagerActionPayloadType,
