@@ -44,4 +44,4 @@ export type ErrorTextParams = {
   errorsMap: { [key: string]: string };
 };
 
-export type TranslationRequestType = (lang: string) => Promise<IResponse>;
+export type TranslationRequestType = (lang?: string) => Promise<IResponse>;

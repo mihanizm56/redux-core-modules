@@ -16,19 +16,24 @@ const __DEV__ = process.env.NODE_ENV === "development"; // eslint-disable-line
 
 interface IStoreParams {
   router: Router;
-  translationRequest: TranslationRequestType;
+  requestToFetchDict: TranslationRequestType;
+  requestToFetchBackendErrorsDict: TranslationRequestType;
 }
 
 export const createAppStore = ({
   router,
-  translationRequest,
+  requestToFetchDict,
+  requestToFetchBackendErrorsDict,
 }: IStoreParams) => {
   const sagaMiddleware = createSagaMiddleware();
 
   const composeMiddlewares = [
     batchDispatchMiddleware,
     sagaMiddleware,
-    translationMiddleware(translationRequest),
+    translationMiddleware({
+      requestToFetchDict,
+      requestToFetchBackendErrorsDict,
+    }),
   ];
 
   const enhancers = __DEV__

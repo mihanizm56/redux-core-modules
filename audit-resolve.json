@@ -2,8 +2,8 @@
   "decisions": {
     "1179|commitizen>minimist": {
       "decision": "ignore",
-      "madeAt": 1584836669624,
-      "expiresAt": 1587428661729
+      "madeAt": 1587458908536,
+      "expiresAt": 1590050905015
     }
   },
   "rules": {},

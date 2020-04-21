@@ -3,7 +3,7 @@ import {
   setModalAction,
   DEFAULT_SUCCESS_NOTIFICATION_MESSAGE,
 } from '@wildberries/notifications';
-import { getTranslationsDictionary } from '@mihanizm56/i18n-react';
+import { getTranslationsBackendErrorsDictionary } from '@mihanizm56/i18n-react';
 import { requestExtraDataHandlerActionSaga } from '@/root-modules/request-extra-data-handler-module';
 import { redirectManagerSagaAction } from '@/root-modules/redirect-manager-module';
 import { FormManagerType } from '../types';
@@ -33,7 +33,7 @@ export function* formManagerWorkerSaga({
     redirectErrorActionParams,
   },
 }: IFormManagerWorkerParams) {
-  const langDict = yield select(getTranslationsDictionary);
+  const langDict = yield select(getTranslationsBackendErrorsDictionary);
 
   // set new "initial" form data - react-final-form needs because if rerender form - "initial" values will be from the very beginning
   if (resetInitialDataAction) {
