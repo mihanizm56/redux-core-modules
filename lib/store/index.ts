@@ -3,7 +3,7 @@ import { enableBatching, batchDispatchMiddleware } from 'redux-batched-actions';
 import createSagaMiddleware from 'redux-saga';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import { Router } from 'router5';
-import { translationMiddleware, fetchLangAction } from '@mihanizm56/i18n-react';
+import { translationMiddleware } from '@mihanizm56/i18n-react';
 import {
   IAdvancedStore,
   CustomReducerType,

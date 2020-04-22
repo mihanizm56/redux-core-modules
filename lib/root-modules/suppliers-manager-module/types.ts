@@ -23,16 +23,16 @@ export type SuppliersType = {
   payer_status_doc_id: string;
 };
 
-export type SuppliersStateType = {
+export type SuppliersState = {
   suppliers: Array<SuppliersType>;
   loading: boolean;
 };
 
 export type ActionType = {
   type: string;
-  payload: SuppliersStateType;
+  payload: SuppliersState;
 };
 
-export type SuppliersState = {
-  [reducerSuppliersName]: SuppliersStateType;
+export type SuppliersStatePart = {
+  [reducerSuppliersName]: SuppliersState;
 };

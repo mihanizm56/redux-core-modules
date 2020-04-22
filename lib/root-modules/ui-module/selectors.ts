@@ -1,14 +1,15 @@
 import { createSelector } from 'reselect';
 import { IUIState, IUIStatePart } from './types';
+import { reducerUIName } from './constants';
 
-export const UIStorageSelector = (store: IUIStatePart) => store.UIStateStorage;
+export const UIStorageSelector = (store: IUIStatePart) => store[reducerUIName];
 
 export const getPageIsLoading = createSelector(
   [UIStorageSelector],
-  (storage: IUIState) => storage.pageIsLoadingState,
+  ({ pageIsLoadingState }: IUIState) => pageIsLoadingState,
 );
 
 export const getIsAppError = createSelector(
   [UIStorageSelector],
-  (storage: IUIState) => storage.isAppError,
+  ({ isAppError }: IUIState) => isAppError,
 );

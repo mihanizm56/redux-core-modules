@@ -1,16 +1,16 @@
 import { createSelector } from 'reselect';
 import { reducerSuppliersName } from './constants';
-import { SuppliersStateType, SuppliersState } from './types';
+import { SuppliersStatePart, SuppliersState } from './types';
 
-const suppliersManagerStorageSelector = (store: SuppliersState) =>
+const suppliersManagerStorageSelector = (store: SuppliersStatePart) =>
   store[reducerSuppliersName];
 
 export const getSuppliersData = createSelector(
   suppliersManagerStorageSelector,
-  ({ suppliers }: SuppliersStateType) => suppliers,
+  ({ suppliers }: SuppliersState) => suppliers,
 );
 
 export const getSuppliersIsLoading = createSelector(
   suppliersManagerStorageSelector,
-  ({ loading }: SuppliersStateType) => loading,
+  ({ loading }: SuppliersState) => loading,
 );

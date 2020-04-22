@@ -11,18 +11,18 @@ export type MenuType = {
 
 export type MenuListType = Array<MenuType>;
 
-export type ProductsStateType = {
+export type ProductsState = {
   menu: MenuListType;
   loading: boolean;
 };
 
 export type ActionType = {
   type: string;
-  payload: ProductsStateType;
+  payload: ProductsState;
 };
 
-export type ProductsState = {
-  [reducerProductsName]: ProductsStateType;
+export type ProductsStatePart = {
+  [reducerProductsName]: ProductsState;
 };
 
 export type fetchMenuCallbackType = () => void;

@@ -1,13 +1,13 @@
 import { SET_MENU_DATA, SET_LOADING_START, SET_LOADING_STOP } from './actions';
-import { ActionType, ProductsStateType } from './types';
+import { ActionType, ProductsState } from './types';
 
-const initialState: ProductsStateType = {
+const initialState: ProductsState = {
   menu: [],
   loading: true,
 };
 
 export const reducer = (
-  state: ProductsStateType = initialState,
+  state: ProductsState = initialState,
   { type, payload }: ActionType,
 ) => {
   switch (type) {

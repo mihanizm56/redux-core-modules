@@ -22,8 +22,8 @@ export {
   fetchMenuCallbackType,
   MenuType,
   MenuListType,
-  ProductsStateType,
   ProductsState,
+  ProductsStatePart,
 } from './root-modules/products-manager-module';
 
 export {
@@ -35,7 +35,7 @@ export {
   getSuppliersData,
   getSuppliersIsLoading,
   SuppliersType,
-  SuppliersStateType,
+  SuppliersStatePart,
   SuppliersState,
 } from './root-modules/suppliers-manager-module';
 

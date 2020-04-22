@@ -3,15 +3,15 @@ import {
   SET_SUPPLIERS_LOADING_START,
   SET_SUPPLIERS_LOADING_STOP,
 } from './actions';
-import { ActionType, SuppliersStateType } from './types';
+import { ActionType, SuppliersState } from './types';
 
-const initialState: SuppliersStateType = {
+const initialState: SuppliersState = {
   suppliers: [],
   loading: true,
 };
 
 export const reducer = (
-  state: SuppliersStateType = initialState,
+  state: SuppliersState = initialState,
   { type, payload }: ActionType,
 ) => {
   switch (type) {
