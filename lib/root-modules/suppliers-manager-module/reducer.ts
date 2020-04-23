@@ -7,6 +7,7 @@ import {
 import { ActionType, SuppliersState } from './types';
 
 const initialState: SuppliersState = {
+  selected: null,
   loading: true,
   suppliers: [],
 };
