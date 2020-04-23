@@ -17,5 +17,5 @@ export const getSuppliersIsLoading = createSelector(
 
 export const getSelectedSupplier = createSelector(
   suppliersManagerStorageSelector,
-  ({ loading }: SuppliersState) => loading,
+  ({ selected }: SuppliersState) => selected,
 );

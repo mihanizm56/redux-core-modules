@@ -8,8 +8,9 @@ export const fetchSuppliersAction: BaseAction = () => ({
 
 export const SET_SELECTED_SUPPLIER_ACTION_SAGA =
   'SET_SELECTED_SUPPLIER_ACTION_SAGA';
-export const setCurrentSupplierActionSaga: BaseAction = () => ({
+export const setSelectedSupplierActionSaga: Action<string> = payload => ({
   type: SET_SELECTED_SUPPLIER_ACTION_SAGA,
+  payload,
 });
 
 export const SET_SUPPLIERS_DATA = 'SET_SUPPLIERS_DATA';
@@ -31,6 +32,9 @@ export const setSuppliersLoadingStopAction: BaseAction = () => ({
 });
 
 export const SET_SELECTED_SUPPLIER = 'SET_SELECTED_SUPPLIER';
-export const setSelectedSupplierAction: BaseAction = () => ({
-  type: SET_SUPPLIERS_LOADING_STOP,
+export const setSelectedSupplierAction: Action<{
+  selected: SuppliersType;
+}> = payload => ({
+  type: SET_SELECTED_SUPPLIER,
+  payload,
 });

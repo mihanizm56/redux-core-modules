@@ -33,7 +33,7 @@ export {
   setSuppliersLoadingStopAction,
   setSuppliersAction,
   setSuppliersLoadingStartAction,
-  setCurrentSupplierActionSaga,
+  setSelectedSupplierActionSaga,
   setSelectedSupplierAction,
   getSuppliersData,
   getSuppliersIsLoading,
