@@ -1,4 +1,5 @@
 import {
+  SET_SELECTED_SUPPLIER,
   SET_SUPPLIERS_DATA,
   SET_SUPPLIERS_LOADING_START,
   SET_SUPPLIERS_LOADING_STOP,
@@ -6,8 +7,8 @@ import {
 import { ActionType, SuppliersState } from './types';
 
 const initialState: SuppliersState = {
-  suppliers: [],
   loading: true,
+  suppliers: [],
 };
 
 export const reducer = (
@@ -31,6 +32,12 @@ export const reducer = (
       return {
         ...state,
         loading: false,
+      };
+
+    case SET_SELECTED_SUPPLIER:
+      return {
+        ...state,
+        selected: payload.selected,
       };
 
     default:

@@ -24,6 +24,7 @@ export type SuppliersType = {
 };
 
 export type SuppliersState = {
+  selected?: SuppliersType;
   suppliers: Array<SuppliersType>;
   loading: boolean;
 };

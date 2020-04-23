@@ -14,3 +14,8 @@ export const getSuppliersIsLoading = createSelector(
   suppliersManagerStorageSelector,
   ({ loading }: SuppliersState) => loading,
 );
+
+export const getSelectedSupplier = createSelector(
+  suppliersManagerStorageSelector,
+  ({ loading }: SuppliersState) => loading,
+);
