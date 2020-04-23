@@ -1,1 +1,1 @@
-export const reducerUIName = '@platform/ui-state';
+export const reducerUIName = '@redux-core-modules/ui-state';

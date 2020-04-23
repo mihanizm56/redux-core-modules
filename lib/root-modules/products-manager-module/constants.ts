@@ -1,1 +1,1 @@
-export const reducerProductsName = '@platform/products';
+export const reducerProductsName = '@redux-core-modules/products';

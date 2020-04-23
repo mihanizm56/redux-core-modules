@@ -1,1 +1,1 @@
-export const reducerSuppliersName = '@platform/suppliers';
+export const reducerSuppliersName = '@redux-core-modules/suppliers';
