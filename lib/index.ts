@@ -28,12 +28,16 @@ export {
 
 export {
   FETCH_SUPPLIERS_ACTION_SAGA,
+  SET_SELECTED_SUPPLIER_ACTION_SAGA,
   fetchSuppliersAction,
   setSuppliersLoadingStopAction,
   setSuppliersAction,
   setSuppliersLoadingStartAction,
+  setSelectedSupplierActionSaga,
+  setSelectedSupplierAction,
   getSuppliersData,
   getSuppliersIsLoading,
+  getSelectedSupplier,
   SuppliersType,
   SuppliersStatePart,
   SuppliersState,

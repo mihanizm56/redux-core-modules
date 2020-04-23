@@ -6,6 +6,13 @@ export const fetchSuppliersAction: BaseAction = () => ({
   type: FETCH_SUPPLIERS_ACTION_SAGA,
 });
 
+export const SET_SELECTED_SUPPLIER_ACTION_SAGA =
+  'SET_SELECTED_SUPPLIER_ACTION_SAGA';
+export const setSelectedSupplierActionSaga: Action<string> = payload => ({
+  type: SET_SELECTED_SUPPLIER_ACTION_SAGA,
+  payload,
+});
+
 export const SET_SUPPLIERS_DATA = 'SET_SUPPLIERS_DATA';
 export const setSuppliersAction: Action<{
   suppliers: Array<SuppliersType>;
@@ -22,4 +29,12 @@ export const setSuppliersLoadingStartAction: BaseAction = () => ({
 export const SET_SUPPLIERS_LOADING_STOP = 'SET_SUPPLIERS_LOADING_STOP';
 export const setSuppliersLoadingStopAction: BaseAction = () => ({
   type: SET_SUPPLIERS_LOADING_STOP,
+});
+
+export const SET_SELECTED_SUPPLIER = 'SET_SELECTED_SUPPLIER';
+export const setSelectedSupplierAction: Action<{
+  selected: SuppliersType;
+}> = payload => ({
+  type: SET_SELECTED_SUPPLIER,
+  payload,
 });
