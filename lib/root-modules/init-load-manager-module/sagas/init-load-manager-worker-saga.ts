@@ -6,6 +6,10 @@ import {
 import { getTranslationsDictionary } from '@mihanizm56/i18n-react';
 import { setAppErrorAction } from '@/root-modules/ui-module';
 import { requestExtraDataHandlerActionSaga } from '@/root-modules/request-extra-data-handler-module';
+import {
+  redirectManagerSagaAction,
+  IRedirectManagerPayload,
+} from '@/root-modules/redirect-manager-module';
 import { InitLoadManagerActionPayloadType } from '../types';
 
 export function* initLoadManagerWorkerSaga({
@@ -42,6 +46,10 @@ export function* initLoadManagerWorkerSaga({
       loadingStartAction,
       withoutFormattingError,
       requestOptions,
+      formatDataToRedirectParamsSuccess,
+      redirectRouteParamsSuccess,
+      formatDataToRedirectParamsError,
+      redirectRouteParamsError,
     } = requestConfigList[counterRequests];
 
     try {
@@ -57,7 +65,7 @@ export function* initLoadManagerWorkerSaga({
       }
 
       // make the request with language dictionary (optionally with params)
-      const { error, errorText, data } = yield call(request, {
+      const { error, errorText, data, additionalErrors } = yield call(request, {
         body: requestOptions,
         langDict,
         isErrorTextStraightToOutput: withoutFormattingError,
@@ -65,7 +73,8 @@ export function* initLoadManagerWorkerSaga({
 
       // if an error in request
       if (error) {
-        throw new Error(errorText);
+        // eslint-disable-next-line
+        throw { message: errorText, additionalErrors };
       }
 
       // format data
@@ -101,6 +110,18 @@ export function* initLoadManagerWorkerSaga({
           }),
         );
       }
+
+      // handle success redirect
+      if (redirectRouteParamsSuccess) {
+        const redirectData: IRedirectManagerPayload = formatDataToRedirectParamsSuccess
+          ? formatDataToRedirectParamsSuccess({
+              ...redirectRouteParamsSuccess,
+              ...data,
+            })
+          : redirectRouteParamsSuccess;
+
+        yield put(redirectManagerSagaAction(redirectData));
+      }
     } catch (error) {
       console.error('error in initLoadManagerWorkerSaga', error.message);
 
@@ -127,6 +148,18 @@ export function* initLoadManagerWorkerSaga({
             text: error.message,
           }),
         );
+      }
+
+      // handle error redirect
+      if (redirectRouteParamsError) {
+        const redirectData: IRedirectManagerPayload = formatDataToRedirectParamsError
+          ? formatDataToRedirectParamsError({
+              ...redirectRouteParamsError,
+              ...error.additionalErrors,
+            })
+          : redirectRouteParamsError;
+
+        yield put(redirectManagerSagaAction(redirectData));
       }
     } finally {
       if (loadingStopAction) {

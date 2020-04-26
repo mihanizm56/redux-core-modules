@@ -1,4 +1,5 @@
 import { Action, BaseAction } from '@/types';
+import { IRedirectManagerPayload } from '../redirect-manager-module';
 
 export type InitLoadManagerSourceType = {
   request: (params: any) => Promise<any>;
@@ -20,6 +21,10 @@ export type InitLoadManagerSourceType = {
   loadingStopAction?: BaseAction;
   loadingStartAction?: BaseAction;
   withoutFormattingError?: boolean;
+  formatDataToRedirectParamsSuccess?: (data: any) => any;
+  redirectRouteParamsSuccess?: IRedirectManagerPayload;
+  formatDataToRedirectParamsError?: (data: any) => any;
+  redirectRouteParamsError?: IRedirectManagerPayload;
 };
 
 export type InitLoadManagerActionPayloadType = {
