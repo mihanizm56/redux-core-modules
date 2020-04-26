@@ -70,13 +70,5 @@
     "cz-customizable": {
       "config": "config/git/commitizen.js"
     }
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS -g config/git/commitlint.js",
-      "pre-commit": "npm run lint && git add . && npm run test && npm run packages-vulnerability-check && npm run build",
-      "pre-push": "npm run size",
-      "prepare-commit-msg": "node ./config/git/prepare-commit.js"
-    }
   }
 }
