@@ -20,6 +20,7 @@ module.exports = {
       name:
         'refactor:  Правки кода без исправления ошибок или добавления новых функций',
     },
+    { value: 'revert', name: 'revert:    Откат на предыдущие коммиты' },
     {
       value: 'style',
       name:
@@ -31,13 +32,16 @@ module.exports = {
 
   // Область. Она характеризует фрагмент кода, которую затронули изменения
   scopes: [
-    { name: 'update-package' },
-    { name: 'scripts' },
-    { name: 'tests' },
-    { name: 'configure-package' },
+    { name: 'routes' },
+    { name: 'components' },
+    { name: 'services' },
+    { name: 'configure-project' },
     { name: 'performance optimization' },
+    { name: 'styles' },
+    { name: 'server' },
     { name: 'utils' },
-    { name: 'constants' },
+    { name: 'types' },
+    { name: 'tests' },
   ],
 
   // Поменяем дефолтные вопросы
