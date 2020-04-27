@@ -1,4 +1,4 @@
-import { all, fork } from 'redux-saga/effects';
+import { spawn } from 'redux-saga/effects';
 import { Router } from 'router5';
 import { Dispatch } from 'redux';
 import { formManagerWatcherSaga } from '@/root-modules/form-manager-module';
@@ -12,10 +12,8 @@ type RootSagaParams = {
 };
 
 export function* rootSaga({ router, dispatch }: RootSagaParams) {
-  yield all([
-    fork(formManagerWatcherSaga),
-    fork(initLoadManagerWatcherSaga),
-    fork(requestExtraDataHandlerWatcherSaga),
-    fork(redirectManagerWatcherSaga, { router, dispatch }),
-  ]);
+  yield spawn(formManagerWatcherSaga);
+  yield spawn(initLoadManagerWatcherSaga);
+  yield spawn(requestExtraDataHandlerWatcherSaga);
+  yield spawn(redirectManagerWatcherSaga, { router, dispatch });
 }

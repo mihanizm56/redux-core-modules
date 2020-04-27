@@ -58,6 +58,7 @@ export {
   IRedirectManagerPayload,
   redirectManagerWatcherSaga,
   redirectManagerSagaAction,
+  redirectToPlatformRouteManagerSagaAction,
 } from './root-modules/redirect-manager-module';
 
 export {

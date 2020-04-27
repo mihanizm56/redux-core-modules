@@ -8,3 +8,11 @@ export const redirectManagerSagaAction: Action<IRedirectManagerPayload> = (
   type: REDIRECT_ACTION,
   payload,
 });
+
+export const REDIRECT_ACTION_PLATFORM = 'REDIRECT_ACTION';
+export const redirectToPlatformRouteManagerSagaAction: Action<
+  IRedirectManagerPayload
+> = (payload: IRedirectManagerPayload) => ({
+  type: REDIRECT_ACTION,
+  payload,
+});
