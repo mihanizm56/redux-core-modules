@@ -1,7 +1,10 @@
-import { CustomReducerType } from '@/types';
+import { CustomReducerType, InjectAsyncReducer } from '@/types';
 import { createReducer } from '@/store/create-reducer';
 
-export const removeAsyncReducer = ({ store, name }: any) => {
+export const removeAsyncReducer = ({
+  store,
+  name,
+}: Omit<InjectAsyncReducer, 'reducer'>) => {
   const asyncReducersInStore = store.asyncReducers;
   const wasReducerInjected = Boolean(asyncReducersInStore[name]);
 
@@ -11,11 +14,21 @@ export const removeAsyncReducer = ({ store, name }: any) => {
 
   delete asyncReducersInStore[name];
 
+  const { [name]: reducerToDelete, ...prevState } = store.getState(); // eslint-disable-line
+
   // define new reducer
   const newReducer: CustomReducerType = createReducer({
-    prevState: store.getState(),
+    prevState,
     asyncReducers: asyncReducersInStore,
   }) as CustomReducerType;
+
+  // log to the devtools
+  store.dispatch({
+    type: '@REDUX-CORE-MODULES REMOVE REDUCER',
+    payload: {
+      name,
+    },
+  });
 
   // inject reducer
   store.replaceReducer(newReducer);

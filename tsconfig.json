@@ -9,6 +9,7 @@
     "esModuleInterop": true,
     "moduleResolution": "node",
     "baseUrl": "./",
+    "jsx":"react",
     "paths": {
       "@/*": ["lib/*"]
     }

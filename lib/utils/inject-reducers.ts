@@ -13,14 +13,22 @@ export const injectAsyncReducer = ({
     return;
   }
 
-  // get reducer from store
+  // register reducer to the store
   asyncReducersInStore[name] = reducer;
 
-  // define new reducer
+  // define new reducers
   const newReducer: CustomReducerType = createReducer({
     prevState: store.getState(),
     asyncReducers: asyncReducersInStore,
   }) as CustomReducerType;
+
+  // log to the devtools
+  store.dispatch({
+    type: '@REDUX-CORE-MODULES INJECT REDUCER',
+    payload: {
+      name,
+    },
+  });
 
   // inject reducer
   store.replaceReducer(newReducer);

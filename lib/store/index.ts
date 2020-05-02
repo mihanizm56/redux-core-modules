@@ -32,7 +32,9 @@ export const createAppStore = ({
   ];
 
   const enhancers = __DEV__
-    ? composeWithDevTools(applyMiddleware(...composeMiddlewares))
+    ? composeWithDevTools({ shouldHotReload: false })(
+        applyMiddleware(...composeMiddlewares),
+      )
     : applyMiddleware(...composeMiddlewares);
 
   const defaultReducer: CustomReducerType = createReducer(

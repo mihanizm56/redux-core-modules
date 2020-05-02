@@ -1,13 +1,14 @@
 import { Store, Reducer, CombinedState } from 'redux';
 import { IResponse } from '@mihanizm56/i18n-react/dist/types/types';
 import { Router } from 'router5';
+import { Task } from 'redux-saga';
 
 export interface IAsyncReducers {
   [reducerName: string]: Reducer;
 }
 
 export interface IAsyncSagas {
-  [reducerName: string]: Reducer;
+  [name: string]: Task;
 }
 
 export interface IAdvancedStore extends Store {

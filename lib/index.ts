@@ -2,6 +2,8 @@ export { createAppStore } from './store';
 
 export { Action, BaseAction, IAdvancedStore } from './types';
 
+export { removeAsyncSaga } from './utils/remove-sagas';
+export { removeAsyncReducer } from './utils/remove-reducer';
 export { injectAsyncReducer } from './utils/inject-reducers';
 export { injectAsyncSaga } from './utils/inject-sagas';
 
@@ -68,3 +70,6 @@ export {
 
 export { getPageIsLoading, getIsAppError } from './root-modules/ui-module';
 export { default as uiModuleReducer } from './root-modules/ui-module';
+
+export { ReduxStoreLoader } from './containers/redux-store-loader';
+export { StoreInjectConfig } from './containers/redux-store-loader/types';

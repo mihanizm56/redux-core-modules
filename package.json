@@ -1,6 +1,6 @@
 {
   "name": "@wildberries/redux-core-modules",
-  "version": "0.0.11-beta.1",
+  "version": "0.0.11",
   "description": "core redux modules",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -56,7 +56,7 @@
     "npm-audit-resolver": "2.1.0",
     "pkgfiles": "2.3.2",
     "prettier": "1.18.2",
-    "ts-jest": "^25.4.0",
+    "ts-jest": "25.4.0",
     "tscpaths": "0.0.9",
     "typescript": "3.8.3"
   },

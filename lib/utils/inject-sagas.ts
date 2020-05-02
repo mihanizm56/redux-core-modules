@@ -25,4 +25,12 @@ export const injectAsyncSaga = ({
 
   // inject saga
   injectedSagas[name] = sagaToAdd;
+
+  // log to the devtools
+  store.dispatch({
+    type: '@REDUX-CORE-MODULES INJECT SAGA',
+    payload: {
+      name,
+    },
+  });
 };
