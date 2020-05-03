@@ -1,6 +1,5 @@
 import { put, call, all } from 'redux-saga/effects';
 import { setModalAction } from '@wildberries/notifications';
-import i18next from 'i18next';
 import { setAppErrorAction } from '@/root-modules/ui-module';
 import { requestExtraDataHandlerActionSaga } from '@/root-modules/request-extra-data-handler-module';
 import {
@@ -14,6 +13,7 @@ export function* initLoadManagerWorkerSaga({
   payload: {
     requestConfigList,
     options: { fullActionLoadingStop, fullActionLoadingStart } = {},
+    translateFunction,
   },
 }: {
   payload: InitLoadManagerActionPayloadType;
@@ -29,6 +29,7 @@ export function* initLoadManagerWorkerSaga({
       resetAction,
       resetActionsArray,
       request,
+      requestOptions,
       requestDataFormatter,
       actionSuccess,
       actionsArraySuccess,
@@ -41,7 +42,6 @@ export function* initLoadManagerWorkerSaga({
       loadingStopAction,
       loadingStartAction,
       withoutFormattingError,
-      requestOptions,
       formatDataToRedirectParamsSuccess,
       redirectRouteParamsSuccess,
       formatDataToRedirectParamsError,
@@ -62,8 +62,7 @@ export function* initLoadManagerWorkerSaga({
 
       // make the request with language dictionary (optionally with params)
       const { error, errorText, data, additionalErrors } = yield call(request, {
-        body: requestOptions,
-        translateFunction: i18next.t.bind(i18next),
+        ...requestOptions,
         isErrorTextStraightToOutput: withoutFormattingError,
       });
 
@@ -102,7 +101,7 @@ export function* initLoadManagerWorkerSaga({
         yield put(
           setModalAction({
             status: 'error',
-            text: i18next.t(SUCCESSFUL_REQUEST_DEFAULT_MASSAGE),
+            text: translateFunction(SUCCESSFUL_REQUEST_DEFAULT_MASSAGE),
           }),
         );
       }

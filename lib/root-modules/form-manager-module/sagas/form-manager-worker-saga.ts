@@ -1,6 +1,5 @@
 import { put, all, call } from 'redux-saga/effects';
 import { setModalAction } from '@wildberries/notifications';
-import i18next from 'i18next';
 import { requestExtraDataHandlerActionSaga } from '@/root-modules/request-extra-data-handler-module';
 import {
   redirectManagerSagaAction,
@@ -35,6 +34,7 @@ export function* formManagerWorkerSaga({
     redirectErrorActionParams,
     formatDataToRedirectParamsSuccess,
     formatDataToRedirectParamsError,
+    translateFunction,
   },
 }: IFormManagerWorkerParams) {
   // set new "initial" form data - react-final-form needs because if rerender form - "initial" values will be from the very beginning
@@ -46,7 +46,7 @@ export function* formManagerWorkerSaga({
 
   try {
     const { error, errorText, data } = yield call(formRequest, {
-      translateFunction: i18next.t.bind(i18next),
+      translateFunction,
       body: formValuesFormatter ? formValuesFormatter(formValues) : formValues,
       isErrorTextStraightToOutput: withoutFormattingError,
     });
@@ -91,7 +91,7 @@ export function* formManagerWorkerSaga({
       yield put(
         setModalAction({
           status: 'success',
-          text: i18next.t(SUCCESSFUL_REQUEST_DEFAULT_MASSAGE),
+          text: translateFunction(SUCCESSFUL_REQUEST_DEFAULT_MASSAGE),
         }),
       );
     }
