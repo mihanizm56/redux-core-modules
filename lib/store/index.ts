@@ -11,9 +11,12 @@ const __DEV__ = process.env.NODE_ENV === "development"; // eslint-disable-line
 
 interface IStoreParams {
   router: Router;
+  rootReducers?: {
+    [key: string]: Function;
+  };
 }
 
-export const createAppStore = ({ router }: IStoreParams) => {
+export const createAppStore = ({ router, rootReducers }: IStoreParams) => {
   const sagaMiddleware = createSagaMiddleware();
 
   const composeMiddlewares = [batchDispatchMiddleware, sagaMiddleware];
@@ -24,7 +27,7 @@ export const createAppStore = ({ router }: IStoreParams) => {
       )
     : applyMiddleware(...composeMiddlewares);
 
-  const defaultReducer = createReducer({});
+  const defaultReducer = createReducer({ ...rootReducers });
 
   const store: IAdvancedStore = createStore(
     enableBatching(defaultReducer),

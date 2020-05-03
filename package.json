@@ -1,6 +1,6 @@
 {
   "name": "@wildberries/redux-core-modules",
-  "version": "0.0.14-beta.1",
+  "version": "0.0.14-beta.2",
   "description": "core redux modules",
   "typings": "./lib/index.d.ts", 
   "main": "dist/index.js",
