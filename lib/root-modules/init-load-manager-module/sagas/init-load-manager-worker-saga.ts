@@ -1,15 +1,13 @@
-import { put, call, all, select } from 'redux-saga/effects';
-import {
-  setModalAction,
-  DEFAULT_SUCCESS_NOTIFICATION_MESSAGE,
-} from '@wildberries/notifications';
-import { getTranslationsDictionary } from '@mihanizm56/i18n-react';
+import { put, call, all } from 'redux-saga/effects';
+import { setModalAction } from '@wildberries/notifications';
+import i18next from 'i18next';
 import { setAppErrorAction } from '@/root-modules/ui-module';
 import { requestExtraDataHandlerActionSaga } from '@/root-modules/request-extra-data-handler-module';
 import {
   redirectManagerSagaAction,
   IRedirectManagerPayload,
 } from '@/root-modules/redirect-manager-module';
+import { SUCCESSFUL_REQUEST_DEFAULT_MASSAGE } from '@/containers/constants';
 import { InitLoadManagerActionPayloadType } from '../types';
 
 export function* initLoadManagerWorkerSaga({
@@ -20,8 +18,6 @@ export function* initLoadManagerWorkerSaga({
 }: {
   payload: InitLoadManagerActionPayloadType;
 }) {
-  const langDict = yield select(getTranslationsDictionary);
-
   let counterRequests = 0;
 
   if (fullActionLoadingStart) {
@@ -67,7 +63,7 @@ export function* initLoadManagerWorkerSaga({
       // make the request with language dictionary (optionally with params)
       const { error, errorText, data, additionalErrors } = yield call(request, {
         body: requestOptions,
-        langDict,
+        translateFunction: i18next,
         isErrorTextStraightToOutput: withoutFormattingError,
       });
 
@@ -106,7 +102,9 @@ export function* initLoadManagerWorkerSaga({
         yield put(
           setModalAction({
             status: 'error',
-            text: DEFAULT_SUCCESS_NOTIFICATION_MESSAGE,
+            // eslint-disable-next-line
+            // @ts-ignore
+            text: i18next(SUCCESSFUL_REQUEST_DEFAULT_MASSAGE),
           }),
         );
       }

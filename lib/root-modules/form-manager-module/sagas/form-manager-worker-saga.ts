@@ -1,11 +1,9 @@
-import { put, all, call, select } from 'redux-saga/effects';
-import {
-  setModalAction,
-  DEFAULT_SUCCESS_NOTIFICATION_MESSAGE,
-} from '@wildberries/notifications';
-import { getTranslationsDictionary } from '@mihanizm56/i18n-react';
+import { put, all, call } from 'redux-saga/effects';
+import { setModalAction } from '@wildberries/notifications';
+import * as i18next from 'i18next';
 import { requestExtraDataHandlerActionSaga } from '@/root-modules/request-extra-data-handler-module';
 import { redirectManagerSagaAction } from '@/root-modules/redirect-manager-module';
+import { SUCCESSFUL_REQUEST_DEFAULT_MASSAGE } from '@/containers/constants';
 import { FormManagerType } from '../types';
 
 interface IFormManagerWorkerParams {
@@ -33,8 +31,6 @@ export function* formManagerWorkerSaga({
     redirectErrorActionParams,
   },
 }: IFormManagerWorkerParams) {
-  const langDict = yield select(getTranslationsDictionary);
-
   // set new "initial" form data - react-final-form needs because if rerender form - "initial" values will be from the very beginning
   if (resetInitialDataAction) {
     yield put(resetInitialDataAction(formValues));
@@ -44,7 +40,7 @@ export function* formManagerWorkerSaga({
 
   try {
     const { error, errorText, data } = yield call(formRequest, {
-      langDict,
+      translateFunction: i18next,
       body: formValuesFormatter ? formValuesFormatter(formValues) : formValues,
       isErrorTextStraightToOutput: withoutFormattingError,
     });
@@ -83,7 +79,9 @@ export function* formManagerWorkerSaga({
       yield put(
         setModalAction({
           status: 'success',
-          text: DEFAULT_SUCCESS_NOTIFICATION_MESSAGE,
+          // eslint-disable-next-line
+          // @ts-ignore
+          text: i18next(SUCCESSFUL_REQUEST_DEFAULT_MASSAGE),
         }),
       );
     }

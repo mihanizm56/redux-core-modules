@@ -3,12 +3,7 @@ import { enableBatching, batchDispatchMiddleware } from 'redux-batched-actions';
 import createSagaMiddleware from 'redux-saga';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import { Router } from 'router5';
-import { translationMiddleware } from '@mihanizm56/i18n-react';
-import {
-  IAdvancedStore,
-  CustomReducerType,
-  TranslationRequestType,
-} from '../types';
+import { IAdvancedStore } from '../types';
 import { createReducer } from './create-reducer';
 import { rootSaga } from './root-saga';
 
@@ -16,20 +11,12 @@ const __DEV__ = process.env.NODE_ENV === "development"; // eslint-disable-line
 
 interface IStoreParams {
   router: Router;
-  requestToFetchDict: TranslationRequestType;
 }
 
-export const createAppStore = ({
-  router,
-  requestToFetchDict,
-}: IStoreParams) => {
+export const createAppStore = ({ router }: IStoreParams) => {
   const sagaMiddleware = createSagaMiddleware();
 
-  const composeMiddlewares = [
-    batchDispatchMiddleware,
-    sagaMiddleware,
-    translationMiddleware(requestToFetchDict),
-  ];
+  const composeMiddlewares = [batchDispatchMiddleware, sagaMiddleware];
 
   const enhancers = __DEV__
     ? composeWithDevTools({ shouldHotReload: false })(
@@ -37,9 +24,7 @@ export const createAppStore = ({
       )
     : applyMiddleware(...composeMiddlewares);
 
-  const defaultReducer: CustomReducerType = createReducer(
-    {},
-  ) as CustomReducerType;
+  const defaultReducer = createReducer({});
 
   const store: IAdvancedStore = createStore(
     enableBatching(defaultReducer),

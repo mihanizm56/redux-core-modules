@@ -1,5 +1,4 @@
 import { Store, Reducer, CombinedState } from 'redux';
-import { IResponse } from '@mihanizm56/i18n-react/dist/types/types';
 import { Router } from 'router5';
 import { Task } from 'redux-saga';
 
@@ -46,5 +45,3 @@ export type ErrorTextParams = {
   errorTextKey: string;
   errorsMap: { [key: string]: string };
 };
-
-export type TranslationRequestType = (lang?: string) => Promise<IResponse>;
