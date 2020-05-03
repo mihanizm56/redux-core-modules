@@ -22,9 +22,12 @@ npm install @wildberries/redux-core-modules
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { configureRouter } from '@wildberries/service-router';
 import { createAppStore } from '@wildberries/redux-core-modules';
 
 const ROOT_ELEMENT = document.getElementById('root');
+
+const router = configureRouter({ defaultRoute: 'wb-eu-registration' });
 
 const store = createAppStore({
   router,
