@@ -9,7 +9,7 @@ import { requestExtraDataHandlerWatcherSaga } from '@/root-modules/request-extra
 type RootSagaParams = {
   router: Router;
   dispatch: Dispatch;
-  rootSagas?: Array<any>;
+  rootSagas?: Record<string, any>;
 };
 
 export const createRootSaga = ({
