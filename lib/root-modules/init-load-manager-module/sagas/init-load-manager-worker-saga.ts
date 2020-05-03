@@ -63,7 +63,7 @@ export function* initLoadManagerWorkerSaga({
       // make the request with language dictionary (optionally with params)
       const { error, errorText, data, additionalErrors } = yield call(request, {
         body: requestOptions,
-        translateFunction: i18next,
+        translateFunction: i18next.t.bind(i18next),
         isErrorTextStraightToOutput: withoutFormattingError,
       });
 
@@ -102,9 +102,7 @@ export function* initLoadManagerWorkerSaga({
         yield put(
           setModalAction({
             status: 'error',
-            // eslint-disable-next-line
-            // @ts-ignore
-            text: i18next(SUCCESSFUL_REQUEST_DEFAULT_MASSAGE),
+            text: i18next.t(SUCCESSFUL_REQUEST_DEFAULT_MASSAGE),
           }),
         );
       }

@@ -1,6 +1,6 @@
 import { put, all, call } from 'redux-saga/effects';
 import { setModalAction } from '@wildberries/notifications';
-import * as i18next from 'i18next';
+import i18next from 'i18next';
 import { requestExtraDataHandlerActionSaga } from '@/root-modules/request-extra-data-handler-module';
 import {
   redirectManagerSagaAction,
@@ -46,7 +46,7 @@ export function* formManagerWorkerSaga({
 
   try {
     const { error, errorText, data } = yield call(formRequest, {
-      translateFunction: i18next,
+      translateFunction: i18next.t.bind(i18next),
       body: formValuesFormatter ? formValuesFormatter(formValues) : formValues,
       isErrorTextStraightToOutput: withoutFormattingError,
     });
@@ -91,9 +91,7 @@ export function* formManagerWorkerSaga({
       yield put(
         setModalAction({
           status: 'success',
-          // eslint-disable-next-line
-          // @ts-ignore
-          text: i18next(SUCCESSFUL_REQUEST_DEFAULT_MASSAGE),
+          text: i18next.t(SUCCESSFUL_REQUEST_DEFAULT_MASSAGE),
         }),
       );
     }
