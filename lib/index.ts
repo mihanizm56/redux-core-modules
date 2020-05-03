@@ -15,7 +15,7 @@ export {
 
 export {
   initLoadManagerActionSaga,
-  InitLoadManagerSourceType,
+  InitLoadManagerRequestOptionsType,
   InitLoadManagerActionPayloadType,
   initLoadManagerWatcherSaga,
 } from './root-modules/init-load-manager-module';

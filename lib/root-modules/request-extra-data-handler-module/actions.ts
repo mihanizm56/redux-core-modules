@@ -1,13 +1,11 @@
 import { Action } from '@/types';
-import { InitRequestHandlerActionType } from './types';
+import { RequestExtraDataHandlerActionSagaType } from './types';
 
 export const INIT_REQUEST_HANDLER_ACTION_SAGA =
   'INIT_REQUEST_HANDLER_ACTION_SAGA';
-export const requestExtraDataHandlerActionSaga: Action<{
-  data: any;
-  options: InitRequestHandlerActionType;
-  formValues?: any;
-}> = payload => ({
+export const requestExtraDataHandlerActionSaga: Action<
+  RequestExtraDataHandlerActionSagaType
+> = payload => ({
   type: INIT_REQUEST_HANDLER_ACTION_SAGA,
   payload,
 });

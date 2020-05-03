@@ -2,7 +2,10 @@ import { put, all, call } from 'redux-saga/effects';
 import { setModalAction } from '@wildberries/notifications';
 import * as i18next from 'i18next';
 import { requestExtraDataHandlerActionSaga } from '@/root-modules/request-extra-data-handler-module';
-import { redirectManagerSagaAction } from '@/root-modules/redirect-manager-module';
+import {
+  redirectManagerSagaAction,
+  IRedirectManagerPayload,
+} from '@/root-modules/redirect-manager-module';
 import { SUCCESSFUL_REQUEST_DEFAULT_MASSAGE } from '@/containers/constants';
 import { FormManagerType } from '../types';
 
@@ -26,9 +29,12 @@ export function* formManagerWorkerSaga({
     callBackOnError,
     requestExtraDataHandlerOptions,
     formValuesFormatter,
+    responseDataFormatter,
     withoutFormattingError,
     redirectSuccessActionParams,
     redirectErrorActionParams,
+    formatDataToRedirectParamsSuccess,
+    formatDataToRedirectParamsError,
   },
 }: IFormManagerWorkerParams) {
   // set new "initial" form data - react-final-form needs because if rerender form - "initial" values will be from the very beginning
@@ -54,12 +60,19 @@ export function* formManagerWorkerSaga({
       yield callBackOnSuccess();
     }
 
+    // format data
+    const formattedData = responseDataFormatter
+      ? responseDataFormatter(data)
+      : data;
+
     // dispatch success actions
     if (formSuccessAction) {
-      yield put(formSuccessAction(data));
+      yield put(formSuccessAction(formattedData));
     } else if (formSuccessActionsArray && formSuccessActionsArray.length) {
       yield all(
-        formSuccessActionsArray.map(successAction => put(successAction(data))),
+        formSuccessActionsArray.map(successAction =>
+          put(successAction(formattedData)),
+        ),
       );
     }
 
@@ -67,14 +80,13 @@ export function* formManagerWorkerSaga({
     if (requestExtraDataHandlerOptions) {
       yield put(
         requestExtraDataHandlerActionSaga({
-          data,
+          data: formattedData,
           options: requestExtraDataHandlerOptions,
-          formValues,
         }),
       );
     }
 
-    // trigger notification
+    // trigger success notification
     if (showNotification) {
       yield put(
         setModalAction({
@@ -86,8 +98,16 @@ export function* formManagerWorkerSaga({
       );
     }
 
+    // handle success redirect
     if (redirectSuccessActionParams) {
-      yield put(redirectManagerSagaAction(redirectSuccessActionParams));
+      const redirectData: IRedirectManagerPayload = formatDataToRedirectParamsSuccess
+        ? formatDataToRedirectParamsSuccess({
+            ...redirectSuccessActionParams,
+            ...formattedData,
+          })
+        : redirectSuccessActionParams;
+
+      yield put(redirectManagerSagaAction(redirectData));
     }
   } catch (error) {
     console.error('error in formRequest', error.message);
@@ -120,6 +140,18 @@ export function* formManagerWorkerSaga({
 
     if (redirectErrorActionParams) {
       yield put(redirectManagerSagaAction(redirectErrorActionParams));
+    }
+
+    // handle error redirect
+    if (redirectErrorActionParams) {
+      const redirectData: IRedirectManagerPayload = formatDataToRedirectParamsError
+        ? formatDataToRedirectParamsError({
+            ...redirectErrorActionParams,
+            ...error.additionalErrors,
+          })
+        : redirectErrorActionParams;
+
+      yield put(redirectManagerSagaAction(redirectData));
     }
   } finally {
     yield put(loadingStopAction());

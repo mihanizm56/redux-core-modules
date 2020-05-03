@@ -19,7 +19,10 @@ export type FormManagerType = {
     fieldName: string;
     action: Action<any> | BaseAction;
   }>;
+  responseDataFormatter?: (data: any) => any;
   withoutFormattingError?: boolean;
   redirectSuccessActionParams?: IRedirectManagerPayload;
   redirectErrorActionParams?: IRedirectManagerPayload;
+  formatDataToRedirectParamsSuccess?: (data: any) => any;
+  formatDataToRedirectParamsError?: (data: any) => any;
 };
