@@ -14,7 +14,7 @@ interface IStoreParams {
   rootReducers?: {
     [key: string]: Function;
   };
-  rootSagas: Array<SagaIterator>;
+  rootSagas?: Array<SagaIterator>;
 }
 
 export const createAppStore = ({
@@ -23,7 +23,6 @@ export const createAppStore = ({
   rootSagas,
 }: IStoreParams) => {
   const sagaMiddleware = createSagaMiddleware();
-
   const composeMiddlewares = [batchDispatchMiddleware, sagaMiddleware];
 
   const enhancers = __DEV__
@@ -32,8 +31,8 @@ export const createAppStore = ({
       )
     : applyMiddleware(...composeMiddlewares);
 
-  const rootReducer = createReducer({ ...rootReducers });
-  const rootSaga = createRootSaga(rootSagas);
+  // создаем корневой редюсер прокидывая в него доп параметры
+  const rootReducer = createReducer({ asyncReducers: rootReducers });
 
   const store: IAdvancedStore = createStore(
     enableBatching(rootReducer),
@@ -42,16 +41,26 @@ export const createAppStore = ({
 
   // вытаскиваем диспатч для корневый саги
   const dispatch = store.dispatch;
+
+  // создаем корневую сагу прокидывая в нее доп параметры
+  const rootSaga = createRootSaga({
+    rootSagas,
+    router,
+    dispatch,
+  });
+
   const rootSagaWithRouter = rootSaga.bind(null, { router, dispatch });
 
-  // Add a dictionary to keep track of the registered async reducers and sagas
-  // and give a possibility to run saga from field sagaMiddleware
+  // прокидываем роутер в стор
   store.router = router;
+  // создаем регистр динамических саг и редюсеров
   store.asyncReducers = {};
   store.asyncSagas = {};
+  // определяем по документации раннер миддливары внутри стора
   store.sagaMiddleware = sagaMiddleware;
 
   sagaMiddleware.run(rootSagaWithRouter);
 
+  // возвращаем обхект стора
   return store;
 };

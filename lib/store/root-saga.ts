@@ -10,14 +10,20 @@ import { requestExtraDataHandlerWatcherSaga } from '@/root-modules/request-extra
 type RootSagaParams = {
   router: Router;
   dispatch: Dispatch;
+  rootSagas?: Array<SagaIterator>;
 };
 
-export const createRootSaga = (additionalRootSagas: Array<SagaIterator>) =>
-  function* rootSaga({ router, dispatch }: RootSagaParams) {
+export const createRootSaga = ({
+  rootSagas = [],
+  router,
+  dispatch,
+}: RootSagaParams) =>
+  function* rootSaga() {
     yield spawn(formManagerWatcherSaga);
     yield spawn(initLoadManagerWatcherSaga);
     yield spawn(requestExtraDataHandlerWatcherSaga);
     yield spawn(redirectManagerWatcherSaga, { router, dispatch });
 
-    yield all(additionalRootSagas.map(saga => yield spawn(saga)));
+    // run additional root sagas
+    yield all(rootSagas.map(saga => yield spawn(saga)));
   };
