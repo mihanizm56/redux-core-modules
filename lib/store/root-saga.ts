@@ -9,6 +9,7 @@ import { requestExtraDataHandlerWatcherSaga } from '@/root-modules/request-extra
 type RootSagaParams = {
   router: Router;
   dispatch: Dispatch;
+  // todo fix type
   rootSagas?: Record<string, any>;
 };
 
