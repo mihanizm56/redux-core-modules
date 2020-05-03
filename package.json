@@ -1,6 +1,6 @@
 {
   "name": "@wildberries/redux-core-modules",
-  "version": "0.0.14-beta.2",
+  "version": "0.0.14-beta.3",
   "description": "core redux modules",
   "typings": "./lib/index.d.ts", 
   "main": "dist/index.js",
@@ -14,8 +14,8 @@
     "lint": "npx eslint . --ext .ts --fix",
     "commit": "git add . && git commit --no-edit",
     "packages-vulnerability-check": "check-audit",
-    "release": "npm publish --access=public",
-    "beta": "npm publish --tag beta --access=public",
+    "release": "npm run commit && npm publish --access=public",
+    "beta": "npm run commit && npm publish --tag beta --access=public",
     "size": "pkgfiles",
     "build": "npm run compile && npm run alias-resolve"
   },
