@@ -1,6 +1,6 @@
 import { applyMiddleware, createStore } from 'redux';
 import { enableBatching, batchDispatchMiddleware } from 'redux-batched-actions';
-import createSagaMiddleware, { SagaIterator } from 'redux-saga';
+import createSagaMiddleware from 'redux-saga';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import { Router } from 'router5';
 import { IAdvancedStore } from '../types';
@@ -14,7 +14,7 @@ interface IStoreParams {
   rootReducers?: {
     [key: string]: Function;
   };
-  rootSagas?: Array<SagaIterator>;
+  rootSagas?: Record<string, any>;
 }
 
 export const createAppStore = ({
