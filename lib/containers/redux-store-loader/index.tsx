@@ -23,8 +23,7 @@ export class ReduxStoreLoader extends React.PureComponent<PropsType> {
   componentDidMount() {
     // eslint-disable-next-line
     console.warn(
-      'Warning! You are using EXPERIMENTAL component ReduxStoreLoader ' +
-        'please use it ONLY in the first-level "home" route',
+      'Warning! You are using EXPERIMENTAL component ReduxStoreLoader ',
     );
 
     const {
