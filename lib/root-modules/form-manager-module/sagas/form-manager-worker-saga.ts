@@ -47,6 +47,7 @@ export function* formManagerWorkerSaga({
   try {
     const { error, errorText, data } = yield call(formRequest, {
       body: formValuesFormatter ? formValuesFormatter(formValues) : formValues,
+      translateFunction: i18next.t.bind(i18next),
       isErrorTextStraightToOutput: withoutFormattingError,
     });
 

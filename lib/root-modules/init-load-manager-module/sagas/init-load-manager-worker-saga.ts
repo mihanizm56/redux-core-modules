@@ -63,6 +63,7 @@ export function* initLoadManagerWorkerSaga({
       // make the request with language dictionary (optionally with params)
       const { error, errorText, data, additionalErrors } = yield call(request, {
         ...requestOptions,
+        translateFunction: i18next.t.bind(i18next),
         isErrorTextStraightToOutput: withoutFormattingError,
       });
 
