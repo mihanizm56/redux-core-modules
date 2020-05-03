@@ -1,7 +1,6 @@
 import { spawn, all } from 'redux-saga/effects';
 import { Router } from 'router5';
 import { Dispatch } from 'redux';
-import { SagaIterator } from 'redux-saga';
 import { formManagerWatcherSaga } from '@/root-modules/form-manager-module';
 import { initLoadManagerWatcherSaga } from '@/root-modules/init-load-manager-module';
 import { redirectManagerWatcherSaga } from '@/root-modules/redirect-manager-module';
@@ -10,7 +9,7 @@ import { requestExtraDataHandlerWatcherSaga } from '@/root-modules/request-extra
 type RootSagaParams = {
   router: Router;
   dispatch: Dispatch;
-  rootSagas?: Array<SagaIterator>;
+  rootSagas?: Array<any>;
 };
 
 export const createRootSaga = ({
@@ -25,7 +24,5 @@ export const createRootSaga = ({
     yield spawn(redirectManagerWatcherSaga, { router, dispatch });
 
     // run additional root sagas
-    yield all(
-      Object.keys(rootSagas).map(sagaName => yield spawn(rootSaga[sagaName])),
-    );
+    yield all(Object.values(rootSagas).map(saga => spawn(saga)));
   };
