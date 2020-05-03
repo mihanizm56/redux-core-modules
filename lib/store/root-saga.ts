@@ -24,5 +24,7 @@ export const createRootSaga = ({
     yield spawn(redirectManagerWatcherSaga, { router, dispatch });
 
     // run additional root sagas
-    yield all(Object.values(rootSagas).map(saga => spawn(saga)));
+    yield all(
+      Object.values(rootSagas).map(saga => spawn(saga, { router, dispatch })),
+    );
   };
