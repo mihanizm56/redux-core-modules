@@ -1,5 +1,6 @@
 import { put, call, all } from 'redux-saga/effects';
 import { setModalAction } from '@wildberries/notifications';
+import i18next from 'i18next';
 import { setAppErrorAction } from '@/root-modules/ui-module';
 import { requestExtraDataHandlerActionSaga } from '@/root-modules/request-extra-data-handler-module';
 import {
@@ -13,7 +14,6 @@ export function* initLoadManagerWorkerSaga({
   payload: {
     requestConfigList,
     options: { fullActionLoadingStop, fullActionLoadingStart } = {},
-    translateFunction,
   },
 }: {
   payload: InitLoadManagerActionPayloadType;
@@ -101,7 +101,7 @@ export function* initLoadManagerWorkerSaga({
         yield put(
           setModalAction({
             status: 'error',
-            text: translateFunction(SUCCESSFUL_REQUEST_DEFAULT_MASSAGE),
+            text: i18next.t(SUCCESSFUL_REQUEST_DEFAULT_MASSAGE),
           }),
         );
       }

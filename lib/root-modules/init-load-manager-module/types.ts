@@ -3,7 +3,10 @@ import { IRedirectManagerPayload } from '../redirect-manager-module';
 
 export type InitLoadManagerRequestOptionsType = {
   request: (params: any) => Promise<any>;
-  requestOptions?: Record<string, any>;
+  requestOptions: {
+    translateFunction: (key: string, options?: Record<string, any>) => string;
+    [key: string]: any;
+  };
   actionSuccess?: Action<any> | BaseAction;
   requestDataFormatter?: (data: any) => any;
   resetAction?: BaseAction;
@@ -32,6 +35,6 @@ export type InitLoadManagerActionPayloadType = {
     fullActionLoadingStop?: BaseAction;
     fullActionLoadingStart?: BaseAction;
   };
-  translateFunction: (key: string, options?: Record<string, any>) => string;
+
   requestConfigList: Array<InitLoadManagerRequestOptionsType>;
 };
