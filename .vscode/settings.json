@@ -1,6 +1,6 @@
 {
     "terminal.integrated.shell.windows": "C:\\Program Files\\Git\\bin\\bash.exe",
-    "window.zoomLevel": 0.5,
+    "window.zoomLevel": 1,
     "explorer.confirmDelete": false,
     "javascript.updateImportsOnFileMove.enabled": "always",
     "explorer.confirmDragAndDrop": false,

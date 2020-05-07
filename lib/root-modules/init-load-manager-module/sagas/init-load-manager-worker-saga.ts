@@ -123,7 +123,7 @@ export function* initLoadManagerWorkerSaga({
 
       // if data in request is critical and we dont get it -> set app global error
       if (isDataCritical) {
-        console.error('error', 'get is critical fetch fail');
+        console.error('get is critical fetch fail');
 
         yield put(setAppErrorAction());
         break;
