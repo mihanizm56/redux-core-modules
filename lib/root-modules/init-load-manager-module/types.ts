@@ -27,6 +27,7 @@ export type InitLoadManagerRequestOptionsType = {
   redirectRouteParamsSuccess?: IRedirectManagerPayload;
   formatDataToRedirectParamsError?: (data: any) => any;
   redirectRouteParamsError?: IRedirectManagerPayload;
+  textMessageSuccess?: string;
 };
 
 export type InitLoadManagerActionPayloadType = {

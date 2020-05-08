@@ -25,4 +25,5 @@ export type FormManagerType = {
   redirectErrorActionParams?: IRedirectManagerPayload;
   formatDataToRedirectParamsSuccess?: (data: any) => any;
   formatDataToRedirectParamsError?: (data: any) => any;
+  textMessageSuccess?: string;
 };

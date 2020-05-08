@@ -1,13 +1,11 @@
 import { put, call, all } from 'redux-saga/effects';
 import { setModalAction } from '@wildberries/notifications';
-import i18next from 'i18next';
 import { setAppErrorAction } from '@/root-modules/ui-module';
 import { requestExtraDataHandlerActionSaga } from '@/root-modules/request-extra-data-handler-module';
 import {
   redirectManagerSagaAction,
   IRedirectManagerPayload,
 } from '@/root-modules/redirect-manager-module';
-import { SUCCESSFUL_REQUEST_DEFAULT_MASSAGE } from '@/containers/constants';
 import { InitLoadManagerActionPayloadType } from '../types';
 
 export function* initLoadManagerWorkerSaga({
@@ -46,6 +44,7 @@ export function* initLoadManagerWorkerSaga({
       redirectRouteParamsSuccess,
       formatDataToRedirectParamsError,
       redirectRouteParamsError,
+      textMessageSuccess,
     } = requestConfigList[counterRequests];
 
     try {
@@ -63,7 +62,6 @@ export function* initLoadManagerWorkerSaga({
       // make the request with language dictionary (optionally with params)
       const { error, errorText, data, additionalErrors } = yield call(request, {
         ...requestOptions,
-        translateFunction: i18next.t.bind(i18next),
         isErrorTextStraightToOutput: withoutFormattingError,
       });
 
@@ -98,11 +96,11 @@ export function* initLoadManagerWorkerSaga({
       }
 
       // set success notification
-      if (showSuccessNotification) {
+      if (showSuccessNotification && textMessageSuccess) {
         yield put(
           setModalAction({
             status: 'error',
-            text: i18next.t(SUCCESSFUL_REQUEST_DEFAULT_MASSAGE),
+            text: textMessageSuccess,
           }),
         );
       }
