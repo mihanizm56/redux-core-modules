@@ -32,7 +32,7 @@ export const createAppStore = ({
     : applyMiddleware(...composeMiddlewares);
 
   // создаем корневой редюсер прокидывая в него доп параметры
-  const rootReducer = createReducer({ asyncReducers: rootReducers });
+  const rootReducer = createReducer({ prevState: rootReducers });
 
   const store: IAdvancedStore = createStore(
     enableBatching(rootReducer),

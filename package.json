@@ -1,6 +1,6 @@
 {
   "name": "@wildberries/redux-core-modules",
-  "version": "0.0.14-beta.22",
+  "version": "0.0.14-beta.23",
   "description": "core redux modules",
   "typings": "./dist/index.d.ts",
   "main": "dist/index.js",
@@ -17,7 +17,7 @@
     "release": "npm run commit && git push && npm publish --access=public",
     "beta": "npm run commit && git push && npm publish --tag beta --access=public",
     "size": "pkgfiles",
-    "build": "npm run compile && npm run alias-resolve"
+    "build": "rm -fr ./dist && npm run compile && npm run alias-resolve"
   },
   "license": "MIT",
   "dependencies": {
