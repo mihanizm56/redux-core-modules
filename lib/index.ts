@@ -36,8 +36,5 @@ export {
   requestExtraDataHandlerWatcherSaga,
 } from './root-modules/request-extra-data-handler-module';
 
-export { getPageIsLoading, getIsAppError } from './root-modules/ui-module';
-export { default as uiModuleReducer } from './root-modules/ui-module';
-
 export { ReduxStoreLoader } from './containers/redux-store-loader';
 export { StoreInjectConfig } from './containers/redux-store-loader/types';

@@ -1,6 +1,5 @@
 import { put, call, all } from 'redux-saga/effects';
 import { setModalAction } from '@wildberries/notifications';
-import { setAppErrorAction } from '@/root-modules/ui-module';
 import { requestExtraDataHandlerActionSaga } from '@/root-modules/request-extra-data-handler-module';
 import {
   redirectManagerSagaAction,
@@ -11,7 +10,11 @@ import { InitLoadManagerActionPayloadType } from '../types';
 export function* initLoadManagerWorkerSaga({
   payload: {
     requestConfigList,
-    options: { fullActionLoadingStop, fullActionLoadingStart } = {},
+    options: {
+      fullActionLoadingStop,
+      fullActionLoadingStart,
+      setAppErrorAction,
+    } = {},
   },
 }: {
   payload: InitLoadManagerActionPayloadType;
@@ -121,10 +124,17 @@ export function* initLoadManagerWorkerSaga({
 
       // if data in request is critical and we dont get it -> set app global error
       if (isDataCritical) {
-        console.error('get is critical fetch fail');
+        // eslint-disable-next-line
+        console.warn(
+          'isDataCritical flag was provided and activated but there is no setAppErrorAction to throw',
+        );
 
-        yield put(setAppErrorAction());
-        break;
+        if (setAppErrorAction) {
+          console.error('get the critical fetch fail');
+
+          yield put(setAppErrorAction());
+          break;
+        }
       }
 
       // set error actions
