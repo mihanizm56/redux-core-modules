@@ -14,7 +14,7 @@ const __DEV__ = process.env.NODE_ENV === "development"; // eslint-disable-line
 interface IStoreParams {
   router: Router;
   rootReducers?: {
-    [key: string]: Reducer;
+    [key: string]: any;
   };
   rootSagas?: Record<string, any>;
 }

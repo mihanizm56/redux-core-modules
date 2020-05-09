@@ -3,7 +3,7 @@ import { Router } from 'router5';
 import { Task } from 'redux-saga';
 
 export interface IAsyncReducers {
-  [reducerName: string]: any;
+  [reducerName: string]: Reducer;
 }
 
 export interface IAsyncSagas {
