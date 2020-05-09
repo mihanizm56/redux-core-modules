@@ -1,18 +1,20 @@
-import { applyMiddleware, createStore } from 'redux';
+import { applyMiddleware, createStore, Reducer } from 'redux';
 import { enableBatching, batchDispatchMiddleware } from 'redux-batched-actions';
 import createSagaMiddleware from 'redux-saga';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import { Router } from 'router5';
+import { combineReducers } from '@/utils';
 import { IAdvancedStore } from '../types';
-import { createReducer } from './create-reducer';
+// import { createReducer } from './create-reducer';
 import { createRootSaga } from './root-saga';
+import { defaultRootReducers } from './default-root-reducers';
 
 const __DEV__ = process.env.NODE_ENV === "development"; // eslint-disable-line
 
 interface IStoreParams {
   router: Router;
   rootReducers?: {
-    [key: string]: Function;
+    [key: string]: Reducer;
   };
   rootSagas?: Record<string, any>;
 }
@@ -22,6 +24,10 @@ export const createAppStore = ({
   rootReducers,
   rootSagas,
 }: IStoreParams) => {
+  const rootReducersPackage = {
+    ...rootReducers,
+    ...defaultRootReducers,
+  };
   const sagaMiddleware = createSagaMiddleware();
   const composeMiddlewares = [batchDispatchMiddleware, sagaMiddleware];
 
@@ -32,7 +38,8 @@ export const createAppStore = ({
     : applyMiddleware(...composeMiddlewares);
 
   // создаем корневой редюсер прокидывая в него доп параметры
-  const rootReducer = createReducer({ prevState: rootReducers });
+  // const rootReducer = createReducer({ prevState: { ...rootReducers } });
+  const rootReducer = combineReducers(rootReducersPackage);
 
   const store: IAdvancedStore = createStore(
     enableBatching(rootReducer),
@@ -53,14 +60,17 @@ export const createAppStore = ({
 
   // прокидываем роутер в стор
   store.router = router;
-  // создаем регистр динамических саг и редюсеров
+  // создаем регистр динамических  редюсеров
   store.asyncReducers = {};
+  // создаем регистр root редюсеров
+  store.rootReducers = rootReducersPackage;
+  // создаем регистр динамических саг
   store.asyncSagas = {};
-  // определяем по документации раннер миддливары внутри стора
+  // определяем раннер миддливары внутри стора
   store.sagaMiddleware = sagaMiddleware;
 
   sagaMiddleware.run(rootSagaWithRouter);
 
-  // возвращаем обхект стора
+  // возвращаем объект стора
   return store;
 };

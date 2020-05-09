@@ -1,5 +1,5 @@
 import { notificationsState } from '@wildberries/notifications';
 
-export const rootReducers = {
+export const defaultRootReducers = {
   notificationsState,
 };

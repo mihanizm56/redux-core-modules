@@ -6,9 +6,11 @@ export const removeAsyncReducer = ({
   name,
 }: Omit<InjectAsyncReducer, 'reducer'>) => {
   const asyncReducersInStore = store.asyncReducers;
+  const rootReducers = store.rootReducers;
   const wasReducerInjected = Boolean(asyncReducersInStore[name]);
+  const wasRootReducerInjected = Boolean(rootReducers[name]);
 
-  if (!wasReducerInjected) {
+  if (!wasReducerInjected || wasRootReducerInjected) {
     return;
   }
 
@@ -20,6 +22,7 @@ export const removeAsyncReducer = ({
   const newReducer: CustomReducerType = createReducer({
     prevState,
     asyncReducers: asyncReducersInStore,
+    rootReducers,
   }) as CustomReducerType;
 
   // log to the devtools

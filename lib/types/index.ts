@@ -12,6 +12,7 @@ export interface IAsyncSagas {
 
 export interface IAdvancedStore extends Store {
   asyncReducers: IAsyncReducers;
+  rootReducers: IAsyncReducers;
   asyncSagas: IAsyncSagas;
   sagaMiddleware: any;
   router: Router;

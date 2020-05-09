@@ -7,9 +7,11 @@ export const injectAsyncReducer = ({
   reducer,
 }: InjectAsyncReducer) => {
   const asyncReducersInStore = store.asyncReducers;
-  const wasReducerInjected = Boolean(asyncReducersInStore[name]);
+  const rootReducers = store.rootReducers;
+  const wasAsyncReducerInjected = Boolean(asyncReducersInStore[name]);
+  const wasRootReducerInjected = Boolean(rootReducers[name]);
 
-  if (wasReducerInjected) {
+  if (wasAsyncReducerInjected || wasRootReducerInjected) {
     return;
   }
 
@@ -20,6 +22,7 @@ export const injectAsyncReducer = ({
   const newReducer: CustomReducerType = createReducer({
     prevState: store.getState(),
     asyncReducers: asyncReducersInStore,
+    rootReducers,
   }) as CustomReducerType;
 
   // log to the devtools
