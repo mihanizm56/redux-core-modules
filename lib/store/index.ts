@@ -1,4 +1,4 @@
-import { applyMiddleware, createStore, Reducer } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
 import { enableBatching, batchDispatchMiddleware } from 'redux-batched-actions';
 import createSagaMiddleware from 'redux-saga';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
