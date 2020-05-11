@@ -2,7 +2,7 @@ import { Store, Reducer, CombinedState } from 'redux';
 import { Router } from 'router5';
 import { Task } from 'redux-saga';
 
-export interface IAsyncReducers {
+export interface IReducersMap {
   [reducerName: string]: Reducer;
 }
 
@@ -11,8 +11,8 @@ export interface IAsyncSagas {
 }
 
 export interface IAdvancedStore extends Store {
-  asyncReducers: IAsyncReducers;
-  rootReducers: IAsyncReducers;
+  asyncReducers: IReducersMap;
+  rootReducers: IReducersMap;
   asyncSagas: IAsyncSagas;
   sagaMiddleware: any;
   router: Router;
@@ -40,9 +40,4 @@ export type InjectAsyncReducer = {
   store: IAdvancedStore;
   name: string;
   reducer: Reducer;
-};
-
-export type ErrorTextParams = {
-  errorTextKey: string;
-  errorsMap: { [key: string]: string };
 };

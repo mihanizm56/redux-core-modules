@@ -1,4 +1,4 @@
-import { IAsyncReducers } from '@/types';
+import { IReducersMap } from '@/types';
 import { combineReducers } from '../utils/combine-reducers';
 
 export const createReducer = ({
@@ -6,9 +6,9 @@ export const createReducer = ({
   asyncReducers,
   rootReducers,
 }: {
-  prevState?: IAsyncReducers;
-  asyncReducers?: IAsyncReducers;
-  rootReducers: IAsyncReducers;
+  prevState?: IReducersMap;
+  asyncReducers?: IReducersMap;
+  rootReducers: IReducersMap;
 }) =>
   combineReducers({
     ...prevState,

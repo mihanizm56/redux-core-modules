@@ -6,6 +6,10 @@ export { removeAsyncSaga } from './utils/remove-sagas';
 export { removeAsyncReducer } from './utils/remove-reducer';
 export { injectAsyncReducer } from './utils/inject-reducers';
 export { injectAsyncSaga } from './utils/inject-sagas';
+export {
+  removeAllInjectedReducers,
+} from './utils/remove-all-injected-reducers';
+export { removeAllInjectedSagas } from './utils/remove-all-injected-sagas';
 
 export {
   fetchFormManagerSagaAction,
