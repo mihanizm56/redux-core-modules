@@ -9,13 +9,17 @@ import { IAdvancedStore } from '@/types';
 import { removeAllInjectedReducers } from '@/utils/remove-all-injected-reducers';
 import { removeAllInjectedSagas } from '@/utils/remove-all-injected-sagas';
 
+export type StoreInjectConfig = {
+  sagasToInject?: Array<any>;
+  reducersToInject?: Array<any>;
+  initialLoadManagerConfig?: InitLoadManagerActionPayloadType;
+};
+
 type PropsType = PropsWithChildren<{
   toState: State;
   fromState: State;
   store: IAdvancedStore;
-  sagasToInject?: Array<any>;
-  reducersToInject?: Array<any>;
-  initialLoadManagerConfig?: InitLoadManagerActionPayloadType;
+  storeInjectConfig: StoreInjectConfig;
 }>;
 
 export class ReduxStoreLoader extends React.Component<PropsType> {
@@ -24,9 +28,11 @@ export class ReduxStoreLoader extends React.Component<PropsType> {
       fromState,
       toState,
       store,
-      reducersToInject = [],
-      sagasToInject = [],
-      initialLoadManagerConfig,
+      storeInjectConfig: {
+        reducersToInject,
+        sagasToInject,
+        initialLoadManagerConfig,
+      } = {},
     } = this.props;
 
     // define first route name to navigate from
@@ -47,22 +53,26 @@ export class ReduxStoreLoader extends React.Component<PropsType> {
     }
 
     // inject reducers
-    reducersToInject.forEach(({ reducer, name }) =>
-      injectAsyncReducer({
-        store,
-        name,
-        reducer,
-      }),
-    );
+    if (reducersToInject) {
+      reducersToInject.forEach(({ reducer, name }) =>
+        injectAsyncReducer({
+          store,
+          name,
+          reducer,
+        }),
+      );
+    }
 
     // inject sagas
-    sagasToInject.forEach(({ saga, name }) =>
-      injectAsyncSaga({
-        store,
-        name,
-        saga,
-      }),
-    );
+    if (sagasToInject) {
+      sagasToInject.forEach(({ saga, name }) =>
+        injectAsyncSaga({
+          store,
+          name,
+          saga,
+        }),
+      );
+    }
 
     // dispatch initial load requests
     if (initialLoadManagerConfig) {
