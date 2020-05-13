@@ -134,10 +134,6 @@ export function* formManagerWorkerSaga({
       );
     }
 
-    if (redirectErrorActionParams) {
-      yield put(redirectManagerSagaAction(redirectErrorActionParams));
-    }
-
     // handle error redirect
     if (redirectErrorActionParams) {
       const redirectData: IRedirectManagerPayload = formatDataToRedirectParamsError

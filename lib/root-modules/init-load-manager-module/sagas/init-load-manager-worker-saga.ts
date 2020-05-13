@@ -113,7 +113,7 @@ export function* initLoadManagerWorkerSaga({
         const redirectData: IRedirectManagerPayload = formatDataToRedirectParamsSuccess
           ? formatDataToRedirectParamsSuccess({
               ...redirectRouteParamsSuccess,
-              ...data,
+              ...formattedData,
             })
           : redirectRouteParamsSuccess;
 
