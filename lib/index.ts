@@ -41,4 +41,3 @@ export {
 } from './root-modules/request-extra-data-handler-module';
 
 export { ReduxStoreLoader } from './containers/redux-store-loader';
-export { StoreInjectConfig } from './containers/redux-store-loader/types';

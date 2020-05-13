@@ -1,39 +1,50 @@
-import React, { Props } from 'react';
-
-// todo get store in the future or not --- truthly speaking,
-// I made this to use this Loader only in pages folders
-// import { connect } from 'react-redux';
-
+import React, { PropsWithChildren } from 'react';
+import { State } from 'router5';
+import { injectAsyncReducer, injectAsyncSaga } from '@/utils';
 import {
-  injectAsyncReducer,
-  removeAsyncReducer,
-  injectAsyncSaga,
-  removeAsyncSaga,
-} from '@/utils';
-import { initLoadManagerActionSaga } from '@/root-modules/init-load-manager-module';
+  initLoadManagerActionSaga,
+  InitLoadManagerActionPayloadType,
+} from '@/root-modules/init-load-manager-module';
 import { IAdvancedStore } from '@/types';
-import { StoreInjectConfig } from './types';
+import { removeAllInjectedReducers } from '@/utils/remove-all-injected-reducers';
+import { removeAllInjectedSagas } from '@/utils/remove-all-injected-sagas';
 
-type PropsType = {
-  storeInjectConfig: StoreInjectConfig;
+type PropsType = PropsWithChildren<{
+  toState: State;
+  fromState: State;
   store: IAdvancedStore;
-} & Props<any>;
+  sagasToInject?: Array<any>;
+  reducersToInject?: Array<any>;
+  initialLoadManagerConfig?: InitLoadManagerActionPayloadType;
+}>;
 
-export class ReduxStoreLoader extends React.PureComponent<PropsType> {
+export class ReduxStoreLoader extends React.Component<PropsType> {
   componentDidMount() {
-    // eslint-disable-next-line
-    console.warn(
-      'Warning! You are using EXPERIMENTAL component ReduxStoreLoader ',
-    );
-
     const {
+      fromState,
+      toState,
       store,
-      storeInjectConfig: {
-        reducersToInject = [],
-        sagasToInject = [],
-        initialLoadManagerConfig,
-      },
+      reducersToInject = [],
+      sagasToInject = [],
+      initialLoadManagerConfig,
     } = this.props;
+
+    // define first route name to navigate from
+    const coreRouteFromStateName =
+      fromState && fromState.name ? fromState.name.split('.')[0] : null;
+
+    // define first route name to navigate to
+    const coreRouteToStateName =
+      toState && toState.name ? toState.name.split('.')[0] : null;
+
+    if (toState && coreRouteToStateName !== coreRouteFromStateName) {
+      // replace all injected reducers and sagas
+      removeAllInjectedReducers(store);
+      removeAllInjectedSagas(store);
+
+      // make some noise =)
+      console.warn('ReduxStoreLoader replaced old reducers'); // eslint-disable-line
+    }
 
     // inject reducers
     reducersToInject.forEach(({ reducer, name }) =>
@@ -57,32 +68,6 @@ export class ReduxStoreLoader extends React.PureComponent<PropsType> {
     if (initialLoadManagerConfig) {
       store.dispatch(initLoadManagerActionSaga(initialLoadManagerConfig));
     }
-  }
-
-  componentWillUnmount() {
-    const {
-      store,
-      storeInjectConfig: {
-        reducersToRemoveAfterUnmount = [],
-        sagasToRemoveAfterUnmount = [],
-      },
-    } = this.props;
-
-    // remove reducers from store
-    reducersToRemoveAfterUnmount.map(name =>
-      removeAsyncReducer({
-        store,
-        name,
-      }),
-    );
-
-    // remove sagas from store
-    sagasToRemoveAfterUnmount.forEach(name =>
-      removeAsyncSaga({
-        store,
-        name,
-      }),
-    );
   }
 
   render() {
