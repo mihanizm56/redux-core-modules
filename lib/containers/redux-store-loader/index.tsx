@@ -12,8 +12,8 @@ import { removeAllInjectedSagas } from '@/utils/remove-all-injected-sagas';
 
 export type StoreInjectConfig = {
   additionalConfig?: {
-    actionToCallOnMount: BaseAction | Action<any>;
-    actionOptionsToCallOnMount: any; // because any value can be provided
+    actionToCallOnMount?: BaseAction | Action<any>;
+    actionOptionsToCallOnMount?: any; // because any value can be provided
   };
   sagasToInject?: Array<any>;
   reducersToInject?: Array<any>;
