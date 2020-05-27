@@ -28,7 +28,7 @@ type PropsType = PropsWithChildren<{
 }>;
 
 export class ReduxStoreLoader extends React.Component<PropsType> {
-  componentDidMount() {
+  UNSAFE_componentWillMount() {
     const {
       fromState,
       toState,
