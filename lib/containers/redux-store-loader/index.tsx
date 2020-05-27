@@ -1,20 +1,17 @@
 import React, { PropsWithChildren } from 'react';
 import { State } from 'router5';
-import { BaseAction } from '@wildberries/notifications/dist/types/types';
+import { Dispatch } from 'redux';
 import { injectAsyncReducer, injectAsyncSaga } from '@/utils';
 import {
   initLoadManagerActionSaga,
   InitLoadManagerActionPayloadType,
 } from '@/root-modules/init-load-manager-module';
-import { IAdvancedStore, Action } from '@/types';
+import { IAdvancedStore } from '@/types';
 import { removeAllInjectedReducers } from '@/utils/remove-all-injected-reducers';
 import { removeAllInjectedSagas } from '@/utils/remove-all-injected-sagas';
 
 export type StoreInjectConfig = {
-  additionalConfig?: {
-    actionToCallOnMount?: BaseAction | Action<any>;
-    actionOptionsToCallOnMount?: any; // because any value can be provided
-  };
+  callbackOnMount?: (dispatch: Dispatch) => any;
   sagasToInject?: Array<any>;
   reducersToInject?: Array<any>;
   initialLoadManagerConfig?: InitLoadManagerActionPayloadType;
@@ -34,10 +31,7 @@ export class ReduxStoreLoader extends React.Component<PropsType> {
       toState,
       store,
       storeInjectConfig: {
-        additionalConfig: {
-          actionToCallOnMount,
-          actionOptionsToCallOnMount,
-        } = {},
+        callbackOnMount,
         reducersToInject,
         sagasToInject,
         initialLoadManagerConfig,
@@ -89,14 +83,8 @@ export class ReduxStoreLoader extends React.Component<PropsType> {
     }
 
     // call an action on mount page
-    if (actionToCallOnMount) {
-      if (actionOptionsToCallOnMount) {
-        store.dispatch(actionToCallOnMount(actionOptionsToCallOnMount));
-      } else {
-        // eslint-disable-next-line
-        // @ts-ignore
-        store.dispatch(actionToCallOnMount());
-      }
+    if (callbackOnMount) {
+      callbackOnMount(store.dispatch);
     }
   }
 
