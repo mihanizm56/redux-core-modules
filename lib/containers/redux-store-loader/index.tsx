@@ -44,17 +44,6 @@ export class ReduxStoreLoader extends React.Component<PropsType> {
       } = {},
     } = this.props;
 
-    // call an action on mount page
-    if (actionToCallOnMount) {
-      if (actionOptionsToCallOnMount) {
-        store.dispatch(actionToCallOnMount(actionOptionsToCallOnMount));
-      }
-
-      // eslint-disable-next-line
-      // @ts-ignore
-      store.dispatch(actionToCallOnMount());
-    }
-
     // define first route name to navigate from
     const coreRouteFromStateName =
       fromState && fromState.name ? fromState.name.split('.')[0] : null;
@@ -97,6 +86,17 @@ export class ReduxStoreLoader extends React.Component<PropsType> {
     // dispatch initial load requests
     if (initialLoadManagerConfig) {
       store.dispatch(initLoadManagerActionSaga(initialLoadManagerConfig));
+    }
+
+    // call an action on mount page
+    if (actionToCallOnMount) {
+      if (actionOptionsToCallOnMount) {
+        store.dispatch(actionToCallOnMount(actionOptionsToCallOnMount));
+      } else {
+        // eslint-disable-next-line
+        // @ts-ignore
+        store.dispatch(actionToCallOnMount());
+      }
     }
   }
 
