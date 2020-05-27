@@ -11,7 +11,9 @@ import { removeAllInjectedReducers } from '@/utils/remove-all-injected-reducers'
 import { removeAllInjectedSagas } from '@/utils/remove-all-injected-sagas';
 
 export type StoreInjectConfig = {
-  callbackOnMount?: (dispatch: Dispatch) => any;
+  additionalConfig?: {
+    callbackOnMount?: (dispatch: Dispatch) => any;
+  };
   sagasToInject?: Array<any>;
   reducersToInject?: Array<any>;
   initialLoadManagerConfig?: InitLoadManagerActionPayloadType;
@@ -31,7 +33,7 @@ export class ReduxStoreLoader extends React.Component<PropsType> {
       toState,
       store,
       storeInjectConfig: {
-        callbackOnMount,
+        additionalConfig,
         reducersToInject,
         sagasToInject,
         initialLoadManagerConfig,
@@ -82,9 +84,12 @@ export class ReduxStoreLoader extends React.Component<PropsType> {
       store.dispatch(initLoadManagerActionSaga(initialLoadManagerConfig));
     }
 
-    // call an action on mount page
-    if (callbackOnMount) {
-      callbackOnMount(store.dispatch);
+    // if additional confix exists
+    if (additionalConfig) {
+      if (additionalConfig.callbackOnMount) {
+        // call an action on mount page
+        additionalConfig.callbackOnMount(store.dispatch);
+      }
     }
   }
 
