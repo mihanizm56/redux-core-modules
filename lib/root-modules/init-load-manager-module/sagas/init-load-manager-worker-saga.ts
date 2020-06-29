@@ -7,6 +7,7 @@ export function* initLoadManagerWorkerSaga({
   payload: {
     requestConfigList,
     options: {
+      abortRequestsSectionId = uniqueId('fetch_default_section'),
       fullActionLoadingStop,
       fullActionLoadingStart,
       setAppErrorAction,
@@ -16,7 +17,6 @@ export function* initLoadManagerWorkerSaga({
   payload: InitLoadManagerActionPayloadType;
 }) {
   let counterRequests = 0;
-  const abortSectionId = uniqueId('fetch_section');
 
   if (fullActionLoadingStart) {
     yield put(fullActionLoadingStart());
@@ -25,7 +25,7 @@ export function* initLoadManagerWorkerSaga({
   while (counterRequests < requestConfigList.length) {
     yield spawn(spawnedFetchProcessSaga, {
       ...requestConfigList[counterRequests],
-      abortSectionId,
+      abortRequestsSectionId,
       setAppErrorAction,
     });
 

@@ -10,7 +10,7 @@ import { EVENT_MESSAGE_TO_THROW_TO_CANCEL_THE_REQUEST_GROUP } from '@/constants'
 import { InitLoadManagerRequestOptionsType } from '../types';
 
 type ParamsType = InitLoadManagerRequestOptionsType & {
-  abortSectionId: string;
+  abortRequestsSectionId: string;
   setAppErrorAction?: BaseAction;
 };
 
@@ -37,7 +37,7 @@ export function* spawnedFetchProcessSaga({
   redirectRouteParamsError,
   textMessageSuccess,
   setAppErrorAction,
-  abortSectionId,
+  abortRequestsSectionId,
 }: ParamsType) {
   try {
     // reset actions
@@ -107,59 +107,62 @@ export function* spawnedFetchProcessSaga({
       yield put(redirectManagerSagaAction(redirectData));
     }
   } catch (error) {
-    console.error('error in initLoadManagerWorkerSaga', error.message);
+    // if the request was not aborted
+    if (error.message !== 'The user aborted a request.') {
+      console.error('error in initLoadManagerWorkerSaga', error.message);
 
-    // if data in request is critical and we dont get it -> set app global error
-    if (isDataCritical) {
-      if (setAppErrorAction) {
-        console.error('get the critical fetch fail');
+      // if data in request is critical and we dont get it -> set app global error
+      if (isDataCritical) {
+        if (setAppErrorAction) {
+          console.error('get the critical fetch fail');
 
-        // throw the event to cancel rest requests
-        const event = new CustomEvent(
-          EVENT_MESSAGE_TO_THROW_TO_CANCEL_THE_REQUEST_GROUP,
-          {
-            detail: { abortSectionId },
-          },
-        );
+          // throw the event to cancel rest requests
+          const event = new CustomEvent(
+            EVENT_MESSAGE_TO_THROW_TO_CANCEL_THE_REQUEST_GROUP,
+            {
+              detail: { abortRequestsSectionId },
+            },
+          );
 
-        document.dispatchEvent(event);
+          document.dispatchEvent(event);
 
-        yield put(setAppErrorAction());
-      } else {
-        // eslint-disable-next-line
+          yield put(setAppErrorAction());
+        } else {
+          // eslint-disable-next-line
         console.warn(
-          'isDataCritical flag was provided and activated but there is no setAppErrorAction to throw',
+            'isDataCritical flag was provided and activated but there is no setAppErrorAction to throw',
+          );
+        }
+      }
+
+      // set error actions
+      if (errorAction) {
+        yield put(errorAction(error.message));
+      } else if (errorActionsArray) {
+        yield all(errorActionsArray.map(action => put(action(error.message))));
+      }
+
+      // set error notification
+      if (showErrorNotification) {
+        yield put(
+          setModalAction({
+            status: 'error',
+            text: error.message,
+          }),
         );
       }
-    }
 
-    // set error actions
-    if (errorAction) {
-      yield put(errorAction(error.message));
-    } else if (errorActionsArray) {
-      yield all(errorActionsArray.map(action => put(action(error.message))));
-    }
+      // handle error redirect
+      if (redirectRouteParamsError) {
+        const redirectData: IRedirectManagerPayload = formatDataToRedirectParamsError
+          ? formatDataToRedirectParamsError({
+              ...redirectRouteParamsError,
+              ...error.additionalErrors,
+            })
+          : redirectRouteParamsError;
 
-    // set error notification
-    if (showErrorNotification) {
-      yield put(
-        setModalAction({
-          status: 'error',
-          text: error.message,
-        }),
-      );
-    }
-
-    // handle error redirect
-    if (redirectRouteParamsError) {
-      const redirectData: IRedirectManagerPayload = formatDataToRedirectParamsError
-        ? formatDataToRedirectParamsError({
-            ...redirectRouteParamsError,
-            ...error.additionalErrors,
-          })
-        : redirectRouteParamsError;
-
-      yield put(redirectManagerSagaAction(redirectData));
+        yield put(redirectManagerSagaAction(redirectData));
+      }
     }
   } finally {
     if (loadingStopAction) {
