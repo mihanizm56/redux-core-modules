@@ -6,6 +6,7 @@ import {
   IRedirectManagerPayload,
 } from '@/root-modules/redirect-manager-module';
 import { BaseAction } from '@/types';
+import { EVENT_MESSAGE_TO_THROW_TO_CANCEL_THE_REQUEST_GROUP } from '@/constants';
 import { InitLoadManagerRequestOptionsType } from '../types';
 
 type ParamsType = InitLoadManagerRequestOptionsType & {
@@ -114,9 +115,12 @@ export function* spawnedFetchProcessSaga({
         console.error('get the critical fetch fail');
 
         // throw the event to cancel rest requests
-        const event = new CustomEvent('@fetch-api/CRITICAL_LOADING_FAIL', {
-          detail: { abortSectionId },
-        });
+        const event = new CustomEvent(
+          EVENT_MESSAGE_TO_THROW_TO_CANCEL_THE_REQUEST_GROUP,
+          {
+            detail: { abortSectionId },
+          },
+        );
 
         document.dispatchEvent(event);
 
