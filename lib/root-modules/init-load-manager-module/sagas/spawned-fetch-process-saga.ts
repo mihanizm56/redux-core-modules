@@ -120,7 +120,7 @@ export function* spawnedFetchProcessSaga({
           if (eventNameToCancelRequests) {
             // throw the event to cancel requests
             const event = new CustomEvent(eventNameToCancelRequests, {
-              detail: { abortRequestsSectionId },
+              detail: { abortRequestId: abortRequestsSectionId },
             });
 
             document.dispatchEvent(event);
