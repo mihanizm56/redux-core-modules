@@ -118,7 +118,7 @@ export function* spawnedFetchProcessSaga({
           console.error('get the critical fetch fail');
 
           if (eventNameToCancelRequests) {
-            // throw the event to cancel rest requests
+            // throw the event to cancel requests
             const event = new CustomEvent(eventNameToCancelRequests, {
               detail: { abortRequestsSectionId },
             });
