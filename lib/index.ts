@@ -42,7 +42,3 @@ export {
 
 export { ReduxStoreLoader } from './containers/redux-store-loader';
 export { StoreInjectConfig } from './containers/redux-store-loader';
-
-export {
-  EVENT_MESSAGE_TO_THROW_TO_CANCEL_THE_REQUEST_GROUP,
-} from './constants';

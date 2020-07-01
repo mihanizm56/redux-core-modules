@@ -17,12 +17,14 @@ interface IStoreParams {
     [key: string]: any;
   };
   rootSagas?: Record<string, any>;
+  eventNameToCancelRequests?: string;
 }
 
 export const createAppStore = ({
   router,
   rootReducers,
   rootSagas,
+  eventNameToCancelRequests,
 }: IStoreParams) => {
   const rootReducersPackage = {
     ...rootReducers,
@@ -54,6 +56,7 @@ export const createAppStore = ({
     rootSagas,
     router,
     dispatch,
+    eventNameToCancelRequests,
   });
 
   const rootSagaWithRouter = rootSaga.bind(null, { router, dispatch });

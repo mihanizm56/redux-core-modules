@@ -3,7 +3,13 @@ import { INIT_LOAD_MANAGER_ACTION_SAGA } from '../actions';
 import { InitLoadManagerActionPayloadType } from '../types';
 import { initLoadManagerWorkerSaga } from './init-load-manager-worker-saga';
 
-export function* initLoadManagerWatcherSaga() {
+type ParamsType = {
+  eventNameToCancelRequests?: string;
+};
+
+export function* initLoadManagerWatcherSaga({
+  eventNameToCancelRequests,
+}: ParamsType) {
   while (true) {
     const {
       payload,
@@ -11,6 +17,9 @@ export function* initLoadManagerWatcherSaga() {
       INIT_LOAD_MANAGER_ACTION_SAGA,
     );
 
-    yield fork(initLoadManagerWorkerSaga, { payload });
+    yield fork(initLoadManagerWorkerSaga, {
+      ...payload,
+      eventNameToCancelRequests,
+    });
   }
 }

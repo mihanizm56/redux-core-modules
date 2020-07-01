@@ -6,12 +6,12 @@ import {
   IRedirectManagerPayload,
 } from '@/root-modules/redirect-manager-module';
 import { BaseAction } from '@/types';
-import { EVENT_MESSAGE_TO_THROW_TO_CANCEL_THE_REQUEST_GROUP } from '@/constants';
 import { InitLoadManagerRequestOptionsType } from '../types';
 
 type ParamsType = InitLoadManagerRequestOptionsType & {
   abortRequestsSectionId: string;
   setAppErrorAction?: BaseAction;
+  eventNameToCancelRequests?: string;
 };
 
 export function* spawnedFetchProcessSaga({
@@ -38,6 +38,7 @@ export function* spawnedFetchProcessSaga({
   textMessageSuccess,
   setAppErrorAction,
   abortRequestsSectionId,
+  eventNameToCancelRequests,
 }: ParamsType) {
   try {
     // reset actions
@@ -116,15 +117,14 @@ export function* spawnedFetchProcessSaga({
         if (setAppErrorAction) {
           console.error('get the critical fetch fail');
 
-          // throw the event to cancel rest requests
-          const event = new CustomEvent(
-            EVENT_MESSAGE_TO_THROW_TO_CANCEL_THE_REQUEST_GROUP,
-            {
+          if (eventNameToCancelRequests) {
+            // throw the event to cancel rest requests
+            const event = new CustomEvent(eventNameToCancelRequests, {
               detail: { abortRequestsSectionId },
-            },
-          );
+            });
 
-          document.dispatchEvent(event);
+            document.dispatchEvent(event);
+          }
 
           yield put(setAppErrorAction());
         } else {

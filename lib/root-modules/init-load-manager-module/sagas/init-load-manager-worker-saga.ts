@@ -3,19 +3,20 @@ import { uniqueId } from 'lodash-es';
 import { InitLoadManagerActionPayloadType } from '../types';
 import { spawnedFetchProcessSaga } from './spawned-fetch-process-saga';
 
+type ParamsType = InitLoadManagerActionPayloadType & {
+  eventNameToCancelRequests?: string;
+};
+
 export function* initLoadManagerWorkerSaga({
-  payload: {
-    requestConfigList,
-    options: {
-      abortRequestsSectionId = uniqueId('fetch_default_section'),
-      fullActionLoadingStop,
-      fullActionLoadingStart,
-      setAppErrorAction,
-    } = {},
-  },
-}: {
-  payload: InitLoadManagerActionPayloadType;
-}) {
+  eventNameToCancelRequests,
+  requestConfigList,
+  options: {
+    abortRequestsSectionId = uniqueId('fetch_default_section'),
+    fullActionLoadingStop,
+    fullActionLoadingStart,
+    setAppErrorAction,
+  } = {},
+}: ParamsType) {
   let counterRequests = 0;
 
   if (fullActionLoadingStart) {
@@ -27,6 +28,7 @@ export function* initLoadManagerWorkerSaga({
       ...requestConfigList[counterRequests],
       abortRequestsSectionId,
       setAppErrorAction,
+      eventNameToCancelRequests,
     });
 
     // go to next request
