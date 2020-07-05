@@ -24,6 +24,7 @@ type PropsType = PropsWithChildren<{
   fromState: State;
   store: IAdvancedStore;
   storeInjectConfig: StoreInjectConfig;
+  withoutRemovingReducers?: boolean;
 }>;
 
 export class ReduxStoreLoader extends React.Component<PropsType> {
@@ -32,6 +33,7 @@ export class ReduxStoreLoader extends React.Component<PropsType> {
       fromState,
       toState,
       store,
+      withoutRemovingReducers,
       storeInjectConfig: {
         additionalConfig,
         reducersToInject,
@@ -48,8 +50,12 @@ export class ReduxStoreLoader extends React.Component<PropsType> {
     const coreRouteToStateName =
       toState && toState.name ? toState.name.split('.')[0] : null;
 
-    if (toState && coreRouteToStateName !== coreRouteFromStateName) {
-      // replace all injected reducers and sagas
+    // replace all injected reducers and sagas
+    if (
+      toState &&
+      coreRouteToStateName !== coreRouteFromStateName &&
+      !withoutRemovingReducers
+    ) {
       removeAllInjectedReducers(store);
       removeAllInjectedSagas(store);
 

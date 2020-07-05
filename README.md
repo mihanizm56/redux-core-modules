@@ -94,7 +94,7 @@ store.dispatch(formManagerSubmitOptions);
  - call error action (of array of actions)
  - call success action (of array of actions)
  - send data (formatted of not) to the Request-extra-data-handler-module to make some operations with splitted data from response
- - trigger success or error router redirections (this is experimental)
+ - trigger success or error router redirections
 
 #### Example:
 
