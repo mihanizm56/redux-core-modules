@@ -7,11 +7,17 @@ import {
 } from '@/root-modules/redirect-manager-module';
 import { BaseAction } from '@/types';
 import { InitLoadManagerRequestOptionsType } from '../types';
+import {
+  ABORTED_ERROR_TEXT_CHROME,
+  ABORTED_ERROR_TEXT_MOZILLA,
+  ABORTED_ERROR_TEXT_SAFARI,
+} from '../constants';
 
 type ParamsType = InitLoadManagerRequestOptionsType & {
   abortRequestsSectionId: string;
   setAppErrorAction?: BaseAction;
   eventNameToCancelRequests?: string;
+  eventToCatchEndedProcesses: string;
 };
 
 export function* spawnedFetchProcessSaga({
@@ -39,6 +45,7 @@ export function* spawnedFetchProcessSaga({
   setAppErrorAction,
   abortRequestsSectionId,
   eventNameToCancelRequests,
+  eventToCatchEndedProcesses,
 }: ParamsType) {
   try {
     // reset actions
@@ -108,8 +115,13 @@ export function* spawnedFetchProcessSaga({
       yield put(redirectManagerSagaAction(redirectData));
     }
   } catch (error) {
+    const isAbortError =
+      error.message === ABORTED_ERROR_TEXT_CHROME ||
+      error.message === ABORTED_ERROR_TEXT_MOZILLA ||
+      error.message === ABORTED_ERROR_TEXT_SAFARI;
+
     // if the request was not aborted
-    if (error.message !== 'The user aborted a request.') {
+    if (!isAbortError) {
       console.error('error in initLoadManagerWorkerSaga', error.message);
 
       // if data in request is critical and we dont get it -> set app global error
@@ -165,6 +177,12 @@ export function* spawnedFetchProcessSaga({
       }
     }
   } finally {
+    document.dispatchEvent(
+      new CustomEvent(eventToCatchEndedProcesses, {
+        detail: { id: abortRequestsSectionId },
+      }),
+    );
+
     if (loadingStopAction) {
       yield put(loadingStopAction());
     }

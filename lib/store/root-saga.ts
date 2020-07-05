@@ -21,7 +21,10 @@ export const createRootSaga = ({
 }: RootSagaParams) =>
   function* rootSaga() {
     yield spawn(formManagerWatcherSaga);
-    yield spawn(initLoadManagerWatcherSaga, { eventNameToCancelRequests });
+    yield spawn(initLoadManagerWatcherSaga, {
+      eventNameToCancelRequests,
+      dispatch,
+    });
     yield spawn(requestExtraDataHandlerWatcherSaga);
     yield spawn(redirectManagerWatcherSaga, { router, dispatch });
 
