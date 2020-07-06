@@ -1,3 +1,4 @@
+import { RequestErrorHandlerProcessParamsType } from '@/utils/request-error-handler-process';
 import { Action, BaseAction } from '../../types';
 import { IRedirectManagerPayload } from '../redirect-manager-module';
 
@@ -26,4 +27,5 @@ export type FormManagerType = {
   formatDataToRedirectParamsSuccess?: (data: any) => any;
   formatDataToRedirectParamsError?: (data: any) => any;
   textMessageSuccess?: string;
+  requestErrorHandlerProcessParams?: RequestErrorHandlerProcessParamsType;
 };

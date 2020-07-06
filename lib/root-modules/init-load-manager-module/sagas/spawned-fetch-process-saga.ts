@@ -6,6 +6,10 @@ import {
   IRedirectManagerPayload,
 } from '@/root-modules/redirect-manager-module';
 import { BaseAction } from '@/types';
+import {
+  requestErrorHandlerProcess,
+  RequestErrorHandlerProcessParamsType,
+} from '@/utils/request-error-handler-process';
 import { InitLoadManagerRequestOptionsType } from '../types';
 import {
   ABORTED_ERROR_TEXT_CHROME,
@@ -18,6 +22,7 @@ type ParamsType = InitLoadManagerRequestOptionsType & {
   setAppErrorAction?: BaseAction;
   eventNameToCancelRequests?: string;
   eventToCatchEndedProcesses: string;
+  requestErrorHandlerProcessParams?: RequestErrorHandlerProcessParamsType;
 };
 
 export function* spawnedFetchProcessSaga({
@@ -46,7 +51,10 @@ export function* spawnedFetchProcessSaga({
   abortRequestsSectionId,
   eventNameToCancelRequests,
   eventToCatchEndedProcesses,
+  requestErrorHandlerProcessParams,
 }: ParamsType) {
+  let responseData;
+
   try {
     // reset actions
     if (resetAction) {
@@ -59,22 +67,36 @@ export function* spawnedFetchProcessSaga({
       yield put(loadingStartAction());
     }
 
-    // make the request with language dictionary (optionally with params)
-    const { error, errorText, data, additionalErrors } = yield call(request, {
-      ...requestOptions,
-      isErrorTextStraightToOutput: withoutFormattingError,
-    });
+    if (requestErrorHandlerProcessParams) {
+      responseData = yield* requestErrorHandlerProcess({
+        ...requestErrorHandlerProcessParams,
+        request: () =>
+          requestErrorHandlerProcessParams.request({
+            ...requestOptions,
+            isErrorTextStraightToOutput: withoutFormattingError,
+          }),
+      });
+    } else {
+      // make the request with language dictionary (optionally with params)
+      responseData = yield call(request, {
+        ...requestOptions,
+        isErrorTextStraightToOutput: withoutFormattingError,
+      });
+    }
 
     // if an error in request
-    if (error) {
+    if (responseData.error) {
       // eslint-disable-next-line
-      throw { message: errorText, additionalErrors };
+      throw { 
+        message: responseData.errorText,
+        additionalErrors: responseData.additionalErrors,
+      };
     }
 
     // format data
     const formattedData = requestDataFormatter
-      ? requestDataFormatter(data)
-      : data;
+      ? requestDataFormatter(responseData.data)
+      : responseData.data;
 
     // success actions
     if (actionSuccess && formattedData) {

@@ -5,6 +5,7 @@ import {
   redirectManagerSagaAction,
   IRedirectManagerPayload,
 } from '@/root-modules/redirect-manager-module';
+import { requestErrorHandlerProcess } from '@/utils/request-error-handler-process';
 import { FormManagerType } from '../types';
 
 interface IFormManagerWorkerParams {
@@ -34,8 +35,10 @@ export function* formManagerWorkerSaga({
     formatDataToRedirectParamsSuccess,
     formatDataToRedirectParamsError,
     textMessageSuccess,
+    requestErrorHandlerProcessParams,
   },
 }: IFormManagerWorkerParams) {
+  let responseData;
   // set new "initial" form data - react-final-form needs because if rerender form - "initial" values will be from the very beginning
   if (resetInitialDataAction) {
     yield put(resetInitialDataAction(formValues));
@@ -43,14 +46,29 @@ export function* formManagerWorkerSaga({
 
   yield put(loadingStartAction());
 
-  try {
-    const { error, errorText, data } = yield call(formRequest, {
-      body: formValuesFormatter ? formValuesFormatter(formValues) : formValues,
-      isErrorTextStraightToOutput: withoutFormattingError,
-    });
+  const formattedFormValues = formValuesFormatter
+    ? formValuesFormatter(formValues)
+    : formValues;
 
-    if (error) {
-      throw new Error(errorText);
+  try {
+    if (requestErrorHandlerProcessParams) {
+      responseData = yield* requestErrorHandlerProcess({
+        ...requestErrorHandlerProcessParams,
+        request: () =>
+          requestErrorHandlerProcessParams.request({
+            body: formattedFormValues,
+            isErrorTextStraightToOutput: withoutFormattingError,
+          }),
+      });
+    } else {
+      responseData = yield call(formRequest, {
+        body: formattedFormValues,
+        isErrorTextStraightToOutput: withoutFormattingError,
+      });
+    }
+
+    if (responseData.error) {
+      throw new Error(responseData.errorText);
     }
 
     // put usual function callback
@@ -60,8 +78,8 @@ export function* formManagerWorkerSaga({
 
     // format data
     const formattedData = responseDataFormatter
-      ? responseDataFormatter(data)
-      : data;
+      ? responseDataFormatter(responseData.data)
+      : responseData.data;
 
     // dispatch success actions
     if (formSuccessAction) {

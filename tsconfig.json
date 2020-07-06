@@ -15,6 +15,7 @@
     "esModuleInterop": true,
     "strictFunctionTypes": false,
     "moduleResolution": "node",
+    "downlevelIteration":true,
     "baseUrl": "./",
     "jsx": "react",
     "paths": {

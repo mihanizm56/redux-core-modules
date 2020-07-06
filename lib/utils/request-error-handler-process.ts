@@ -1,8 +1,9 @@
 import { call, put, all } from 'redux-saga/effects';
+import { DEFAULT_ERROR_TEXT } from '@/constants';
 import { AnyAction } from '../types';
 
-type ParamsType = {
-  request: () => Promise<any>;
+export type RequestErrorHandlerProcessParamsType = {
+  request: (params?: any) => Promise<any>;
   errorAction?: AnyAction;
   errorActionsArray?: Array<AnyAction>;
   requestValidator: (responseData: any) => boolean;
@@ -13,7 +14,7 @@ export function* requestErrorHandlerProcess({
   requestValidator,
   errorAction,
   errorActionsArray,
-}: ParamsType) {
+}: RequestErrorHandlerProcessParamsType) {
   // get request data
   const responseData = yield call(request);
   // get response validation
@@ -28,9 +29,9 @@ export function* requestErrorHandlerProcess({
 
     // provide th default error response
     return {
-      code: 500,
+      code: 400,
       error: true,
-      errorText: 'error-handler-error',
+      errorText: DEFAULT_ERROR_TEXT,
       data: null,
       additionalErrors: null,
     };
