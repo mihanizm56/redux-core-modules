@@ -192,7 +192,27 @@ store.dispatch(requestExtraDataHandlerActionSaga({
 }));
 ```
 
-### Utils for redux code-splitting:
+### requestErrorHandlerProcess util:
+  - gets the request
+  - provide the validation for the request
+  - dispatches an action or an array of actions if the response is invalid
+
+```javascript
+import { requestErrorHandlerProcess } from '@wildberries/redux-core-modules';
+
+// inside the saga
+const validatedData = yield* requestErrorHandlerProcess({
+  request: () =>
+    updateReportRequest({
+      id,
+      status: STATUS_APPROVED,
+    }),
+  requestValidator: () => false,
+  errorAction: () => ({ type: 'test error action' }),
+});
+```
+
+## Utils for redux code-splitting:
 
 ### inject reducers:
 

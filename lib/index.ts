@@ -42,3 +42,7 @@ export {
 
 export { ReduxStoreLoader } from './containers/redux-store-loader';
 export { StoreInjectConfig } from './containers/redux-store-loader';
+
+export {
+  requestErrorHandlerProcess,
+} from './utils/request-error-handler-process';
