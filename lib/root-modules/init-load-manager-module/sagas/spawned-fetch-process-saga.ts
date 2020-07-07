@@ -22,7 +22,6 @@ type ParamsType = InitLoadManagerRequestOptionsType & {
   setAppErrorAction?: BaseAction;
   eventNameToCancelRequests?: string;
   eventToCatchEndedProcesses: string;
-  requestErrorHandlerProcessParams?: RequestErrorHandlerProcessParamsType;
 };
 
 export function* spawnedFetchProcessSaga({

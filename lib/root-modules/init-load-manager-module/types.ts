@@ -1,4 +1,5 @@
 import { Action, BaseAction } from '@/types';
+import { RequestErrorHandlerProcessParamsType } from '@/utils/request-error-handler-process';
 import { IRedirectManagerPayload } from '../redirect-manager-module';
 
 export type InitLoadManagerRequestOptionsType = {
@@ -28,6 +29,7 @@ export type InitLoadManagerRequestOptionsType = {
   formatDataToRedirectParamsError?: (data: any) => any;
   redirectRouteParamsError?: IRedirectManagerPayload;
   textMessageSuccess?: string;
+  requestErrorHandlerProcessParams?: RequestErrorHandlerProcessParamsType;
 };
 
 export type InitLoadManagerActionPayloadType = {
