@@ -70,7 +70,7 @@ export function* spawnedFetchProcessSaga({
       responseData = yield* requestErrorHandlerProcess({
         ...requestErrorHandlerProcessParams,
         request: () =>
-          requestErrorHandlerProcessParams.request({
+          request({
             ...requestOptions,
             isErrorTextStraightToOutput: withoutFormattingError,
           }),

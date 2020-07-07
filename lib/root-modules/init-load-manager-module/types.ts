@@ -29,7 +29,10 @@ export type InitLoadManagerRequestOptionsType = {
   formatDataToRedirectParamsError?: (data: any) => any;
   redirectRouteParamsError?: IRedirectManagerPayload;
   textMessageSuccess?: string;
-  requestErrorHandlerProcessParams?: RequestErrorHandlerProcessParamsType;
+  requestErrorHandlerProcessParams?: Omit<
+    RequestErrorHandlerProcessParamsType,
+    'request'
+  >;
 };
 
 export type InitLoadManagerActionPayloadType = {

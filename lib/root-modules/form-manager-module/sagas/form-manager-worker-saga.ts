@@ -55,7 +55,7 @@ export function* formManagerWorkerSaga({
       responseData = yield* requestErrorHandlerProcess({
         ...requestErrorHandlerProcessParams,
         request: () =>
-          requestErrorHandlerProcessParams.request({
+          formRequest({
             body: formattedFormValues,
             isErrorTextStraightToOutput: withoutFormattingError,
           }),
