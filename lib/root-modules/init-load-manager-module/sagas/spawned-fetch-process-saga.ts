@@ -6,10 +6,7 @@ import {
   IRedirectManagerPayload,
 } from '@/root-modules/redirect-manager-module';
 import { BaseAction } from '@/types';
-import {
-  requestErrorHandlerProcess,
-  RequestErrorHandlerProcessParamsType,
-} from '@/utils/request-error-handler-process';
+import { requestErrorHandlerProcess } from '@/utils/request-error-handler-process';
 import { InitLoadManagerRequestOptionsType } from '../types';
 import {
   ABORTED_ERROR_TEXT_CHROME,
@@ -118,7 +115,7 @@ export function* spawnedFetchProcessSaga({
     if (showSuccessNotification && textMessageSuccess) {
       yield put(
         setModalAction({
-          status: 'error',
+          status: 'success',
           text: textMessageSuccess,
         }),
       );
