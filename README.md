@@ -196,6 +196,7 @@ store.dispatch(requestExtraDataHandlerActionSaga({
   - gets the request
   - provide the validation for the request
   - dispatches an action or an array of actions if the response is invalid
+  - options for that feature exist in Form-manager-module and in Init-load-manager-module
 
 ```javascript
 import { requestErrorHandlerProcess } from '@wildberries/redux-core-modules';
