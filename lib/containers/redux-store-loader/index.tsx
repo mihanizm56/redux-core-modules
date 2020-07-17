@@ -7,8 +7,7 @@ import {
   InitLoadManagerActionPayloadType,
 } from '@/root-modules/init-load-manager-module';
 import { IAdvancedStore } from '@/types';
-import { removeAllInjectedReducers } from '@/utils/remove-all-injected-reducers';
-import { removeAllInjectedSagas } from '@/utils/remove-all-injected-sagas';
+import { replaceReducersAndSagas } from '@/utils/replace-reducers-and-sagas';
 
 export type StoreInjectConfig = {
   additionalConfig?: {
@@ -28,12 +27,20 @@ type PropsType = PropsWithChildren<{
 }>;
 
 export class ReduxStoreLoader extends React.Component<PropsType> {
+  constructor(props: PropsType) {
+    super(props);
+
+    replaceReducersAndSagas({
+      fromState: props.fromState,
+      toState: props.toState,
+      store: props.store,
+      withoutRemovingReducers: props.withoutRemovingReducers,
+    });
+  }
+
   componentDidMount() {
     const {
-      fromState,
-      toState,
       store,
-      withoutRemovingReducers,
       storeInjectConfig: {
         additionalConfig,
         reducersToInject,
@@ -41,27 +48,6 @@ export class ReduxStoreLoader extends React.Component<PropsType> {
         initialLoadManagerConfig,
       } = {},
     } = this.props;
-
-    // define first route name to navigate from
-    const coreRouteFromStateName =
-      fromState && fromState.name ? fromState.name.split('.')[0] : null;
-
-    // define first route name to navigate to
-    const coreRouteToStateName =
-      toState && toState.name ? toState.name.split('.')[0] : null;
-
-    // replace all injected reducers and sagas
-    if (
-      toState &&
-      coreRouteToStateName !== coreRouteFromStateName &&
-      !withoutRemovingReducers
-    ) {
-      removeAllInjectedReducers(store);
-      removeAllInjectedSagas(store);
-
-      // make some noise =)
-      console.warn('ReduxStoreLoader replaced old reducers'); // eslint-disable-line
-    }
 
     // inject reducers
     if (reducersToInject) {
