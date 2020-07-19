@@ -17,6 +17,11 @@ export const injectAsyncSaga = ({
   const isInjected = Boolean(store.asyncSagas[name]);
 
   if (isInjected) {
+    // make some noise
+
+    // eslint-disable-next-line
+    console.warn(`${name} saga was injected earlier`);
+
     return;
   }
 

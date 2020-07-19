@@ -12,6 +12,17 @@ export const injectAsyncReducer = ({
   const wasRootReducerInjected = Boolean(rootReducers[name]);
 
   if (wasAsyncReducerInjected || wasRootReducerInjected) {
+    // make some noise
+    if (wasAsyncReducerInjected) {
+      // eslint-disable-next-line
+      console.warn(`${name} reducer was injected earlier`);
+    }
+
+    if (wasRootReducerInjected) {
+      // eslint-disable-next-line
+      console.warn(`${name} reducer was injected in the root reducer earlier`);
+    }
+
     return;
   }
 
