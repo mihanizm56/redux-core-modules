@@ -1,14 +1,15 @@
-import { CustomReducerType, InjectAsyncReducer } from '@/types';
+import { CustomReducerType, InjectAsyncReducerParams } from '@/types';
 import { createReducer } from '@/store/create-reducer';
 
 export const injectAsyncReducer = ({
   store,
   name,
   reducer,
-}: InjectAsyncReducer) => {
-  const asyncReducersInStore = store.asyncReducers;
+  isRoot,
+}: InjectAsyncReducerParams) => {
+  const asyncReducers = store.asyncReducers;
   const rootReducers = store.rootReducers;
-  const wasAsyncReducerInjected = Boolean(asyncReducersInStore[name]);
+  const wasAsyncReducerInjected = Boolean(asyncReducers[name]);
   const wasRootReducerInjected = Boolean(rootReducers[name]);
 
   if (wasAsyncReducerInjected || wasRootReducerInjected) {
@@ -26,13 +27,18 @@ export const injectAsyncReducer = ({
     return;
   }
 
-  // register reducer to the store
-  asyncReducersInStore[name] = reducer;
+  if (isRoot) {
+    // register root reducer to the store
+    rootReducers[name] = reducer;
+  } else {
+    // register reducer to the store
+    asyncReducers[name] = reducer;
+  }
 
   // define new reducers
   const newReducer: CustomReducerType = createReducer({
     prevState: store.getState(),
-    asyncReducers: asyncReducersInStore,
+    asyncReducers,
     rootReducers,
   }) as CustomReducerType;
 

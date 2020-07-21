@@ -2,10 +2,10 @@ export { createAppStore } from './store';
 
 export { Action, BaseAction, IAdvancedStore } from './types';
 
-export { removeAsyncSaga } from './utils/remove-sagas';
+export { removeAsyncSaga } from './utils/remove-saga';
 export { removeAsyncReducer } from './utils/remove-reducer';
-export { injectAsyncReducer } from './utils/inject-reducers';
-export { injectAsyncSaga } from './utils/inject-sagas';
+export { injectAsyncReducer } from './utils/inject-async-reducer';
+export { injectAsyncSaga } from './utils/inject-async-saga';
 export {
   removeAllInjectedReducers,
 } from './utils/remove-all-injected-reducers';
@@ -41,7 +41,7 @@ export {
 } from './root-modules/request-extra-data-handler-module';
 
 export { ReduxStoreLoader } from './containers/redux-store-loader';
-export { StoreInjectConfig } from './containers/redux-store-loader';
+export { StoreInjectConfig } from './containers/redux-store-loader/types';
 
 export {
   requestErrorHandlerProcess,

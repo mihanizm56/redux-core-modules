@@ -14,6 +14,7 @@ export interface IAdvancedStore extends Store {
   asyncReducers: IReducersMap;
   rootReducers: IReducersMap;
   asyncSagas: IAsyncSagas;
+  rootSagas: IAsyncSagas;
   sagaMiddleware: any;
   router: Router;
 }
@@ -36,10 +37,12 @@ export type InjectAsyncSagaParams = {
   store: IAdvancedStore;
   name: string;
   saga: any;
+  isRoot?: boolean;
 };
 
-export type InjectAsyncReducer = {
+export type InjectAsyncReducerParams = {
   store: IAdvancedStore;
   name: string;
   reducer: Reducer;
+  isRoot?: boolean;
 };

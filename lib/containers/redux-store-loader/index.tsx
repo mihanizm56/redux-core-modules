@@ -1,26 +1,14 @@
 import React, { PropsWithChildren } from 'react';
 import { State } from 'router5';
-import { Dispatch } from 'redux';
 import { injectAsyncReducer, injectAsyncSaga } from '@/utils';
-import {
-  initLoadManagerActionSaga,
-  InitLoadManagerActionPayloadType,
-} from '@/root-modules/init-load-manager-module';
+import { initLoadManagerActionSaga } from '@/root-modules/init-load-manager-module';
 import { IAdvancedStore } from '@/types';
 import { replaceReducersAndSagas } from '@/utils/replace-reducers-and-sagas';
-
-export type StoreInjectConfig = {
-  additionalConfig?: {
-    callbackOnMount?: (dispatch: Dispatch) => any;
-  };
-  sagasToInject?: Array<any>;
-  reducersToInject?: Array<any>;
-  initialLoadManagerConfig?: InitLoadManagerActionPayloadType;
-};
+import { StoreInjectConfig } from './types';
 
 type PropsType = PropsWithChildren<{
-  toState: State;
-  fromState: State;
+  toState?: State;
+  fromState?: State;
   store: IAdvancedStore;
   storeInjectConfig: StoreInjectConfig;
   withoutRemovingReducers?: boolean;
@@ -51,22 +39,24 @@ export class ReduxStoreLoader extends React.Component<PropsType> {
 
     // inject reducers
     if (reducersToInject) {
-      reducersToInject.forEach(({ reducer, name }) =>
+      reducersToInject.forEach(({ reducer, name, isRoot }) =>
         injectAsyncReducer({
           store,
           name,
           reducer,
+          isRoot,
         }),
       );
     }
 
     // inject sagas
     if (sagasToInject) {
-      sagasToInject.forEach(({ saga, name }) =>
+      sagasToInject.forEach(({ saga, name, isRoot }) =>
         injectAsyncSaga({
           store,
           name,
           saga,
+          isRoot,
         }),
       );
     }

@@ -1,10 +1,10 @@
-import { CustomReducerType, InjectAsyncReducer } from '@/types';
+import { CustomReducerType, InjectAsyncReducerParams } from '@/types';
 import { createReducer } from '@/store/create-reducer';
 
 export const removeAsyncReducer = ({
   store,
   name,
-}: Omit<InjectAsyncReducer, 'reducer'>) => {
+}: Omit<InjectAsyncReducerParams, 'reducer'>) => {
   const asyncReducersInStore = store.asyncReducers;
   const rootReducers = store.rootReducers;
   const wasReducerInjected = Boolean(asyncReducersInStore[name]);

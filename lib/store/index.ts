@@ -69,6 +69,8 @@ export const createAppStore = ({
   store.rootReducers = rootReducersPackage;
   // создаем регистр динамических саг
   store.asyncSagas = {};
+  // создаем регистр root саг
+  store.rootSagas = {};
   // определяем раннер миддливары внутри стора
   store.sagaMiddleware = sagaMiddleware;
 
