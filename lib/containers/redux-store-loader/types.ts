@@ -6,7 +6,7 @@ export type StoreInjectConfig = {
   additionalConfig?: {
     callbackOnMount?: (dispatch: Dispatch) => any;
   };
-  sagasToInject?: Array<InjectAsyncSagaParams>;
-  reducersToInject?: Array<InjectAsyncReducerParams>;
+  sagasToInject?: Array<Omit<InjectAsyncSagaParams, 'store'>>;
+  reducersToInject?: Array<Omit<InjectAsyncReducerParams, 'store'>>;
   initialLoadManagerConfig?: InitLoadManagerActionPayloadType;
 };
