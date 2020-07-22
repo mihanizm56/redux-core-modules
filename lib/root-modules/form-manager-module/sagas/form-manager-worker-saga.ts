@@ -133,10 +133,9 @@ export function* formManagerWorkerSaga({
   } catch (error) {
     // deserialize data from the "catch" block to be parsed
     const errorData = JSON.parse(error.message);
-
-    console.error('errorData in formRequest', errorData);
-
-    console.error('error in formRequest', errorData.errorText);
+    // get additionalErrors from rest and json-rpc requests
+    // eslint-disable-next-line
+    const additionalErrors = errorData.additionalErrors?.errors ?? errorData.additionalErrors
 
     // put usual function callback
     if (callBackOnError) {
@@ -156,7 +155,7 @@ export function* formManagerWorkerSaga({
 
     // dispatch actions with additionalErrors to set errors to the form
     if (setFormExternalErrorsAction) {
-      yield put(setFormExternalErrorsAction(errorData.additionalErrors));
+      yield put(setFormExternalErrorsAction(additionalErrors));
     }
 
     // trigger notification
@@ -174,7 +173,7 @@ export function* formManagerWorkerSaga({
       const redirectData: IRedirectManagerPayload = formatDataToRedirectParamsError
         ? formatDataToRedirectParamsError({
             ...redirectErrorActionParams,
-            ...errorData.additionalErrors,
+            ...additionalErrors,
           })
         : redirectErrorActionParams;
 
