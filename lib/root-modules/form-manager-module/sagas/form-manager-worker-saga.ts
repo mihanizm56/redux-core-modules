@@ -36,6 +36,7 @@ export function* formManagerWorkerSaga({
     formatDataToRedirectParamsError,
     textMessageSuccess,
     requestErrorHandlerProcessParams,
+    setFormExternalErrorsAction,
   },
 }: IFormManagerWorkerParams) {
   let responseData;
@@ -68,7 +69,13 @@ export function* formManagerWorkerSaga({
     }
 
     if (responseData.error) {
-      throw new Error(responseData.errorText);
+      // serialize data to be catched to the "catch" block and to be parsed
+      throw new Error(
+        JSON.stringify({
+          errorText: responseData.errorText,
+          additionalErrors: responseData.additionalErrors,
+        }),
+      );
     }
 
     // put usual function callback
@@ -124,7 +131,12 @@ export function* formManagerWorkerSaga({
       yield put(redirectManagerSagaAction(redirectData));
     }
   } catch (error) {
-    console.error('error in formRequest', error.message);
+    // deserialize data from the "catch" block to be parsed
+    const errorData = JSON.parse(error.message);
+
+    console.error('errorData in formRequest', errorData);
+
+    console.error('error in formRequest', errorData.errorText);
 
     // put usual function callback
     if (callBackOnError) {
@@ -133,13 +145,18 @@ export function* formManagerWorkerSaga({
 
     // dispatch fail actions
     if (setErrorAction) {
-      yield put(setErrorAction(error.message));
+      yield put(setErrorAction(errorData.errorText));
     } else if (setErrorActionsArray && setErrorActionsArray.length) {
       yield all(
         setErrorActionsArray.map(errorAction =>
-          put(errorAction(error.message)),
+          put(errorAction(errorData.errorText)),
         ), // eslint-disable-line
       );
+    }
+
+    // dispatch actions with additionalErrors to set errors to the form
+    if (setFormExternalErrorsAction) {
+      yield put(setFormExternalErrorsAction(errorData.additionalErrors));
     }
 
     // trigger notification
@@ -147,7 +164,7 @@ export function* formManagerWorkerSaga({
       yield put(
         setModalAction({
           status: 'error',
-          text: error.message,
+          text: errorData.errorText,
         }),
       );
     }
@@ -157,7 +174,7 @@ export function* formManagerWorkerSaga({
       const redirectData: IRedirectManagerPayload = formatDataToRedirectParamsError
         ? formatDataToRedirectParamsError({
             ...redirectErrorActionParams,
-            ...error.additionalErrors,
+            ...errorData.additionalErrors,
           })
         : redirectErrorActionParams;
 

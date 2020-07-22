@@ -31,4 +31,5 @@ export type FormManagerType = {
     RequestErrorHandlerProcessParamsType,
     'request'
   >;
+  setFormExternalErrorsAction?: Action<any>;
 };
