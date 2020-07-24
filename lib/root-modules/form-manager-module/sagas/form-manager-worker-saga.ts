@@ -135,7 +135,7 @@ export function* formManagerWorkerSaga({
     const errorData = JSON.parse(error.message);
     // get additionalErrors from rest and json-rpc requests
     // eslint-disable-next-line
-    const additionalErrors = errorData.additionalErrors?.errors ?? errorData.additionalErrors
+    const additionalErrors = errorData.additionalErrors?.errors ?? errorData?.additionalErrors
 
     // put usual function callback
     if (callBackOnError) {
@@ -154,7 +154,7 @@ export function* formManagerWorkerSaga({
     }
 
     // dispatch actions with additionalErrors to set errors to the form
-    if (setFormExternalErrorsAction) {
+    if (setFormExternalErrorsAction && additionalErrors) {
       yield put(setFormExternalErrorsAction(additionalErrors));
     }
 
