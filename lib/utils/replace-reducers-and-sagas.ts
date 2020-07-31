@@ -30,7 +30,7 @@ export const replaceReducersAndSagas = ({
     toState && toState.name ? toState.name.split('.')[0] : null;
 
   // replace all injected reducers and sagas
-  if (toState && coreRouteToStateName !== coreRouteFromStateName) {
+  if (toState && fromState && coreRouteToStateName !== coreRouteFromStateName) {
     removeAllInjectedReducers(store);
     removeAllInjectedSagas(store);
 
