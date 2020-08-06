@@ -1,6 +1,6 @@
 import { spawn, all } from 'redux-saga/effects';
 import { Router } from 'router5';
-import { Dispatch } from 'redux';
+import { Dispatch, Store } from 'redux';
 import { formManagerWatcherSaga } from '@/root-modules/form-manager-module';
 import { initLoadManagerWatcherSaga } from '@/root-modules/init-load-manager-module';
 import { redirectManagerWatcherSaga } from '@/root-modules/redirect-manager-module';
@@ -11,6 +11,7 @@ type RootSagaParams = {
   dispatch: Dispatch;
   rootSagas?: Record<string, any>;
   eventNameToCancelRequests?: string;
+  store: Store;
 };
 
 export const createRootSaga = ({
@@ -18,6 +19,7 @@ export const createRootSaga = ({
   router,
   dispatch,
   eventNameToCancelRequests,
+  store,
 }: RootSagaParams) =>
   function* rootSaga() {
     yield spawn(formManagerWatcherSaga);
@@ -31,7 +33,7 @@ export const createRootSaga = ({
     // run additional root sagas
     yield all(
       Object.values(rootSagas).map(saga =>
-        spawn(saga, { router, dispatch, eventNameToCancelRequests }),
+        spawn(saga, { router, dispatch, eventNameToCancelRequests, store }),
       ),
     );
   };

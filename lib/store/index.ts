@@ -57,9 +57,11 @@ export const createAppStore = ({
     router,
     dispatch,
     eventNameToCancelRequests,
+    store,
   });
 
-  const rootSagaWithRouter = rootSaga.bind(null, { router, dispatch });
+  // todo remove
+  // const rootSagaWithRouter = rootSaga.bind(null, { router, dispatch });
 
   // прокидываем роутер в стор
   store.router = router;
@@ -74,7 +76,7 @@ export const createAppStore = ({
   // определяем раннер миддливары внутри стора
   store.sagaMiddleware = sagaMiddleware;
 
-  sagaMiddleware.run(rootSagaWithRouter);
+  sagaMiddleware.run(rootSaga);
 
   // возвращаем объект стора
   return store;
