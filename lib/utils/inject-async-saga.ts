@@ -24,8 +24,10 @@ export const injectAsyncSaga = ({
   if (wasSagaInjected || wasRootSagaInjected) {
     // make some noise
 
-    // eslint-disable-next-line
-    console.warn(`${name} saga was injected earlier`);
+    if (process.env.REACT_APP_REDUX_DEBUG) {
+      // eslint-disable-next-line
+      console.warn(`${name} saga was injected earlier`);
+    }
 
     return;
   }
