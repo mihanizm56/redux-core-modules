@@ -1,5 +1,8 @@
-import { notificationsState } from '@wildberries/notifications';
+import {
+  notificationsState,
+  NOTIFICATIONS_REDUCER_NAME,
+} from '@wildberries/notifications';
 
 export const defaultRootReducers = {
-  notificationsState,
+  [NOTIFICATIONS_REDUCER_NAME]: notificationsState,
 };

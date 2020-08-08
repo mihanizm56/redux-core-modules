@@ -14,6 +14,8 @@ type PropsType = PropsWithChildren<{
 }>;
 
 export class ReduxStoreLoader extends React.Component<PropsType> {
+  state = {};
+
   static getDerivedStateFromProps(props: PropsType) {
     replaceReducersAndSagas({
       fromState: props.fromState,
