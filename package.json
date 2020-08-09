@@ -1,6 +1,6 @@
 {
   "name": "@wildberries/redux-core-modules",
-  "version": "0.0.29-beta.5",
+  "version": "0.0.29-beta.6",
   "description": "core redux modules",
   "typings": "./dist/index.d.ts",
   "main": "dist/index.js",
@@ -21,7 +21,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@wildberries/notifications": "0.0.10-beta.6",
+    "@wildberries/notifications": "0.0.10-beta.7",
     "lodash-es": "4.17.15",
     "redux": "4.0.5",
     "redux-saga": "1.1.1",
