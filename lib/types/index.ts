@@ -19,7 +19,7 @@ export interface IAdvancedStore extends Store {
   router: Router;
 }
 
-export type AnyAction = () => { type: string; payload?: any };
+export type AnyAction = (payload?: any) => { type: string; payload?: any };
 
 export type BaseAction = () => { type: string };
 
