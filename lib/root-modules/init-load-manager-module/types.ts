@@ -40,7 +40,7 @@ export type InitLoadManagerActionPayloadType = {
     fullActionLoadingStop?: BaseAction;
     fullActionLoadingStart?: BaseAction;
     setAppErrorAction?: BaseAction;
-    abortRequestsSectionId?: string;
+    requestsSectionId?: string;
   };
   requestConfigList: Array<InitLoadManagerRequestOptionsType>;
 };

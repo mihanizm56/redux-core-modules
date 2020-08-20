@@ -15,7 +15,7 @@ import {
 } from '../constants';
 
 type ParamsType = InitLoadManagerRequestOptionsType & {
-  abortRequestsSectionId: string;
+  requestsSectionId: string;
   setAppErrorAction?: BaseAction;
   eventNameToCancelRequests?: string;
   eventToCatchEndedProcesses: string;
@@ -44,7 +44,7 @@ export function* spawnedFetchProcessSaga({
   redirectRouteParamsError,
   textMessageSuccess,
   setAppErrorAction,
-  abortRequestsSectionId,
+  requestsSectionId,
   eventNameToCancelRequests,
   eventToCatchEndedProcesses,
   requestErrorHandlerProcessParams,
@@ -150,7 +150,7 @@ export function* spawnedFetchProcessSaga({
           if (eventNameToCancelRequests) {
             // throw the event to cancel requests
             const event = new CustomEvent(eventNameToCancelRequests, {
-              detail: { id: abortRequestsSectionId },
+              detail: { id: requestsSectionId },
             });
 
             document.dispatchEvent(event);
@@ -197,7 +197,7 @@ export function* spawnedFetchProcessSaga({
   } finally {
     document.dispatchEvent(
       new CustomEvent(eventToCatchEndedProcesses, {
-        detail: { id: abortRequestsSectionId },
+        detail: { id: requestsSectionId },
       }),
     );
 

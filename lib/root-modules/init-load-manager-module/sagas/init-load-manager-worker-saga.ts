@@ -15,7 +15,7 @@ export function* initLoadManagerWorkerSaga({
   eventNameToCancelRequests,
   requestConfigList,
   options: {
-    abortRequestsSectionId = uniqueId('fetch_default_section'),
+    requestsSectionId = uniqueId('fetch_default_section'),
     fullActionLoadingStop,
     fullActionLoadingStart,
     setAppErrorAction,
@@ -26,14 +26,14 @@ export function* initLoadManagerWorkerSaga({
   // counter of processed requests
   let counterOfEndedRequestProcesses = 0;
   // unique event name
-  const eventToCatchEndedProcesses = `${INIT_LOAD_MANAGER_EVENT_NAME}_${abortRequestsSectionId}`;
+  const eventToCatchEndedProcesses = `${INIT_LOAD_MANAGER_EVENT_NAME}_${requestsSectionId}`;
 
   // add listener to end the whole list of requests
   document.addEventListener(
     eventToCatchEndedProcesses,
     function endProcessCallback(event: CustomEvent) {
       // increment the counter if the request matches
-      if (event.detail.id === abortRequestsSectionId) {
+      if (event.detail.id === requestsSectionId) {
         counterOfEndedRequestProcesses += 1;
       }
 
@@ -41,13 +41,13 @@ export function* initLoadManagerWorkerSaga({
         // dispatch the loadingStop action
         if (fullActionLoadingStop) {
           dispatch(fullActionLoadingStop());
-        }
 
-        // remove listener to end the whole list of requests
-        document.removeEventListener(
-          eventToCatchEndedProcesses,
-          endProcessCallback,
-        );
+          // remove listener to end the whole list of requests
+          document.removeEventListener(
+            eventToCatchEndedProcesses,
+            endProcessCallback,
+          );
+        }
       }
     },
   );
@@ -59,7 +59,7 @@ export function* initLoadManagerWorkerSaga({
   while (counterRequests < requestConfigList.length) {
     yield spawn(spawnedFetchProcessSaga, {
       ...requestConfigList[counterRequests],
-      abortRequestsSectionId,
+      requestsSectionId,
       setAppErrorAction,
       eventNameToCancelRequests,
       eventToCatchEndedProcesses,
