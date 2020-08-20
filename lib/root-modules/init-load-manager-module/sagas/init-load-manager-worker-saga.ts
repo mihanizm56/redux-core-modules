@@ -15,11 +15,11 @@ export function* initLoadManagerWorkerSaga({
   eventNameToCancelRequests,
   requestConfigList,
   options: {
-    requestsSectionId,
+    requestsSectionId = uniqueId('fetch_default_section'),
     fullActionLoadingStop,
     fullActionLoadingStart,
     setAppErrorAction,
-  } = { requestsSectionId: uniqueId('fetch_default_section') },
+  } = {},
 }: ParamsType) {
   // full list fo requests counter
   let counterRequests = 0;
