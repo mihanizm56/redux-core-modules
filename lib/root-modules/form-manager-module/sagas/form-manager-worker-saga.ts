@@ -118,7 +118,7 @@ export function* formManagerWorkerSaga({
       yield put(
         setModalAction({
           status: 'success',
-          text: textMessageSuccess,
+          title: textMessageSuccess,
         }),
       );
     }
@@ -171,7 +171,7 @@ export function* formManagerWorkerSaga({
       yield put(
         setModalAction({
           status: 'error',
-          text: errorData.errorText,
+          title: errorData.errorText,
         }),
       );
     }

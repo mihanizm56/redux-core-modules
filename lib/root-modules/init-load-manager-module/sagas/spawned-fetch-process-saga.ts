@@ -116,7 +116,7 @@ export function* spawnedFetchProcessSaga({
       yield put(
         setModalAction({
           status: 'success',
-          text: textMessageSuccess,
+          title: textMessageSuccess,
         }),
       );
     }
@@ -177,7 +177,7 @@ export function* spawnedFetchProcessSaga({
         yield put(
           setModalAction({
             status: 'error',
-            text: error.message,
+            title: error.message,
           }),
         );
       }
