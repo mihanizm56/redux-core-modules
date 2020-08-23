@@ -1,9 +1,10 @@
-import { Action, BaseAction } from '@/types';
+import { AnyAction } from '@/types';
 
 export interface IRedirectManagerPayload {
   pathName: string;
   params?: any;
-  actionAfterRedirect?: Action<any> | BaseAction;
+  actionAfterRedirect?: AnyAction;
   actionAfterRedirectParams?: Record<string, any>;
+  actionArrayAfterRedirect?: Array<AnyAction>;
   reload?: boolean;
 }

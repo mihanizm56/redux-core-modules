@@ -14,6 +14,7 @@ export function* redirectManagerWorkerSaga({
     pathName,
     params,
     actionAfterRedirect,
+    actionArrayAfterRedirect,
     actionAfterRedirectParams,
     reload,
   },
@@ -22,7 +23,9 @@ export function* redirectManagerWorkerSaga({
 }: IFormManagerWorkerParams) {
   try {
     yield router.navigate(pathName, params, { reload: Boolean(reload) }, () => {
-      if (actionAfterRedirect) {
+      if (actionArrayAfterRedirect) {
+        actionArrayAfterRedirect.forEach(action => dispatch(action()));
+      } else if (actionAfterRedirect) {
         // cast type to dispatch in BaseAction style
         const action: BaseAction = actionAfterRedirectParams
           ? (actionAfterRedirect.bind(null, {
