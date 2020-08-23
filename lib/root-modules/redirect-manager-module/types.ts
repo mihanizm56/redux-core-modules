@@ -5,6 +5,6 @@ export interface IRedirectManagerPayload {
   params?: any;
   actionAfterRedirect?: AnyAction;
   actionAfterRedirectParams?: Record<string, any>;
-  actionArrayAfterRedirect?: Array<AnyAction>;
+  callbackAfterRedirect?: () => any;
   reload?: boolean;
 }
