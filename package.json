@@ -1,6 +1,6 @@
 {
   "name": "@wildberries/redux-core-modules",
-  "version": "0.0.29",
+  "version": "0.0.30",
   "description": "core redux modules",
   "typings": "./dist/index.d.ts",
   "main": "dist/index.js",
@@ -21,8 +21,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@wildberries/confirm-modal-portal": "0.0.2-beta.2",
-    "@wildberries/notifications": "1.0.2",
+    "@wildberries/confirm-modal-portal": "0.0.3",
+    "@wildberries/notifications": "1.0.3",
     "lodash-es": "4.17.15",
     "react-redux": "7.2.0",
     "redux": "4.0.5",
