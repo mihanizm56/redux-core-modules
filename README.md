@@ -135,6 +135,48 @@ const loadDataConfig: InitLoadManagerActionPayloadType = {
 store.dispatch(initLoadManagerActionSaga(loadDataConfig));
 ```
 
+### Download-files-manager-module - manager to download base64 and blob type files:
+
+ - start and stop form loading state
+ - format request data before to get file to be downloaded
+ - get the options (or not) and calls the request
+ - trigger notifications actions on success and error
+ - call error action (of array of actions)
+ - call success action (of array of actions)
+
+#### Example:
+
+```javascript
+import { downloadFilesManagerSagaAction, DownloadFilesManagerType } from '@wildberries/redux-core-modules';
+import { someDownloadRequest } from '@/services/api/requests/some-request';
+import { getCountriesListRequest } from '@/services/api/requests/get-countries-list';
+import { setRegionsAction } from '../_redux/regions-module';
+import { setWarehousesAction } from '../_redux/warehouses-module';
+
+const config: DownloadFilesManagerType = {
+  downloadFileRequest: someDownloadRequest,
+  requestParams: {foo: 'bar'};
+  loadingStartAction: () => ({ type:"LOADING_START" });
+  loadingStopAction: () => ({ type:"LOADING_STOP" });
+  formSuccessAction: () => ({ type:"SOME_SUCCESS_ACTION" });
+  formSuccessActionsArray: [
+    () => ({ type:"SOME_SUCCESS_ACTION_1" }),
+    () => ({ type:"SOME_SUCCESS_ACTION_2" })
+  ]
+  setErrorAction: () => ({ type:"SOME_ERROR_ACTION" });
+  setErrorActionsArray: [
+    () => ({ type:"SOME_ERROR_ACTION_1" }),
+    () => ({ type:"SOME_ERROR_ACTION_2" })
+  ]
+  showNotificationError: true;
+  showNotificationSuccess: true;
+  notificationSuccessMessage: 'some success notification message';
+  fileType: 'base64';
+};
+
+store.dispatch(downloadFilesManagerSagaAction(config));
+```
+
 ### Redirect-manager-module - simple options-provider to the router.navigate method from router5:
  - redirects to internal routes
  - redirects to external routes (for example if you are using microservice architecture and you stream-app doesn't know about external routes)

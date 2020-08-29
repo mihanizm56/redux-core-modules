@@ -5,6 +5,7 @@ import { formManagerWatcherSaga } from '@/root-modules/form-manager-module';
 import { initLoadManagerWatcherSaga } from '@/root-modules/init-load-manager-module';
 import { redirectManagerWatcherSaga } from '@/root-modules/redirect-manager-module';
 import { requestExtraDataHandlerWatcherSaga } from '@/root-modules/request-extra-data-handler-module';
+import { downloadFilesManagerWatcherSaga } from '@/root-modules/download-files-manager';
 
 type RootSagaParams = {
   router: Router;
@@ -22,6 +23,7 @@ export const createRootSaga = ({
   store,
 }: RootSagaParams) =>
   function* rootSaga() {
+    yield spawn(downloadFilesManagerWatcherSaga);
     yield spawn(formManagerWatcherSaga);
     yield spawn(initLoadManagerWatcherSaga, {
       eventNameToCancelRequests,

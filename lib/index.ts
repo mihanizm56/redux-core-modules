@@ -46,3 +46,8 @@ export { StoreInjectConfig } from './containers/redux-store-loader/types';
 export {
   requestErrorHandlerProcess,
 } from './utils/request-error-handler-process';
+
+export {
+  downloadFilesManagerSagaAction,
+  DownloadFilesManagerType,
+} from './root-modules/download-files-manager';
