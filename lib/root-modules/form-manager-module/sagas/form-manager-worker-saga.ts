@@ -136,7 +136,13 @@ export function* formManagerWorkerSaga({
     }
   } catch (error) {
     // deserialize data from the "catch" block to be parsed
-    const errorData = JSON.parse(error.message);
+    let errorData: any
+
+    try {
+      errorData = JSON.parse(error.message);
+    } catch (err) {
+      errorData = err.message
+    }
     // get additionalErrors from rest and json-rpc requests
     // eslint-disable-next-line
     const additionalErrors = errorData.additionalErrors?.errors ?? errorData?.additionalErrors
