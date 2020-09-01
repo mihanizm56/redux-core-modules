@@ -141,6 +141,7 @@ export function* formManagerWorkerSaga({
     try {
       errorData = JSON.parse(error.message);
     } catch (err) {
+      console.error('get the error in FormManagerSaga',err);
       errorData = err.message
     }
     // get additionalErrors from rest and json-rpc requests
