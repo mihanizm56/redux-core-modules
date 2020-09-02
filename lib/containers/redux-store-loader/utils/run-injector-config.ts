@@ -8,12 +8,12 @@ export type ParamsType = {
   toState?: State;
   fromState?: State;
   store: IAdvancedStore;
-  storeInjectConfig: StoreInjectConfig;
-  withoutRemovingReducers?: boolean;
+  storeInjectConfig?: StoreInjectConfig;
 };
 
 export const runInjectorConfig = ({
   store,
+  storeInjectConfig,
   storeInjectConfig: {
     additionalConfig,
     reducersToInject,
@@ -21,6 +21,10 @@ export const runInjectorConfig = ({
     initialLoadManagerConfig,
   } = {},
 }: ParamsType) => {
+  if (!storeInjectConfig) {
+    return;
+  }
+
   // inject reducers
   if (reducersToInject) {
     reducersToInject.forEach(({ reducer, name, isRoot }) =>

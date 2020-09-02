@@ -9,7 +9,7 @@ type PropsType = PropsWithChildren<{
   toState?: State;
   fromState?: State;
   store: IAdvancedStore;
-  storeInjectConfig: StoreInjectConfig;
+  storeInjectConfig?: StoreInjectConfig;
   withoutRemovingReducers?: boolean;
 }>;
 
