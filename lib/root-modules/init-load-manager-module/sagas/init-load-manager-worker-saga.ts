@@ -19,6 +19,8 @@ export function* initLoadManagerWorkerSaga({
     fullActionLoadingStop,
     fullActionLoadingStart,
     setAppErrorAction,
+    i18nActionLoadingStart,
+    i18nActionLoadingStop,
   } = {},
 }: ParamsType) {
   // full list fo requests counter
@@ -41,16 +43,24 @@ export function* initLoadManagerWorkerSaga({
         // dispatch the loadingStop action
         if (fullActionLoadingStop) {
           dispatch(fullActionLoadingStop());
-
-          // remove listener to end the whole list of requests
-          document.removeEventListener(
-            eventToCatchEndedProcesses,
-            endProcessCallback,
-          );
         }
+
+        if (i18nActionLoadingStop) {
+          dispatch(i18nActionLoadingStop());
+        }
+
+        // remove listener to end the whole list of requests
+        document.removeEventListener(
+          eventToCatchEndedProcesses,
+          endProcessCallback,
+        );
       }
     },
   );
+
+  if (i18nActionLoadingStart) {
+    yield put(i18nActionLoadingStart());
+  }
 
   if (fullActionLoadingStart) {
     yield put(fullActionLoadingStart());

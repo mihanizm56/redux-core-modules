@@ -39,6 +39,8 @@ export type InitLoadManagerActionPayloadType = {
   options?: {
     fullActionLoadingStop?: BaseAction;
     fullActionLoadingStart?: BaseAction;
+    i18nActionLoadingStart?: BaseAction;
+    i18nActionLoadingStop?: BaseAction;
     setAppErrorAction?: BaseAction;
     requestsSectionId?: string;
   };
