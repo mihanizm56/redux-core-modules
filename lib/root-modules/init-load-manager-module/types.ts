@@ -35,14 +35,26 @@ export type InitLoadManagerRequestOptionsType = {
   >;
 };
 
+export type BeforeRequestConfigType = {
+  requestActionStart?: BaseAction;
+  requestActionStop?: BaseAction;
+  request: (params?: any) => Promise<any>;
+  requestParams?: any;
+  requestCallback?: (options?: any) => void;
+};
+
 export type InitLoadManagerActionPayloadType = {
   options?: {
     fullActionLoadingStop?: BaseAction;
     fullActionLoadingStart?: BaseAction;
-    i18nActionLoadingStart?: BaseAction;
-    i18nActionLoadingStop?: BaseAction;
     setAppErrorAction?: BaseAction;
     requestsSectionId?: string;
+    requestBeforeAll?: (params?: any) => Promise<any>;
+    requestBeforeAllParams?: any;
+    requestBeforeAllActionStart?: BaseAction;
+    requestBeforeAllActionStop?: BaseAction;
+    requestBeforeAllCallback?: (options?: any) => void;
+    requestBeforeAllConfig?: BeforeRequestConfigType;
   };
   requestConfigList: Array<InitLoadManagerRequestOptionsType>;
 };

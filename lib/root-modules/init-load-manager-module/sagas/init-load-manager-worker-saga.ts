@@ -4,6 +4,7 @@ import { Dispatch } from 'redux';
 import { InitLoadManagerActionPayloadType } from '../types';
 import { INIT_LOAD_MANAGER_EVENT_NAME } from '../constants';
 import { spawnedFetchProcessSaga } from './spawned-fetch-process-saga';
+import { extraRequestProcessSaga } from './extra-request-process-saga';
 
 type ParamsType = InitLoadManagerActionPayloadType & {
   eventNameToCancelRequests?: string;
@@ -19,10 +20,14 @@ export function* initLoadManagerWorkerSaga({
     fullActionLoadingStop,
     fullActionLoadingStart,
     setAppErrorAction,
-    i18nActionLoadingStart,
-    i18nActionLoadingStop,
+    requestBeforeAllConfig,
   } = {},
 }: ParamsType) {
+  // make the blocking extra request before all initial requests (for example - i18next request)
+  if (requestBeforeAllConfig) {
+    yield* extraRequestProcessSaga(requestBeforeAllConfig);
+  }
+
   // full list fo requests counter
   let counterRequests = 0;
   // counter of processed requests
@@ -45,10 +50,6 @@ export function* initLoadManagerWorkerSaga({
           dispatch(fullActionLoadingStop());
         }
 
-        if (i18nActionLoadingStop) {
-          dispatch(i18nActionLoadingStop());
-        }
-
         // remove listener to end the whole list of requests
         document.removeEventListener(
           eventToCatchEndedProcesses,
@@ -57,10 +58,6 @@ export function* initLoadManagerWorkerSaga({
       }
     },
   );
-
-  if (i18nActionLoadingStart) {
-    yield put(i18nActionLoadingStart());
-  }
 
   if (fullActionLoadingStart) {
     yield put(fullActionLoadingStart());
