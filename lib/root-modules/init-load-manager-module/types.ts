@@ -49,11 +49,6 @@ export type InitLoadManagerActionPayloadType = {
     fullActionLoadingStart?: BaseAction;
     setAppErrorAction?: BaseAction;
     requestsSectionId?: string;
-    requestBeforeAll?: (params?: any) => Promise<any>;
-    requestBeforeAllParams?: any;
-    requestBeforeAllActionStart?: BaseAction;
-    requestBeforeAllActionStop?: BaseAction;
-    requestBeforeAllCallback?: (options?: any) => void;
     requestBeforeAllConfig?: BeforeRequestConfigType;
   };
   requestConfigList: Array<InitLoadManagerRequestOptionsType>;
