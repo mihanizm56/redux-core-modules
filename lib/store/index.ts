@@ -18,6 +18,9 @@ interface IStoreParams {
   };
   rootSagas?: Record<string, any>;
   eventNameToCancelRequests?: string;
+  initialState?: {
+    [key: string]: any;
+  };
 }
 
 export const createAppStore = ({
@@ -25,6 +28,7 @@ export const createAppStore = ({
   rootReducers,
   rootSagas,
   eventNameToCancelRequests,
+  initialState,
 }: IStoreParams) => {
   const rootReducersPackage = {
     ...rootReducers,
@@ -43,10 +47,13 @@ export const createAppStore = ({
   // const rootReducer = createReducer({ prevState: { ...rootReducers } });
   const rootReducer = combineReducers(rootReducersPackage);
 
-  const store: IAdvancedStore = createStore(
-    enableBatching(rootReducer),
-    enhancers,
-  ) as IAdvancedStore;
+  const store: IAdvancedStore = initialState
+    ? (createStore(
+        enableBatching(rootReducer),
+        initialState,
+        enhancers,
+      ) as IAdvancedStore)
+    : (createStore(enableBatching(rootReducer), enhancers) as IAdvancedStore);
 
   // вытаскиваем диспатч для корневый саги
   const dispatch = store.dispatch;
