@@ -8,7 +8,10 @@ export type FormManagerType = {
   formValuesFormatter?: (data: any) => any;
   loadingStartAction: BaseAction;
   loadingStopAction: BaseAction;
-  formRequest: (params: any) => Promise<any>;
+  formRequest: (params: {
+    body: any;
+    isErrorTextStraightToOutput: boolean;
+  }) => Promise<any>;
   setErrorAction?: Action<any>;
   setErrorActionsArray?: Array<Action<string>>;
   formSuccessAction?: Action<any> | BaseAction;

@@ -58,13 +58,13 @@ export function* formManagerWorkerSaga({
         request: () =>
           formRequest({
             body: formattedFormValues,
-            isErrorTextStraightToOutput: withoutFormattingError,
+            isErrorTextStraightToOutput: Boolean(withoutFormattingError),
           }),
       });
     } else {
       responseData = yield call(formRequest, {
         body: formattedFormValues,
-        isErrorTextStraightToOutput: withoutFormattingError,
+        isErrorTextStraightToOutput: Boolean(withoutFormattingError),
       });
     }
 
