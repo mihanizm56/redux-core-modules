@@ -1,0 +1,4 @@
+брейк в инитЛоадМанагерЭкшн
+
+requestDataFormatter -> responseDataFormatter
+requestDataFormatter - делает форматирование ПЕРЕД передачей параметров в запрос

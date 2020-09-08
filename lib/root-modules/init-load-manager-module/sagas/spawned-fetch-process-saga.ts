@@ -7,6 +7,7 @@ import {
 } from '@/root-modules/redirect-manager-module';
 import { BaseAction } from '@/types';
 import { requestErrorHandlerProcess } from '@/utils/request-error-handler-process';
+import { filterBatchedResponseData } from '@/utils/feilter-batch-response-data';
 import { InitLoadManagerRequestOptionsType } from '../types';
 import {
   ABORTED_ERROR_TEXT_CHROME,
@@ -19,6 +20,7 @@ type ParamsType = InitLoadManagerRequestOptionsType & {
   setAppErrorAction?: BaseAction;
   eventNameToCancelRequests?: string;
   eventToCatchEndedProcesses: string;
+  isBatchRequest?: boolean;
 };
 
 export function* spawnedFetchProcessSaga({
@@ -27,6 +29,7 @@ export function* spawnedFetchProcessSaga({
   request,
   requestOptions,
   requestDataFormatter,
+  responseDataFormatter,
   actionSuccess,
   actionsArraySuccess,
   requestExtraDataHandlerOptions,
@@ -48,6 +51,7 @@ export function* spawnedFetchProcessSaga({
   eventNameToCancelRequests,
   eventToCatchEndedProcesses,
   requestErrorHandlerProcessParams,
+  isBatchRequest,
 }: ParamsType) {
   let responseData;
 
@@ -63,19 +67,24 @@ export function* spawnedFetchProcessSaga({
       yield put(loadingStartAction());
     }
 
+    // format data before to send to the request
+    const formattedRequestParams = requestDataFormatter
+      ? requestDataFormatter(requestOptions)
+      : requestOptions;
+
     if (requestErrorHandlerProcessParams) {
       responseData = yield* requestErrorHandlerProcess({
         ...requestErrorHandlerProcessParams,
         request: () =>
           request({
-            ...requestOptions,
+            ...formattedRequestParams,
             isErrorTextStraightToOutput: withoutFormattingError,
           }),
       });
     } else {
       // make the request with language dictionary (optionally with params)
       responseData = yield call(request, {
-        ...requestOptions,
+        ...formattedRequestParams,
         isErrorTextStraightToOutput: withoutFormattingError,
       });
     }
@@ -89,23 +98,30 @@ export function* spawnedFetchProcessSaga({
       };
     }
 
-    // format data
-    const formattedData = requestDataFormatter
-      ? requestDataFormatter(responseData.data)
+    // format response data
+    const formattedResponseData = responseDataFormatter
+      ? responseDataFormatter(responseData.data)
       : responseData.data;
 
+    // filter response data to prepare json-rpc batch response
+    const filteredResponseData = isBatchRequest
+      ? filterBatchedResponseData(responseData)
+      : formattedResponseData;
+
     // success actions
-    if (actionSuccess && formattedData) {
-      yield put(actionSuccess(formattedData));
+    if (actionSuccess && filteredResponseData) {
+      yield put(actionSuccess(filteredResponseData));
     } else if (actionsArraySuccess) {
-      yield all(actionsArraySuccess.map(action => put(action(formattedData))));
+      yield all(
+        actionsArraySuccess.map(action => put(action(filteredResponseData))),
+      );
     }
 
     // custom data redux actions in one middleware
     if (requestExtraDataHandlerOptions) {
       yield put(
         requestExtraDataHandlerActionSaga({
-          data: formattedData,
+          data: filteredResponseData,
           options: requestExtraDataHandlerOptions,
         }),
       );
@@ -126,7 +142,7 @@ export function* spawnedFetchProcessSaga({
       const redirectData: IRedirectManagerPayload = formatDataToRedirectParamsSuccess
         ? formatDataToRedirectParamsSuccess({
             ...redirectRouteParamsSuccess,
-            ...formattedData,
+            ...filteredResponseData,
           })
         : redirectRouteParamsSuccess;
 

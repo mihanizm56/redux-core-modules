@@ -9,6 +9,7 @@ export type InitLoadManagerRequestOptionsType = {
   };
   actionSuccess?: Action<any> | BaseAction;
   requestDataFormatter?: (data: any) => any;
+  responseDataFormatter?: (data: any) => any;
   resetAction?: BaseAction;
   resetActionsArray?: Array<BaseAction>;
   actionsArraySuccess?: Array<Action<any> | BaseAction>;
