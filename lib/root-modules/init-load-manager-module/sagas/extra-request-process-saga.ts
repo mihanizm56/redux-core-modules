@@ -7,18 +7,25 @@ export function* extraRequestProcessSaga({
   requestActionStart,
   requestActionStop,
   requestCallback,
+  conditionToMakeRequest,
 }: BeforeRequestConfigType) {
   try {
     if (requestActionStart) {
       yield put(requestActionStart());
     }
 
-    // make the request
-    const result = yield call(request, requestParams);
+    const isConfirmed = yield conditionToMakeRequest
+      ? conditionToMakeRequest()
+      : true;
 
-    // callback fired
-    if (requestCallback) {
-      requestCallback(result);
+    if (isConfirmed) {
+      // make the request
+      const result = yield call(request, requestParams);
+
+      // callback fired
+      if (requestCallback) {
+        requestCallback(result);
+      }
     }
   } catch (error) {
     console.error('extraRequestProcessSaga catch the error', error);

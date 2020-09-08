@@ -42,6 +42,7 @@ export type BeforeRequestConfigType = {
   request: (params?: any) => Promise<any>;
   requestParams?: any;
   requestCallback?: (options?: any) => void;
+  conditionToMakeRequest?: () => boolean;
 };
 
 export type InitLoadManagerActionPayloadType = {
