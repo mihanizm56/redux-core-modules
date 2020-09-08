@@ -88,13 +88,15 @@ store.dispatch(formManagerSubmitOptions);
 ### Init-load-manager-module - has the separate config for each request and makes operations:
 
  - start and stop form loading state (not in each request but in the whole action)
- - format request data before to insert to the request
+ - format request data before and after the request
  - get the options (or not) and calls the request
  - trigger notifications actions on success and error
  - call error action (of array of actions)
  - call success action (of array of actions)
  - send data (formatted of not) to the Request-extra-data-handler-module to make some operations with splitted data from response
  - trigger success or error router redirections
+ - ability to use batching (in JSON-RPC protocol)
+ - cancelling the request if not responded
 
 #### Example:
 
@@ -116,6 +118,7 @@ const loadDataConfig: InitLoadManagerActionPayloadType = {
       showSuccessNotification: false,
       requestDataFormatter: warehousesListFormatter,
       actionSuccess: setWarehousesAction,
+      isBatchRequest: true
     },
     {
       request: getCountriesListRequest,
