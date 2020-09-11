@@ -7,6 +7,7 @@ import {
 } from '@/root-modules/redirect-manager-module';
 import { requestErrorHandlerProcess } from '@/utils/request-error-handler-process';
 import { FormManagerType } from '../types';
+import { getParsedError } from './_utils/get-parsed-error';
 
 interface IFormManagerWorkerParams {
   payload: FormManagerType;
@@ -135,15 +136,9 @@ export function* formManagerWorkerSaga({
       yield put(redirectManagerSagaAction(redirectData));
     }
   } catch (error) {
-    // deserialize data from the "catch" block to be parsed
-    let errorData: any
+    // parse error data
+    const errorData = getParsedError({sagaName:'FormManagerSaga',error})
 
-    try {
-      errorData = JSON.parse(error.message);
-    } catch (err) {
-      console.error('get the error in FormManagerSaga',err);
-      errorData = err.message
-    }
     // get additionalErrors from rest and json-rpc requests
     // eslint-disable-next-line
     const additionalErrors = errorData.additionalErrors?.errors ?? errorData?.additionalErrors
