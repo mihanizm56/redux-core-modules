@@ -175,6 +175,11 @@ const config: DownloadFilesManagerType = {
   showNotificationSuccess: true;
   notificationSuccessMessage: 'some success notification message';
   fileType: 'base64';
+  responseDataFormatter?: (response) => ({
+    file:response.foo,
+    contentType:response.bar,
+    name:response.baz
+  })
 };
 
 store.dispatch(downloadFilesManagerSagaAction(config));

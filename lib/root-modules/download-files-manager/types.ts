@@ -5,6 +5,12 @@ export const FILE_TYPES = {
   base64: 'base64',
 };
 
+export type ResponseDataFormatterReturnType = {
+  file: any;
+  contentType: string;
+  name: string;
+};
+
 export type DownloadFilesManagerType = {
   downloadFileRequest: (params?: any) => Promise<any>;
   requestParams?: any;
@@ -18,4 +24,5 @@ export type DownloadFilesManagerType = {
   showNotificationSuccess?: boolean;
   notificationSuccessMessage?: string;
   fileType: keyof typeof FILE_TYPES;
+  responseDataFormatter?: (response: any) => ResponseDataFormatterReturnType;
 };

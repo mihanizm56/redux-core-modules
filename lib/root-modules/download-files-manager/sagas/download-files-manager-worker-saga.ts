@@ -17,6 +17,7 @@ export function* downloadFilesManagerWorkerSaga({
   showNotificationSuccess,
   notificationSuccessMessage,
   fileType,
+  responseDataFormatter,
 }: DownloadFilesManagerType) {
   try {
     if (loadingStartAction) {
@@ -32,21 +33,27 @@ export function* downloadFilesManagerWorkerSaga({
       throw new Error(errorText);
     }
 
+    const formattedData = responseDataFormatter
+      ? responseDataFormatter(data)
+      : data;
+
     // get file
     const blobFile =
       fileType === FILE_TYPES.base64
-        ? base64toBytes(data.file, data.contentType)
-        : data.file;
+        ? base64toBytes(formattedData.file, formattedData.contentType)
+        : formattedData.file;
 
     // download file
-    yield fileDownload(blobFile, data.name);
+    yield fileDownload(blobFile, formattedData.name);
 
     // dispatch success actions
     if (formSuccessAction) {
-      yield put(formSuccessAction(data));
+      yield put(formSuccessAction(formattedData));
     } else if (formSuccessActionsArray && formSuccessActionsArray.length) {
       yield all(
-        formSuccessActionsArray.map(successAction => put(successAction(data))),
+        formSuccessActionsArray.map(successAction =>
+          put(successAction(formattedData)),
+        ),
       );
     }
 
