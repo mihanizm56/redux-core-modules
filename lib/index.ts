@@ -1,6 +1,6 @@
 export { createAppStore } from './store';
 
-export { Action, BaseAction, IAdvancedStore } from './types';
+export { Action, BaseAction, IAdvancedStore, AnyAction } from './types';
 
 export { removeAsyncSaga } from './utils/remove-saga';
 export { removeAsyncReducer } from './utils/remove-reducer';
