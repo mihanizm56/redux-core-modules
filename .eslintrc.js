@@ -49,7 +49,7 @@ module.exports = {
     ],
     'react/jsx-filename-extension': 'off',
     'import/no-extraneous-dependencies': 0,
-    'no-console': ['error', { allow: ['error'] }],
+    'no-console': ['error', { allow: ['error', 'warn'] }],
     quotes: ['error', 'single'],
     'jsx-a11y/click-events-have-key-events': 0,
     'jsx-a11y/label-has-for': 0,

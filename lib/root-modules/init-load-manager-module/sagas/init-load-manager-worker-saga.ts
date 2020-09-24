@@ -23,6 +23,12 @@ export function* initLoadManagerWorkerSaga({
     requestBeforeAllConfig,
   } = {},
 }: ParamsType) {
+  if (requestConfigList.length === 0) {
+    console.warn('please, provide non empty requestConfigList');
+
+    return;
+  }
+
   // make the blocking extra request before all initial requests (for example - i18next request)
   if (requestBeforeAllConfig) {
     yield* extraRequestProcessSaga(requestBeforeAllConfig);
@@ -54,9 +60,11 @@ export function* initLoadManagerWorkerSaga({
         document.removeEventListener(
           eventToCatchEndedProcesses,
           endProcessCallback,
+          true,
         );
       }
     },
+    true,
   );
 
   if (fullActionLoadingStart) {
