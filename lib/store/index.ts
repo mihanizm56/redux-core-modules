@@ -12,7 +12,7 @@ import { defaultRootReducers } from './default-root-reducers';
 const __DEV__ = process.env.NODE_ENV === "development"; // eslint-disable-line
 
 interface IStoreParams {
-  router: Router;
+  router?: Router;
   rootReducers?: {
     [key: string]: any;
   };

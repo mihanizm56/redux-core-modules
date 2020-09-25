@@ -8,7 +8,7 @@ import { requestExtraDataHandlerWatcherSaga } from '@/root-modules/request-extra
 import { downloadFilesManagerWatcherSaga } from '@/root-modules/download-files-manager';
 
 type RootSagaParams = {
-  router: Router;
+  router?: Router;
   dispatch: Dispatch;
   rootSagas?: Record<string, any>;
   eventNameToCancelRequests?: string;

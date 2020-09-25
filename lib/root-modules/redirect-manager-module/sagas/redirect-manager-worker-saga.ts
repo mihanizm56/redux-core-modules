@@ -5,7 +5,7 @@ import { IRedirectManagerPayload } from '../types';
 
 interface IFormManagerWorkerParams {
   payload: IRedirectManagerPayload;
-  router: Router;
+  router?: Router;
   dispatch: Dispatch;
 }
 
@@ -21,6 +21,10 @@ export function* redirectManagerWorkerSaga({
   router,
   dispatch,
 }: IFormManagerWorkerParams) {
+  if (!router) {
+    return;
+  }
+
   try {
     yield router.navigate(pathName, params, { reload: Boolean(reload) }, () => {
       if (actionAfterRedirect) {

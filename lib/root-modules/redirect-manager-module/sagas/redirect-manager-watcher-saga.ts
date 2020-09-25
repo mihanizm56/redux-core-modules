@@ -8,7 +8,7 @@ export function* redirectManagerWatcherSaga({
   router,
   dispatch,
 }: {
-  router: Router;
+  router?: Router;
   dispatch: any;
 }) {
   while (true) {
