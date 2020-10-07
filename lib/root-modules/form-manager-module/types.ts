@@ -6,8 +6,8 @@ export type FormManagerType = {
   resetInitialDataAction?: Action<any>;
   formValues: any;
   formValuesFormatter?: (data: any) => any;
-  loadingStartAction: BaseAction;
-  loadingStopAction: BaseAction;
+  loadingStartAction?: BaseAction;
+  loadingStopAction?: BaseAction;
   formRequest: (params: {
     body: any;
     isErrorTextStraightToOutput: boolean;

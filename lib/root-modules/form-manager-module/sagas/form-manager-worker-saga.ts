@@ -46,7 +46,9 @@ export function* formManagerWorkerSaga({
     yield put(resetInitialDataAction(formValues));
   }
 
-  yield put(loadingStartAction());
+  if(loadingStartAction){
+    yield put(loadingStartAction());
+  }
 
   const formattedFormValues = formValuesFormatter
     ? formValuesFormatter(formValues)
@@ -191,6 +193,8 @@ export function* formManagerWorkerSaga({
       yield put(redirectManagerSagaAction(redirectData));
     }
   } finally {
-    yield put(loadingStopAction());
+    if(loadingStopAction){
+      yield put(loadingStopAction());
+    }
   }
 }
