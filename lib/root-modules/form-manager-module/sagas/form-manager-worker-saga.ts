@@ -140,8 +140,9 @@ export function* formManagerWorkerSaga({
     const errorData = getParsedError({sagaName:'FormManagerSaga',error})
 
     // get additionalErrors from rest and json-rpc requests
+    // please - instruct your backend to prepare form errors in "errors" field
     // eslint-disable-next-line
-    const additionalErrors = errorData.additionalErrors?.errors ?? errorData?.additionalErrors
+    const additionalErrors = errorData.additionalErrors?.errors ?? null
 
     // put usual function callback
     // PLEASE DO NOT USE THIS IN YOUR REGULAR CASES
