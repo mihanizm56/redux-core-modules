@@ -52,6 +52,7 @@ export function* spawnedFetchProcessSaga({
   eventToCatchEndedProcesses,
   requestErrorHandlerProcessParams,
   isBatchRequest,
+  textMessageError,
 }: ParamsType) {
   let responseData;
 
@@ -190,12 +191,21 @@ export function* spawnedFetchProcessSaga({
 
       // set error notification
       if (showErrorNotification) {
-        yield put(
-          setModalAction({
-            status: 'error',
-            title: error.message,
-          }),
-        );
+        if (textMessageError) {
+          yield put(
+            setModalAction({
+              status: 'error',
+              title: textMessageError,
+            }),
+          );
+        } else {
+          yield put(
+            setModalAction({
+              status: 'error',
+              title: error.message,
+            }),
+          );
+        }
       }
 
       // handle error redirect
