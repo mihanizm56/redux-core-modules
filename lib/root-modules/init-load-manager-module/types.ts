@@ -30,11 +30,11 @@ export type InitLoadManagerRequestOptionsType = {
   formatDataToRedirectParamsError?: (data: any) => any;
   redirectRouteParamsError?: IRedirectManagerPayload;
   textMessageSuccess?: string;
-  textMessageError?: string;
   requestErrorHandlerProcessParams?: Omit<
     RequestErrorHandlerProcessParamsType,
     'request'
   >;
+  getErrorModalActionTitle?: (errorText: string) => string;
 };
 
 export type BeforeRequestConfigType = {

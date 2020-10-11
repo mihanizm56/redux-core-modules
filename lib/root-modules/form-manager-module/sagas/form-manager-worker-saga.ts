@@ -38,6 +38,7 @@ export function* formManagerWorkerSaga({
     textMessageSuccess,
     requestErrorHandlerProcessParams,
     setFormExternalErrorsAction,
+    getErrorModalActionTitle
   },
 }: IFormManagerWorkerParams) {
   let responseData;
@@ -173,12 +174,23 @@ export function* formManagerWorkerSaga({
 
     // trigger notification
     if (showNotification) {
-      yield put(
-        setModalAction({
-          status: 'error',
-          title: errorData.errorText,
-        }),
-      );
+      if(getErrorModalActionTitle){
+        yield put(
+          setModalAction({
+            status: 'error',
+            title: getErrorModalActionTitle(errorData.errorText),
+          }),
+        );
+      } else{
+        yield put(
+          setModalAction({
+            status: 'error',
+            title: errorData.errorText,
+          }),
+        );
+      }
+
+
     }
 
     // handle error redirect

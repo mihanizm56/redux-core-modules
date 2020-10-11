@@ -35,4 +35,5 @@ export type FormManagerType = {
     'request'
   >;
   setFormExternalErrorsAction?: Action<any>;
+  getErrorModalActionTitle?: (errorText: string) => string;
 };
