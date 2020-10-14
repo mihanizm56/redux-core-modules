@@ -7,7 +7,7 @@ import {
 } from '@/root-modules/redirect-manager-module';
 import { BaseAction } from '@/types';
 import { requestErrorHandlerProcess } from '@/utils/request-error-handler-process';
-import { filterBatchedResponseData } from '@/utils/feilter-batch-response-data';
+import { filterBatchedResponseData } from '@/utils/filter-batch-response-data';
 import { InitLoadManagerRequestOptionsType } from '../types';
 import {
   ABORTED_ERROR_TEXT_CHROME,

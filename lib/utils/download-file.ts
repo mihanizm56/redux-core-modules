@@ -3,7 +3,7 @@ import { FILE_TYPES } from '@/constants';
 import { base64toBytes } from './base-64-to-bytes';
 
 export type DownloadFileParamsType = {
-  fileType: string;
+  fileType: keyof typeof FILE_TYPES;
   file: any;
   contentType: string;
   name: string;
