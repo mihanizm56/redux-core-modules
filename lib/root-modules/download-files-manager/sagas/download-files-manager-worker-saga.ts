@@ -1,8 +1,7 @@
 import { put, call, all } from 'redux-saga/effects';
-import fileDownload from 'js-file-download';
 import { setModalAction } from '@wildberries/notifications';
-import { base64toBytes } from '@/utils/base-64-to-bytes';
-import { DownloadFilesManagerType, FILE_TYPES } from '../types';
+import { downloadFile } from '@/utils';
+import { DownloadFilesManagerType } from '../types';
 
 export function* downloadFilesManagerWorkerSaga({
   downloadFileRequest,
@@ -37,14 +36,12 @@ export function* downloadFilesManagerWorkerSaga({
       ? responseDataFormatter(data)
       : data;
 
-    // get file
-    const blobFile =
-      fileType === FILE_TYPES.base64
-        ? base64toBytes(formattedData.file, formattedData.contentType)
-        : formattedData.file;
-
-    // download file
-    yield fileDownload(blobFile, formattedData.name);
+    yield downloadFile({
+      fileType,
+      file: formattedData.file,
+      contentType: formattedData.contentType,
+      name: formattedData.name,
+    });
 
     // dispatch success actions
     if (formSuccessAction) {

@@ -1,9 +1,5 @@
+import { FILE_TYPES } from '@/constants';
 import { BaseAction, AnyAction } from '../../types';
-
-export const FILE_TYPES = {
-  blob: 'blob',
-  base64: 'base64',
-};
 
 export type ResponseDataFormatterReturnType = {
   file: any;

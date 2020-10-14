@@ -47,6 +47,8 @@ export {
   requestErrorHandlerProcess,
 } from './utils/request-error-handler-process';
 
+export { downloadFile } from './utils/download-file';
+
 export {
   downloadFilesManagerSagaAction,
   DownloadFilesManagerType,
