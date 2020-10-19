@@ -5,7 +5,6 @@ import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import { Router } from 'router5';
 import { combineReducers } from '@/utils';
 import { IAdvancedStore } from '../types';
-// import { createReducer } from './create-reducer';
 import { createRootSaga } from './root-saga';
 import { defaultRootReducers } from './default-root-reducers';
 
@@ -21,6 +20,7 @@ interface IStoreParams {
   initialState?: {
     [key: string]: any;
   };
+  dependencies?: Record<string, any>;
 }
 
 export const createAppStore = ({
@@ -29,6 +29,7 @@ export const createAppStore = ({
   rootSagas,
   eventNameToCancelRequests,
   initialState,
+  dependencies,
 }: IStoreParams) => {
   const rootReducersPackage = {
     ...rootReducers,
@@ -44,7 +45,6 @@ export const createAppStore = ({
     : applyMiddleware(...composeMiddlewares);
 
   // создаем корневой редюсер прокидывая в него доп параметры
-  // const rootReducer = createReducer({ prevState: { ...rootReducers } });
   const rootReducer = combineReducers(rootReducersPackage);
 
   const store: IAdvancedStore = initialState
@@ -57,6 +57,8 @@ export const createAppStore = ({
 
   // вытаскиваем диспатч для корневый саги
   const dispatch = store.dispatch;
+  // передаём зависимости
+  store.dependencies = dependencies;
 
   // создаем корневую сагу прокидывая в нее доп параметры
   const rootSaga = createRootSaga({
@@ -65,10 +67,8 @@ export const createAppStore = ({
     dispatch,
     eventNameToCancelRequests,
     store,
+    dependencies,
   });
-
-  // todo remove
-  // const rootSagaWithRouter = rootSaga.bind(null, { router, dispatch });
 
   // прокидываем роутер в стор
   store.router = router;

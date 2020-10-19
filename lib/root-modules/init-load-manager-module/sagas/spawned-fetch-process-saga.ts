@@ -1,5 +1,4 @@
 import { put, call, all } from 'redux-saga/effects';
-import { setModalAction } from '@wildberries/notifications';
 import { requestExtraDataHandlerActionSaga } from '@/root-modules/request-extra-data-handler-module';
 import {
   redirectManagerSagaAction,
@@ -21,6 +20,7 @@ type ParamsType = InitLoadManagerRequestOptionsType & {
   eventNameToCancelRequests?: string;
   eventToCatchEndedProcesses: string;
   isBatchRequest?: boolean;
+  dependencies?: Record<string, any>;
 };
 
 export function* spawnedFetchProcessSaga({
@@ -53,6 +53,7 @@ export function* spawnedFetchProcessSaga({
   requestErrorHandlerProcessParams,
   isBatchRequest,
   getErrorModalActionTitle,
+  dependencies: { setModalAction } = {},
 }: ParamsType) {
   let responseData;
 
@@ -129,7 +130,7 @@ export function* spawnedFetchProcessSaga({
     }
 
     // set success notification
-    if (showSuccessNotification && textMessageSuccess) {
+    if (showSuccessNotification && textMessageSuccess && setModalAction) {
       yield put(
         setModalAction({
           status: 'success',
@@ -190,7 +191,7 @@ export function* spawnedFetchProcessSaga({
       }
 
       // set error notification
-      if (showErrorNotification) {
+      if (showErrorNotification && setModalAction) {
         if (getErrorModalActionTitle) {
           yield put(
             setModalAction({

@@ -1,7 +1,6 @@
 import { spawn, all } from 'redux-saga/effects';
 import { Router } from 'router5';
 import { Dispatch, Store } from 'redux';
-import { confirmModalWatcherSaga } from '@wildberries/confirm-modal-portal';
 import { formManagerWatcherSaga } from '@/root-modules/form-manager-module';
 import { initLoadManagerWatcherSaga } from '@/root-modules/init-load-manager-module';
 import { redirectManagerWatcherSaga } from '@/root-modules/redirect-manager-module';
@@ -14,6 +13,7 @@ type RootSagaParams = {
   rootSagas?: Record<string, any>;
   eventNameToCancelRequests?: string;
   store: Store;
+  dependencies?: Record<string, any>;
 };
 
 export const createRootSaga = ({
@@ -22,14 +22,15 @@ export const createRootSaga = ({
   dispatch,
   eventNameToCancelRequests,
   store,
+  dependencies,
 }: RootSagaParams) =>
   function* rootSaga() {
-    yield spawn(downloadFilesManagerWatcherSaga);
-    yield spawn(confirmModalWatcherSaga);
-    yield spawn(formManagerWatcherSaga);
+    yield spawn(downloadFilesManagerWatcherSaga, { dependencies });
+    yield spawn(formManagerWatcherSaga, { dependencies });
     yield spawn(initLoadManagerWatcherSaga, {
       eventNameToCancelRequests,
       dispatch,
+      dependencies,
     });
     yield spawn(requestExtraDataHandlerWatcherSaga);
     yield spawn(redirectManagerWatcherSaga, { router, dispatch });
@@ -37,7 +38,13 @@ export const createRootSaga = ({
     // run additional root sagas
     yield all(
       Object.values(rootSagas).map(saga =>
-        spawn(saga, { router, dispatch, eventNameToCancelRequests, store }),
+        spawn(saga, {
+          router,
+          dispatch,
+          eventNameToCancelRequests,
+          store,
+          dependencies,
+        }),
       ),
     );
   };

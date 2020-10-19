@@ -3,11 +3,11 @@ import { Dispatch } from 'redux';
 import { BaseAction } from '@/types';
 import { IRedirectManagerPayload } from '../types';
 
-interface IFormManagerWorkerParams {
+type ParamsType = {
   payload: IRedirectManagerPayload;
   router?: Router;
   dispatch: Dispatch;
-}
+};
 
 export function* redirectManagerWorkerSaga({
   payload: {
@@ -20,7 +20,7 @@ export function* redirectManagerWorkerSaga({
   },
   router,
   dispatch,
-}: IFormManagerWorkerParams) {
+}: ParamsType) {
   if (!router) {
     return;
   }

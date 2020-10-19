@@ -1,5 +1,4 @@
 import { put, call, all } from 'redux-saga/effects';
-import { setModalAction } from '@wildberries/notifications';
 import { downloadFile } from '@/utils';
 import { DownloadFilesManagerType } from '../types';
 
@@ -17,6 +16,7 @@ export function* downloadFilesManagerWorkerSaga({
   notificationSuccessMessage,
   fileType,
   responseDataFormatter,
+  dependencies: { setModalAction } = {},
 }: DownloadFilesManagerType) {
   try {
     if (loadingStartAction) {
@@ -55,7 +55,11 @@ export function* downloadFilesManagerWorkerSaga({
     }
 
     // set success notification
-    if (showNotificationSuccess && notificationSuccessMessage) {
+    if (
+      showNotificationSuccess &&
+      notificationSuccessMessage &&
+      setModalAction
+    ) {
       yield put(
         setModalAction({
           status: 'success',
@@ -67,7 +71,7 @@ export function* downloadFilesManagerWorkerSaga({
     console.error('downloadFilesManagerWorkerSaga gets an error', error);
 
     // set error notification
-    if (showNotificationError) {
+    if (showNotificationError && setModalAction) {
       yield put(
         setModalAction({
           status: 'error',

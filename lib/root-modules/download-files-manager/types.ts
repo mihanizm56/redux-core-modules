@@ -21,4 +21,5 @@ export type DownloadFilesManagerType = {
   notificationSuccessMessage?: string;
   fileType: keyof typeof FILE_TYPES;
   responseDataFormatter?: (response: any) => ResponseDataFormatterReturnType;
+  dependencies?: Record<string, any>;
 };

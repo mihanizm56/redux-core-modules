@@ -7,11 +7,13 @@ import { initLoadManagerWorkerSaga } from './init-load-manager-worker-saga';
 type ParamsType = {
   eventNameToCancelRequests?: string;
   dispatch: Dispatch;
+  dependencies?: Record<string, any>;
 };
 
 export function* initLoadManagerWatcherSaga({
   eventNameToCancelRequests,
   dispatch,
+  dependencies,
 }: ParamsType) {
   while (true) {
     const {
@@ -24,6 +26,7 @@ export function* initLoadManagerWatcherSaga({
       ...payload,
       eventNameToCancelRequests,
       dispatch,
+      dependencies,
     });
   }
 }

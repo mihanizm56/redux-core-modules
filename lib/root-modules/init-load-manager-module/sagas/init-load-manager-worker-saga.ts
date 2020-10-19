@@ -9,6 +9,7 @@ import { extraRequestProcessSaga } from './extra-request-process-saga';
 type ParamsType = InitLoadManagerActionPayloadType & {
   eventNameToCancelRequests?: string;
   dispatch: Dispatch;
+  dependencies?: Record<string, any>;
 };
 
 export function* initLoadManagerWorkerSaga({
@@ -22,6 +23,7 @@ export function* initLoadManagerWorkerSaga({
     setAppErrorAction,
     requestBeforeAllConfig,
   } = {},
+  dependencies,
 }: ParamsType) {
   if (requestConfigList.length === 0) {
     console.warn('please, provide non empty requestConfigList');
@@ -78,6 +80,7 @@ export function* initLoadManagerWorkerSaga({
       setAppErrorAction,
       eventNameToCancelRequests,
       eventToCatchEndedProcesses,
+      dependencies,
     });
 
     // go to next request

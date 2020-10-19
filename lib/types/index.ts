@@ -17,6 +17,7 @@ export interface IAdvancedStore extends Store {
   rootSagas: IAsyncSagas;
   sagaMiddleware: any;
   router?: Router;
+  dependencies?: Record<string, any>;
 }
 
 export type AnyAction = (payload?: any) => { type: string; payload?: any };

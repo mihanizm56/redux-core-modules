@@ -1,5 +1,4 @@
 import { put, all, call } from 'redux-saga/effects';
-import { setModalAction } from '@wildberries/notifications';
 import { requestExtraDataHandlerActionSaga } from '@/root-modules/request-extra-data-handler-module';
 import {
   redirectManagerSagaAction,
@@ -11,6 +10,7 @@ import { getParsedError } from './_utils/get-parsed-error';
 
 interface IFormManagerWorkerParams {
   payload: FormManagerType;
+  dependencies?: Record<string, any>;
 }
 
 export function* formManagerWorkerSaga({
@@ -40,6 +40,7 @@ export function* formManagerWorkerSaga({
     setFormExternalErrorsAction,
     getErrorModalActionTitle
   },
+  dependencies:{ setModalAction } = {}
 }: IFormManagerWorkerParams) {
   let responseData;
   // set new "initial" form data - react-final-form needs because if rerender form - "initial" values will be from the very beginning
@@ -118,7 +119,7 @@ export function* formManagerWorkerSaga({
     }
 
     // trigger success notification
-    if (showNotification && textMessageSuccess) {
+    if (showNotification && textMessageSuccess && setModalAction) {
       yield put(
         setModalAction({
           status: 'success',
@@ -173,7 +174,7 @@ export function* formManagerWorkerSaga({
     }
 
     // trigger notification
-    if (showNotification) {
+    if (showNotification && setModalAction) {
       if(getErrorModalActionTitle){
         yield put(
           setModalAction({

@@ -3,7 +3,11 @@ import { DOWNLOAD_FILE_MANAGER } from '../actions';
 import { DownloadFilesManagerType } from '../types';
 import { downloadFilesManagerWorkerSaga } from './download-files-manager-worker-saga';
 
-export function* downloadFilesManagerWatcherSaga() {
+type ParamsType = {
+  dependencies?: Record<string, any>;
+};
+
+export function* downloadFilesManagerWatcherSaga({ dependencies }: ParamsType) {
   let lastTask;
 
   while (true) {
@@ -15,6 +19,9 @@ export function* downloadFilesManagerWatcherSaga() {
       yield cancel(lastTask);
     }
 
-    lastTask = yield fork(downloadFilesManagerWorkerSaga, payload);
+    lastTask = yield fork(downloadFilesManagerWorkerSaga, {
+      ...payload,
+      dependencies,
+    });
   }
 }
