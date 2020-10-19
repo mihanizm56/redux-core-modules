@@ -24,6 +24,17 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { configureRouter } from '@wildberries/service-router';
 import { createAppStore } from '@wildberries/redux-core-modules';
+import {
+  notificationsState,
+  NOTIFICATIONS_REDUCER_NAME,
+  setModalAction,
+} from '@wildberries/notifications';
+import {
+  confirmModalModuleReducer,
+  confirmModalWatcherSaga,
+  CONFIRM_MODALS_REDUCER_NAME,
+  CONFIRM_MODAL_SAGA_NAME,
+} from '@wildberries/confirm-modal-portal';
 
 const ROOT_ELEMENT = document.getElementById('root');
 
@@ -31,6 +42,14 @@ const router = configureRouter({ defaultRoute: 'wb-eu-registration' });
 
 const store = createAppStore({
   router,
+  rootReducers: {
+    [NOTIFICATIONS_REDUCER_NAME]: notificationsState,
+    [CONFIRM_MODALS_REDUCER_NAME]: confirmModalModuleReducer,
+  },
+  rootSagas: {
+    [CONFIRM_MODAL_SAGA_NAME]: confirmModalWatcherSaga,
+  },
+  dependencies: { setModalAction },
 });
 
 router.start(() => {
