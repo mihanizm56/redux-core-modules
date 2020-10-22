@@ -1,6 +1,6 @@
 {
   "name": "@wildberries/redux-core-modules",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "core redux modules",
   "typings": "./dist/index.d.ts",
   "main": "dist/index.js",
@@ -27,7 +27,8 @@
     "redux-batched-actions": "0.4.1",
     "redux-devtools-extension": "2.13.8",
     "redux-saga": "1.1.1",
-    "js-file-download": "0.4.11"
+    "js-file-download": "0.4.11",
+    "reselect": "4.0.0"
   },
   "repository": {
     "type": "git",
