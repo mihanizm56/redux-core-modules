@@ -1,3 +1,4 @@
+import { NavigationOptions } from 'router5';
 import { AnyAction } from '@/types';
 
 export interface IRedirectManagerPayload {
@@ -6,5 +7,5 @@ export interface IRedirectManagerPayload {
   actionAfterRedirect?: AnyAction;
   actionAfterRedirectParams?: Record<string, any>;
   callbackAfterRedirect?: () => any;
-  reload?: boolean;
+  navigationParams?: NavigationOptions;
 }

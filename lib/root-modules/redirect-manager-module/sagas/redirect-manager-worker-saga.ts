@@ -16,7 +16,7 @@ export function* redirectManagerWorkerSaga({
     actionAfterRedirect,
     callbackAfterRedirect,
     actionAfterRedirectParams,
-    reload,
+    navigationParams,
   },
   router,
   dispatch,
@@ -26,7 +26,9 @@ export function* redirectManagerWorkerSaga({
   }
 
   try {
-    yield router.navigate(pathName, params, { reload: Boolean(reload) }, () => {
+    // eslint-disable-next-line
+    // @ts-ignore
+    yield router.navigate(pathName, params, navigationParams, () => {
       if (actionAfterRedirect) {
         // cast type to dispatch in BaseAction style
         const action: BaseAction = actionAfterRedirectParams
