@@ -54,4 +54,4 @@ export {
   DownloadFilesManagerType,
 } from './root-modules/download-files-manager';
 
-export { blobToBase64 } from './utils/blob-to-base64';
+export { blobToBase64, blobToPureBase64 } from './utils/blob-to-base64';
