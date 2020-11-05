@@ -101,7 +101,7 @@ const formManagerSubmitOptions: FormManagerType = {
     },
 };
 
-store.dispatch(formManagerSubmitOptions);
+store.dispatch(fetchFormManagerSagaAction(formManagerSubmitOptions));
 ```
 
 ### Init-load-manager-module - has the separate config for each request and makes operations:
