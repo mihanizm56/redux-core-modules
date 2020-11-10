@@ -5,6 +5,7 @@ import { InjectAsyncReducerParams, InjectAsyncSagaParams } from '@/types';
 export type StoreInjectConfig = {
   additionalConfig?: {
     callbackOnMount?: (dispatch: Dispatch) => any;
+    callbackBeforeInitLoadManager?: (dispatch: Dispatch) => any;
   };
   sagasToInject?: Array<Omit<InjectAsyncSagaParams, 'store'>>;
   reducersToInject?: Array<Omit<InjectAsyncReducerParams, 'store'>>;

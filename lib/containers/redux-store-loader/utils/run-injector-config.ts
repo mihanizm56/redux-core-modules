@@ -49,16 +49,18 @@ export const runInjectorConfig = ({
     );
   }
 
+  // call an action before to call initialLoadManagerConfig
+  if (additionalConfig && additionalConfig.callbackBeforeInitLoadManager) {
+    additionalConfig.callbackBeforeInitLoadManager(store.dispatch);
+  }
+
   // dispatch initial load requests
   if (initialLoadManagerConfig) {
     store.dispatch(initLoadManagerActionSaga(initialLoadManagerConfig));
   }
 
-  // if additional confix exists
-  if (additionalConfig) {
-    if (additionalConfig.callbackOnMount) {
-      // call an action on mount page
-      additionalConfig.callbackOnMount(store.dispatch);
-    }
+  // call an action on mount page
+  if (additionalConfig && additionalConfig.callbackOnMount) {
+    additionalConfig.callbackOnMount(store.dispatch);
   }
 };
