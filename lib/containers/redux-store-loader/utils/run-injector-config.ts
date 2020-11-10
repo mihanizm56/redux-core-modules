@@ -25,11 +25,6 @@ export const runInjectorConfig = ({
     return;
   }
 
-  // call an action before to call initialLoadManagerConfig
-  if (additionalConfig && additionalConfig.callbackBeforeInitLoadManager) {
-    additionalConfig.callbackBeforeInitLoadManager(store.dispatch);
-  }
-
   // inject reducers
   if (reducersToInject) {
     reducersToInject.forEach(({ reducer, name, isRoot }) =>
@@ -52,6 +47,11 @@ export const runInjectorConfig = ({
         isRoot,
       }),
     );
+  }
+
+  // call an action before to call initialLoadManagerConfig
+  if (additionalConfig && additionalConfig.callbackBeforeInject) {
+    additionalConfig.callbackBeforeInject(store.dispatch);
   }
 
   // dispatch initial load requests
