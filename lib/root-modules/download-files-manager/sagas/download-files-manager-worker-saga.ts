@@ -63,7 +63,7 @@ export function* downloadFilesManagerWorkerSaga({
       yield put(
         setModalAction({
           status: 'success',
-          title: error.message,
+          title: notificationSuccessMessage,
         }),
       );
     }
