@@ -33,7 +33,10 @@ export const createRootSaga = ({
       dependencies,
     });
     yield spawn(requestExtraDataHandlerWatcherSaga);
-    yield spawn(redirectManagerWatcherSaga, { router, dispatch });
+
+    if (Boolean(router)) {
+      yield spawn(redirectManagerWatcherSaga, { router, dispatch });
+    }
 
     // run additional root sagas
     yield all(

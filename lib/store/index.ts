@@ -21,6 +21,7 @@ interface IStoreParams {
     [key: string]: any;
   };
   dependencies?: Record<string, any>;
+  extraMiddlewares?: Array<any>;
 }
 
 export const createAppStore = ({
@@ -30,13 +31,18 @@ export const createAppStore = ({
   eventNameToCancelRequests,
   initialState,
   dependencies,
+  extraMiddlewares,
 }: IStoreParams) => {
   const rootReducersPackage = {
     ...rootReducers,
     ...defaultRootReducers,
   };
   const sagaMiddleware = createSagaMiddleware();
-  const composeMiddlewares = [batchDispatchMiddleware, sagaMiddleware];
+  const composeMiddlewares = [
+    batchDispatchMiddleware,
+    sagaMiddleware,
+    ...extraMiddlewares,
+  ];
 
   const enhancers = __DEV__
     ? composeWithDevTools({ shouldHotReload: false })(
