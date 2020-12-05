@@ -1,10 +1,11 @@
-import React, { PropsWithChildren, ContextType } from 'react';
+import React, { PropsWithChildren } from 'react';
 import { State } from 'router5';
 import { ReactReduxContext } from 'react-redux';
 import { IAdvancedStore } from '@/types';
 import { replaceReducersAndSagas } from '@/utils/replace-reducers-and-sagas';
 import { StoreInjectConfig } from './types';
 import { runInjectorConfig } from './utils/run-injector-config';
+import { processDeprecationLogs } from './utils/process-deprecation-logs';
 
 type PropsType = PropsWithChildren<{
   toState?: State;
@@ -12,33 +13,36 @@ type PropsType = PropsWithChildren<{
   store?: IAdvancedStore;
   storeInjectConfig?: StoreInjectConfig;
   withoutRemovingReducers?: boolean;
-  context: {
-    store: IAdvancedStore;
-  };
 }>;
 
-// TODO Fix eslint and ts errors
-export class ReduxStoreLoader extends React.Component<PropsType> {
+type StateType = {
+  reduxStore: IAdvancedStore;
+};
+
+export class ReduxStoreLoader extends React.Component<PropsType, StateType> {
   // eslint-disable-next-line
   static contextType = ReactReduxContext;
 
-  // eslint-disable-next-line
-  // @ts-ignore
-  context: ContextType<typeof ReactReduxContext>; //eslint-disable-line
+  contextStore: IAdvancedStore;
 
-  constructor(props: PropsType) {
-    super(props);
+  constructor(props: PropsType, context: any) {
+    super(props, context);
 
-    this.state = {};
+    this.contextStore = context.store;
+
+    // link to store in state because of getting "this.context" in getDerivedStateFromProps
+    this.state = {
+      reduxStore: context.store,
+    };
+
+    processDeprecationLogs(props);
   }
 
-  static getDerivedStateFromProps(props: PropsType) {
+  static getDerivedStateFromProps(props: PropsType, state: any) {
     replaceReducersAndSagas({
       fromState: props.fromState,
       toState: props.toState,
-      // eslint-disable-next-line
-      // @ts-ignore
-      store: props.store || this.context.store,
+      store: state.reduxStore,
       withoutRemovingReducers: props.withoutRemovingReducers,
     });
 
@@ -48,18 +52,14 @@ export class ReduxStoreLoader extends React.Component<PropsType> {
   componentDidMount() {
     runInjectorConfig({
       ...this.props,
-      // eslint-disable-next-line
-      // @ts-ignore
-      store: this.props.store || this.context.store,
+      store: this.state.reduxStore,
     });
   }
 
   componentDidUpdate() {
     runInjectorConfig({
       ...this.props,
-      // eslint-disable-next-line
-      // @ts-ignore
-      store: this.props.store || this.context.store,
+      store: this.state.reduxStore,
     });
   }
 

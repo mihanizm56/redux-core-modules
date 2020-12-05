@@ -31,7 +31,7 @@ export const createAppStore = ({
   eventNameToCancelRequests,
   initialState,
   dependencies,
-  extraMiddlewares,
+  extraMiddlewares = [],
 }: IStoreParams) => {
   const rootReducersPackage = {
     ...rootReducers,
