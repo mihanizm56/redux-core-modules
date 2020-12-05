@@ -9,7 +9,7 @@ type PropsType = {
 export const processDeprecationLogs = ({ store }: PropsType) => {
   if (Boolean(store)) {
     console.warn(
-      'Prop "store" is DEPRECATED in ReduxStoreLoader and will be removed in next minor release',
+      'Prop "store" is DEPRECATED in ReduxStoreLoader and will be removed in next major release',
     );
   }
 };
