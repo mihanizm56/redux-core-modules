@@ -5,7 +5,7 @@ import { IAdvancedStore } from '@/types';
 import { replaceReducersAndSagas } from '@/utils/replace-reducers-and-sagas';
 import { StoreInjectConfig } from './types';
 import { runInjectorConfig } from './utils/run-injector-config';
-import { processDeprecationLogs } from './utils/process-deprecation-logs';
+import { processDeprecationLogs } from './utils/loggers';
 
 type PropsType = PropsWithChildren<{
   toState?: State;
