@@ -22,6 +22,8 @@ interface IStoreParams {
   };
   dependencies?: Record<string, any>;
   extraMiddlewares?: Array<any>;
+  reduxStoreName?: string;
+  isClientBundle?: boolean;
 }
 
 export const createAppStore = ({
@@ -32,6 +34,8 @@ export const createAppStore = ({
   initialState,
   dependencies,
   extraMiddlewares = [],
+  reduxStoreName = 'redux-core-modules',
+  isClientBundle = true,
 }: IStoreParams) => {
   const rootReducersPackage = {
     ...rootReducers,
@@ -44,11 +48,12 @@ export const createAppStore = ({
     ...extraMiddlewares,
   ];
 
-  const enhancers = __DEV__
-    ? composeWithDevTools({ shouldHotReload: false })(
-        applyMiddleware(...composeMiddlewares),
-      )
-    : applyMiddleware(...composeMiddlewares);
+  const enhancers =
+    __DEV__ && isClientBundle
+      ? composeWithDevTools({ shouldHotReload: false, name: reduxStoreName })(
+          applyMiddleware(...composeMiddlewares),
+        )
+      : applyMiddleware(...composeMiddlewares);
 
   // создаем корневой редюсер прокидывая в него доп параметры
   const rootReducer = combineReducers(rootReducersPackage);
