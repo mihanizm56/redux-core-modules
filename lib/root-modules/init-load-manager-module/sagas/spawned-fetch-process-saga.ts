@@ -1,4 +1,4 @@
-import { put, call, all } from 'redux-saga/effects';
+import { put, call, all, select } from 'redux-saga/effects';
 import { requestExtraDataHandlerActionSaga } from '@/root-modules/request-extra-data-handler-module';
 import {
   redirectManagerSagaAction,
@@ -53,9 +53,20 @@ export function* spawnedFetchProcessSaga({
   requestErrorHandlerProcessParams,
   isBatchRequest,
   getErrorModalActionTitle,
+  initialLoadingFinishAction,
+  selectorNotToRefetch,
   dependencies: { setModalAction } = {},
 }: ParamsType) {
   let responseData;
+
+  // not to refetch if ssr - first to fetch from server and not to refetch from client
+  if (selectorNotToRefetch) {
+    const isInitialFetched = yield select(selectorNotToRefetch);
+
+    if (isInitialFetched) {
+      return;
+    }
+  }
 
   try {
     // reset actions
@@ -230,6 +241,10 @@ export function* spawnedFetchProcessSaga({
 
     if (loadingStopAction) {
       yield put(loadingStopAction());
+    }
+
+    if (initialLoadingFinishAction) {
+      yield put(initialLoadingFinishAction());
     }
   }
 }
