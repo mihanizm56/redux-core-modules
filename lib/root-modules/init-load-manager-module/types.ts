@@ -1,4 +1,4 @@
-import { Action, BaseAction, IAdvancedStore } from '@/types';
+import { Action, BaseAction } from '@/types';
 import { RequestErrorHandlerProcessParamsType } from '@/utils/request-error-handler-process';
 import { IRedirectManagerPayload } from '../redirect-manager-module';
 
@@ -36,7 +36,7 @@ export type InitLoadManagerRequestOptionsType = {
   >;
   getErrorModalActionTitle?: (errorText: string) => string;
   initialLoadingFinishAction?: BaseAction;
-  selectorNotToRefetch?: (params: IAdvancedStore) => boolean;
+  selectorNotToRefetch?: (storePart: any) => boolean; // TODO fix any type
 };
 
 export type BeforeRequestConfigType = {
