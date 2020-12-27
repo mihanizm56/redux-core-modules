@@ -2,6 +2,8 @@ import { Action, BaseAction } from '@/types';
 import { RequestErrorHandlerProcessParamsType } from '@/utils/request-error-handler-process';
 import { IRedirectManagerPayload } from '../redirect-manager-module';
 
+export type SelectorCheckInitialFetchedType = (storePart: any) => boolean; // any because of variability of selector types
+
 export type InitLoadManagerRequestOptionsType = {
   request: (params: any) => Promise<any>;
   requestOptions?: {
@@ -36,7 +38,8 @@ export type InitLoadManagerRequestOptionsType = {
   >;
   getErrorModalActionTitle?: (errorText: string) => string;
   initialLoadingFinishAction?: BaseAction;
-  selectorNotToRefetch?: (storePart: any) => boolean; // TODO fix any type
+  selectorsCheckInitialFetched?: Array<SelectorCheckInitialFetchedType>;
+  selectorIsInitialFetched?: SelectorCheckInitialFetchedType;
 };
 
 export type BeforeRequestConfigType = {

@@ -4,15 +4,17 @@ import {
   redirectManagerSagaAction,
   IRedirectManagerPayload,
 } from '@/root-modules/redirect-manager-module';
-import { BaseAction } from '@/types';
+import { BaseAction, IAdvancedStore } from '@/types';
 import { requestErrorHandlerProcess } from '@/utils/request-error-handler-process';
 import { filterBatchedResponseData } from '@/utils/filter-batch-response-data';
+import { getIsClient } from '@/utils/get-is-client';
 import { InitLoadManagerRequestOptionsType } from '../types';
 import {
   ABORTED_ERROR_TEXT_CHROME,
   ABORTED_ERROR_TEXT_MOZILLA,
   ABORTED_ERROR_TEXT_SAFARI,
 } from '../constants';
+import { checkIsInitialFetched } from './utils/check-is-initial-fetched';
 
 type ParamsType = InitLoadManagerRequestOptionsType & {
   requestsSectionId: string;
@@ -21,6 +23,7 @@ type ParamsType = InitLoadManagerRequestOptionsType & {
   eventToCatchEndedProcesses: string;
   isBatchRequest?: boolean;
   dependencies?: Record<string, any>;
+  store: IAdvancedStore;
 };
 
 export function* spawnedFetchProcessSaga({
@@ -54,14 +57,28 @@ export function* spawnedFetchProcessSaga({
   isBatchRequest,
   getErrorModalActionTitle,
   initialLoadingFinishAction,
-  selectorNotToRefetch,
+  selectorIsInitialFetched,
+  selectorsCheckInitialFetched,
+  store,
   dependencies: { setModalAction } = {},
 }: ParamsType) {
   let responseData;
+  const isNode = !getIsClient();
 
-  // not to refetch if ssr - first to fetch from server and not to refetch from client
-  if (selectorNotToRefetch) {
-    const isInitialFetched = yield select(selectorNotToRefetch);
+  // not to refetch if data was fetched earlier
+  if (selectorIsInitialFetched || selectorsCheckInitialFetched) {
+    if (selectorIsInitialFetched) {
+      const isInitialFetched = yield select(selectorIsInitialFetched);
+
+      if (isInitialFetched) {
+        return;
+      }
+    }
+
+    const isInitialFetched = checkIsInitialFetched({
+      selectorsCheckInitialFetched,
+      store,
+    });
 
     if (isInitialFetched) {
       return;
@@ -78,6 +95,11 @@ export function* spawnedFetchProcessSaga({
 
     if (loadingStartAction) {
       yield put(loadingStartAction());
+    }
+
+    // toggle the initial fetching state for ssr - not to refetch data twice on first render
+    if (initialLoadingFinishAction) {
+      yield put(initialLoadingFinishAction());
     }
 
     // format data before to send to the request
@@ -176,7 +198,7 @@ export function* spawnedFetchProcessSaga({
         if (setAppErrorAction) {
           console.error('get the critical fetch fail');
 
-          if (eventNameToCancelRequests) {
+          if (eventNameToCancelRequests && !isNode) {
             // throw the event to cancel requests
             const event = new CustomEvent(eventNameToCancelRequests, {
               detail: { id: requestsSectionId },
@@ -233,18 +255,16 @@ export function* spawnedFetchProcessSaga({
       }
     }
   } finally {
-    document.dispatchEvent(
-      new CustomEvent(eventToCatchEndedProcesses, {
-        detail: { id: requestsSectionId },
-      }),
-    );
+    if (!isNode) {
+      document.dispatchEvent(
+        new CustomEvent(eventToCatchEndedProcesses, {
+          detail: { id: requestsSectionId },
+        }),
+      );
+    }
 
     if (loadingStopAction) {
       yield put(loadingStopAction());
-    }
-
-    if (initialLoadingFinishAction) {
-      yield put(initialLoadingFinishAction());
     }
   }
 }

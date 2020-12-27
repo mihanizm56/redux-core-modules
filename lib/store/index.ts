@@ -6,24 +6,26 @@ import { Router } from 'router5';
 import { combineReducers } from '@/utils';
 import { IAdvancedStore } from '../types';
 import { createRootSaga } from './root-saga';
+import { combineLazyReducers } from './combine-lazy-reducers';
 import { defaultRootReducers } from './default-root-reducers';
+import { enrichStore } from './utils/enrich-store';
+import { injectInitialAsyncSagas } from './utils/inject-initial-async-sagas';
 
 const __DEV__ = process.env.NODE_ENV === "development"; // eslint-disable-line
 
 interface IStoreParams {
   router?: Router;
-  rootReducers?: {
-    [key: string]: any;
-  };
+  rootReducers?: Record<string, any>;
   rootSagas?: Record<string, any>;
+  asyncReducers?: Record<string, any>;
+  asyncSagas?: Record<string, any>;
   eventNameToCancelRequests?: string;
-  initialState?: {
-    [key: string]: any;
-  };
+  initialState?: Record<string, any>;
   dependencies?: Record<string, any>;
   extraMiddlewares?: Array<any>;
   reduxStoreName?: string;
   isClientBundle?: boolean;
+  isSSR?: boolean;
 }
 
 export const createAppStore = ({
@@ -36,11 +38,15 @@ export const createAppStore = ({
   extraMiddlewares = [],
   reduxStoreName = 'redux-core-modules',
   isClientBundle = true,
+  isSSR,
+  asyncReducers,
+  asyncSagas,
 }: IStoreParams) => {
   const rootReducersPackage = {
     ...rootReducers,
     ...defaultRootReducers,
   };
+  const asyncReducersPackage = { ...asyncReducers };
   const sagaMiddleware = createSagaMiddleware();
   const composeMiddlewares = [
     batchDispatchMiddleware,
@@ -56,7 +62,18 @@ export const createAppStore = ({
       : applyMiddleware(...composeMiddlewares);
 
   // создаем корневой редюсер прокидывая в него доп параметры
-  const rootReducer = combineReducers(rootReducersPackage);
+  const rootReducer = initialState
+    ? combineLazyReducers(
+        {
+          ...asyncReducersPackage,
+          ...rootReducersPackage,
+        },
+        initialState,
+      )
+    : combineReducers({
+        ...asyncReducersPackage,
+        ...rootReducersPackage,
+      });
 
   const store: IAdvancedStore = initialState
     ? (createStore(
@@ -81,18 +98,21 @@ export const createAppStore = ({
     dependencies,
   });
 
-  // прокидываем роутер в стор
-  store.router = router;
-  // создаем регистр динамических  редюсеров
-  store.asyncReducers = {};
-  // создаем регистр root редюсеров
-  store.rootReducers = rootReducersPackage;
-  // создаем регистр динамических саг
-  store.asyncSagas = {};
-  // создаем регистр root саг
-  store.rootSagas = {};
-  // определяем раннер миддливары внутри стора
-  store.sagaMiddleware = sagaMiddleware;
+  if (asyncSagas) {
+    injectInitialAsyncSagas({ asyncSagas, store });
+  }
+
+  enrichStore({
+    rootReducersPackage,
+    asyncReducersPackage,
+    sagaMiddleware,
+    store,
+    isSSR,
+    router,
+    asyncSagas,
+    rootSagas,
+    initialState,
+  });
 
   sagaMiddleware.run(rootSaga);
 

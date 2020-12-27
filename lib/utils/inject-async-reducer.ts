@@ -9,6 +9,7 @@ export const injectAsyncReducer = ({
 }: InjectAsyncReducerParams) => {
   const asyncReducers = store.asyncReducers;
   const rootReducers = store.rootReducers;
+  const initialState = store.initialState;
   const wasAsyncReducerInjected = Boolean(asyncReducers[name]);
   const wasRootReducerInjected = Boolean(rootReducers[name]);
 
@@ -38,7 +39,7 @@ export const injectAsyncReducer = ({
 
   // define new reducers
   const newReducer: CustomReducerType = createReducer({
-    prevState: store.getState(),
+    prevState: { ...initialState, ...store.getState() },
     asyncReducers,
     rootReducers,
   }) as CustomReducerType;

@@ -14,8 +14,11 @@ export interface IAdvancedStore extends Store {
   asyncReducers: IReducersMap;
   rootReducers: IReducersMap;
   asyncSagas: IAsyncSagas;
+  initialState?: Record<string, any>;
   rootSagas: IAsyncSagas;
+  isSSR?: boolean;
   sagaMiddleware: any;
+  closeSagas: () => void;
   router?: Router;
   dependencies?: Record<string, any>;
 }

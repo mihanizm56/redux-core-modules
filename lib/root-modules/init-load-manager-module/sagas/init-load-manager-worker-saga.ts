@@ -1,6 +1,8 @@
 import { put, spawn } from 'redux-saga/effects';
 import { uniqueId } from 'lodash-es';
 import { Dispatch } from 'redux';
+import { getIsClient } from '@/utils';
+import { IAdvancedStore } from '@/types';
 import { InitLoadManagerActionPayloadType } from '../types';
 import { INIT_LOAD_MANAGER_EVENT_NAME } from '../constants';
 import { spawnedFetchProcessSaga } from './spawned-fetch-process-saga';
@@ -10,6 +12,7 @@ type ParamsType = InitLoadManagerActionPayloadType & {
   eventNameToCancelRequests?: string;
   dispatch: Dispatch;
   dependencies?: Record<string, any>;
+  store: IAdvancedStore;
 };
 
 export function* initLoadManagerWorkerSaga({
@@ -24,7 +27,10 @@ export function* initLoadManagerWorkerSaga({
     requestBeforeAllConfig,
   } = {},
   dependencies,
+  store,
 }: ParamsType) {
+  const isSSR = !getIsClient();
+
   if (requestConfigList.length === 0) {
     console.warn('please, provide non empty requestConfigList');
 
@@ -43,34 +49,35 @@ export function* initLoadManagerWorkerSaga({
   // unique event name
   const eventToCatchEndedProcesses = `${INIT_LOAD_MANAGER_EVENT_NAME}_${requestsSectionId}`;
 
-  // add listener to end the whole list of requests
-  document.addEventListener(
-    eventToCatchEndedProcesses,
-    function endProcessCallback(event: CustomEvent) {
-      // increment the counter if the request matches
-      if (event.detail.id === requestsSectionId) {
-        counterOfEndedRequestProcesses += 1;
-      }
-
-      if (counterOfEndedRequestProcesses === requestConfigList.length) {
-        // dispatch the loadingStop action
-        if (fullActionLoadingStop) {
-          dispatch(fullActionLoadingStop());
+  if (!isSSR) {
+    document.addEventListener(
+      eventToCatchEndedProcesses,
+      function endProcessCallback(event: CustomEvent) {
+        // increment the counter if the request matches
+        if (event.detail.id === requestsSectionId) {
+          counterOfEndedRequestProcesses += 1;
         }
 
-        // remove listener to end the whole list of requests
-        document.removeEventListener(
-          eventToCatchEndedProcesses,
-          endProcessCallback,
-          true,
-        );
-      }
-    },
-    true,
-  );
+        if (counterOfEndedRequestProcesses === requestConfigList.length) {
+          // dispatch the loadingStop action
+          if (fullActionLoadingStop) {
+            dispatch(fullActionLoadingStop());
+          }
 
-  if (fullActionLoadingStart) {
-    yield put(fullActionLoadingStart());
+          // remove listener to end the whole list of requests
+          document.removeEventListener(
+            eventToCatchEndedProcesses,
+            endProcessCallback,
+            true,
+          );
+        }
+      },
+      true,
+    );
+
+    if (fullActionLoadingStart) {
+      yield put(fullActionLoadingStart());
+    }
   }
 
   while (counterRequests < requestConfigList.length) {
@@ -81,6 +88,7 @@ export function* initLoadManagerWorkerSaga({
       eventNameToCancelRequests,
       eventToCatchEndedProcesses,
       dependencies,
+      store,
     });
 
     // go to next request

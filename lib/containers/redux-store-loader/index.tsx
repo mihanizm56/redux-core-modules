@@ -3,6 +3,7 @@ import { State } from 'router5';
 import { ReactReduxContext } from 'react-redux';
 import { IAdvancedStore } from '@/types';
 import { replaceReducersAndSagas } from '@/utils/replace-reducers-and-sagas';
+import { getIsClient } from '@/utils';
 import { StoreInjectConfig } from './types';
 import { runInjectorConfig } from './utils/run-injector-config';
 import { processDeprecationLogs } from './utils/loggers';
@@ -17,6 +18,7 @@ type PropsType = PropsWithChildren<{
 
 type StateType = {
   reduxStore: IAdvancedStore;
+  ableToReplace: boolean;
 };
 
 export class ReduxStoreLoader extends React.Component<PropsType, StateType> {
@@ -33,12 +35,29 @@ export class ReduxStoreLoader extends React.Component<PropsType, StateType> {
     // link to store in state because of getting "this.context" in getDerivedStateFromProps
     this.state = {
       reduxStore: context.store,
+      ableToReplace: !context.store.isSSR, // need not to replace after SSR send chunk to the client
     };
 
     processDeprecationLogs(props);
   }
 
   static getDerivedStateFromProps(props: PropsType, state: any) {
+    const isNode = !getIsClient();
+
+    // if SSR and initial load
+    if (isNode) {
+      runInjectorConfig({
+        ...props,
+        store: state.reduxStore,
+      });
+
+      return { ableToReplace: false };
+    }
+
+    if (!state.ableToReplace) {
+      return { ableToReplace: true };
+    }
+
     replaceReducersAndSagas({
       fromState: props.fromState,
       toState: props.toState,
