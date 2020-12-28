@@ -19,8 +19,8 @@ export const checkIsInitialFetched = ({
       return acc;
     }
 
-    const isInitialFetched = selector(store.getState());
+    const fetchedSelectorValue = selector(store.getState());
 
-    return isInitialFetched;
+    return fetchedSelectorValue;
   }, true);
 };

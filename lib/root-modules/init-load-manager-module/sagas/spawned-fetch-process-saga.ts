@@ -1,4 +1,4 @@
-import { put, call, all, select } from 'redux-saga/effects';
+import { put, call, all } from 'redux-saga/effects';
 import { requestExtraDataHandlerActionSaga } from '@/root-modules/request-extra-data-handler-module';
 import {
   redirectManagerSagaAction,
@@ -57,7 +57,6 @@ export function* spawnedFetchProcessSaga({
   isBatchRequest,
   getErrorModalActionTitle,
   initialLoadingFinishAction,
-  selectorIsInitialFetched,
   selectorsCheckInitialFetched,
   store,
   dependencies: { setModalAction } = {},
@@ -66,15 +65,7 @@ export function* spawnedFetchProcessSaga({
   const isNode = !getIsClient();
 
   // not to refetch if data was fetched earlier
-  if (selectorIsInitialFetched || selectorsCheckInitialFetched) {
-    if (selectorIsInitialFetched) {
-      const isInitialFetched = yield select(selectorIsInitialFetched);
-
-      if (isInitialFetched) {
-        return;
-      }
-    }
-
+  if (selectorsCheckInitialFetched) {
     const isInitialFetched = checkIsInitialFetched({
       selectorsCheckInitialFetched,
       store,
@@ -95,11 +86,6 @@ export function* spawnedFetchProcessSaga({
 
     if (loadingStartAction) {
       yield put(loadingStartAction());
-    }
-
-    // toggle the initial fetching state for ssr - not to refetch data twice on first render
-    if (initialLoadingFinishAction) {
-      yield put(initialLoadingFinishAction());
     }
 
     // format data before to send to the request
@@ -265,6 +251,11 @@ export function* spawnedFetchProcessSaga({
 
     if (loadingStopAction) {
       yield put(loadingStopAction());
+    }
+
+    // toggle the initial fetching state for ssr - not to refetch data twice on first render
+    if (initialLoadingFinishAction) {
+      yield put(initialLoadingFinishAction());
     }
   }
 }

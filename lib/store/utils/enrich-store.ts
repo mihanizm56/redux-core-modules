@@ -14,6 +14,7 @@ type ParamsType = {
   asyncSagas?: Record<string, any>;
   rootSagas?: Record<string, any>;
   initialState?: Record<string, any>;
+  rootSaga: any;
 };
 
 export const enrichStore = ({
@@ -26,6 +27,7 @@ export const enrichStore = ({
   asyncSagas,
   rootSagas,
   initialState,
+  rootSaga,
 }: ParamsType) => {
   // прокидываем роутер в стор
   store.router = router;
@@ -39,10 +41,12 @@ export const enrichStore = ({
   store.rootSagas = { ...rootSagas };
   // определяем раннер миддливары внутри стора
   store.sagaMiddleware = sagaMiddleware;
-  //
+  // TODO EXPLAIN
   store.closeSagas = () => store.dispatch(END);
   // флаг о том что используется сервер сайд рендеринг
   store.isSSR = isSSR;
-  //
+  // TODO EXPLAIN
   store.initialState = initialState;
+  //
+  store.rootSaga = rootSaga;
 };

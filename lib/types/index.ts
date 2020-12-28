@@ -21,6 +21,7 @@ export interface IAdvancedStore extends Store {
   closeSagas: () => void;
   router?: Router;
   dependencies?: Record<string, any>;
+  rootSaga: any;
 }
 
 export type AnyAction = (payload?: any) => { type: string; payload?: any };

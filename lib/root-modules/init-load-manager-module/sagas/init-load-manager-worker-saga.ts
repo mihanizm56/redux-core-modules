@@ -1,4 +1,4 @@
-import { put, spawn } from 'redux-saga/effects';
+import { fork, put, spawn } from 'redux-saga/effects';
 import { uniqueId } from 'lodash-es';
 import { Dispatch } from 'redux';
 import { getIsClient } from '@/utils';
@@ -29,7 +29,11 @@ export function* initLoadManagerWorkerSaga({
   dependencies,
   store,
 }: ParamsType) {
-  const isSSR = !getIsClient();
+  const isNode = !getIsClient();
+
+  // на сервере нам надо сделать процессы которые могут быть отслеживаемыми (fork)
+  // на клиенте нам надо сделать процессы которые могут быть неубиваемыми (spawn)
+  const subprocessMethod = isNode ? fork : spawn;
 
   if (requestConfigList.length === 0) {
     console.warn('please, provide non empty requestConfigList');
@@ -49,7 +53,7 @@ export function* initLoadManagerWorkerSaga({
   // unique event name
   const eventToCatchEndedProcesses = `${INIT_LOAD_MANAGER_EVENT_NAME}_${requestsSectionId}`;
 
-  if (!isSSR) {
+  if (!isNode) {
     document.addEventListener(
       eventToCatchEndedProcesses,
       function endProcessCallback(event: CustomEvent) {
@@ -81,7 +85,7 @@ export function* initLoadManagerWorkerSaga({
   }
 
   while (counterRequests < requestConfigList.length) {
-    yield spawn(spawnedFetchProcessSaga, {
+    yield subprocessMethod(spawnedFetchProcessSaga, {
       ...requestConfigList[counterRequests],
       requestsSectionId,
       setAppErrorAction,

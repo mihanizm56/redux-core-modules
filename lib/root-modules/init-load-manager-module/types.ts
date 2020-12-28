@@ -39,7 +39,6 @@ export type InitLoadManagerRequestOptionsType = {
   getErrorModalActionTitle?: (errorText: string) => string;
   initialLoadingFinishAction?: BaseAction;
   selectorsCheckInitialFetched?: Array<SelectorCheckInitialFetchedType>;
-  selectorIsInitialFetched?: SelectorCheckInitialFetchedType;
 };
 
 export type BeforeRequestConfigType = {

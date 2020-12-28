@@ -26,6 +26,8 @@ interface IStoreParams {
   reduxStoreName?: string;
   isClientBundle?: boolean;
   isSSR?: boolean;
+  // нужно чтобы отложить запуск саг и запустить их извне
+  manualSagaStart?: boolean;
 }
 
 export const createAppStore = ({
@@ -41,6 +43,7 @@ export const createAppStore = ({
   isSSR,
   asyncReducers,
   asyncSagas,
+  manualSagaStart,
 }: IStoreParams) => {
   const rootReducersPackage = {
     ...rootReducers,
@@ -112,9 +115,12 @@ export const createAppStore = ({
     asyncSagas,
     rootSagas,
     initialState,
+    rootSaga,
   });
 
-  sagaMiddleware.run(rootSaga);
+  if (!manualSagaStart) {
+    sagaMiddleware.run(rootSaga);
+  }
 
   // возвращаем объект стора
   return store;
