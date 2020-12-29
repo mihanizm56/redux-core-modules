@@ -1,7 +1,9 @@
 export { createAppStore } from './store';
 
 export { Action, BaseAction, IAdvancedStore, AnyAction } from './types';
-
+export {
+  runInjectorConfig,
+} from './containers/redux-store-loader/utils/run-injector-config';
 export { removeAsyncSaga } from './utils/remove-saga';
 export { removeAsyncReducer } from './utils/remove-reducer';
 export { injectAsyncReducer } from './utils/inject-async-reducer';

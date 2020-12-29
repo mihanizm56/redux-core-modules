@@ -46,11 +46,6 @@ export class ReduxStoreLoader extends React.Component<PropsType, StateType> {
 
     // if SSR and initial load
     if (isNode) {
-      runInjectorConfig({
-        ...props,
-        store: state.reduxStore,
-      });
-
       return { ableToReplace: false };
     }
 
