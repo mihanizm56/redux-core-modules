@@ -3,7 +3,7 @@ import { enableBatching, batchDispatchMiddleware } from 'redux-batched-actions';
 import createSagaMiddleware from 'redux-saga';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import { Router } from 'router5';
-import { combineReducers } from '@/utils';
+import { combineReducers, getIsClient } from '@/utils';
 import { IAdvancedStore } from '../types';
 import { createRootSaga } from './root-saga';
 import { combineLazyReducers } from './combine-lazy-reducers';
@@ -24,7 +24,6 @@ interface IStoreParams {
   dependencies?: Record<string, any>;
   extraMiddlewares?: Array<any>;
   reduxStoreName?: string;
-  isClientBundle?: boolean;
   isSSR?: boolean;
   // нужно чтобы отложить запуск саг и запустить их извне
   manualSagaStart?: boolean;
@@ -39,12 +38,13 @@ export const createAppStore = ({
   dependencies,
   extraMiddlewares = [],
   reduxStoreName = 'redux-core-modules',
-  isClientBundle = true,
   isSSR,
   asyncReducers,
   asyncSagas,
   manualSagaStart,
 }: IStoreParams) => {
+  const isClient = getIsClient();
+
   const rootReducersPackage = {
     ...rootReducers,
     ...defaultRootReducers,
@@ -58,7 +58,7 @@ export const createAppStore = ({
   ];
 
   const enhancers =
-    __DEV__ && isClientBundle
+    __DEV__ && isClient
       ? composeWithDevTools({ shouldHotReload: false, name: reduxStoreName })(
           applyMiddleware(...composeMiddlewares),
         )
