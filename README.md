@@ -116,6 +116,7 @@ store.dispatch(fetchFormManagerSagaAction(formManagerSubmitOptions));
  - trigger success or error router redirections
  - ability to use batching (in JSON-RPC protocol)
  - cancelling the request if not responded
+ - on every request can make a decision to refetch data or not by providing function or redux-selector (or an array of them)
 
 #### Example:
 
@@ -124,7 +125,7 @@ import { initLoadManagerActionSaga, InitLoadManagerActionPayloadType } from '@wi
 import { getWarehousesListRequest } from '@/services/api/requests/get-warehouses-list';
 import { getCountriesListRequest } from '@/services/api/requests/get-countries-list';
 import { setRegionsAction } from '../_redux/regions-module';
-import { setWarehousesAction } from '../_redux/warehouses-module';
+import { setWarehousesAction, selectorThatDataWasFetched } from '../_redux/warehouses-module';
 import { warehousesListFormatter } from '../_utils/warehouses-list-formatter';
 
 const loadDataConfig: InitLoadManagerActionPayloadType = {
@@ -137,7 +138,8 @@ const loadDataConfig: InitLoadManagerActionPayloadType = {
       showSuccessNotification: false,
       requestDataFormatter: warehousesListFormatter,
       actionSuccess: setWarehousesAction,
-      isBatchRequest: true
+      isBatchRequest: true,
+      selectorsCheckInitialFetched: selectorThatDataWasFetched
     },
     {
       request: getCountriesListRequest,
