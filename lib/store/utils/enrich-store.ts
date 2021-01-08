@@ -3,6 +3,7 @@
 import { END, SagaMiddleware } from 'redux-saga';
 import { Router } from 'router5';
 import { IAdvancedStore } from '@/types';
+import { getIsClient } from '@/utils';
 
 type ParamsType = {
   rootReducersPackage: Record<string, any>;
@@ -29,6 +30,8 @@ export const enrichStore = ({
   initialState,
   rootSaga,
 }: ParamsType) => {
+  const isNode = !getIsClient();
+
   // прокидываем роутер в стор
   store.router = router;
   // создаем регистр динамических  редюсеров
@@ -41,12 +44,18 @@ export const enrichStore = ({
   store.rootSagas = { ...rootSagas };
   // определяем раннер миддливары внутри стора
   store.sagaMiddleware = sagaMiddleware;
-  // TODO EXPLAIN
+  // Функция при вызове которой redux-saga собирает все саги
+  // и их результаты и завершает прослушивание всех запущенных саг (через fork!)
   store.closeSagas = () => store.dispatch(END);
-  // флаг о том что используется сервер сайд рендеринг
+  // флаг о том что используется сервер сайд рендеринг и его специфичное поведение на сервере
   store.isSSR = isSSR;
-  // TODO EXPLAIN
+  // TODO проверить имеет ли смысл
   store.initialState = initialState;
-  //
-  store.rootSaga = rootSaga;
+
+  // для возможности при инициализации на сервере сделать
+  // const sagaRunner = store.sagaMiddleware.run(store.rootSaga);
+  // sagaRunner.toPromise().then(() => { renderAppAndSendToClient here })
+  if (isNode) {
+    store.rootSaga = rootSaga;
+  }
 };

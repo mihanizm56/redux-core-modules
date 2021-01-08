@@ -310,6 +310,25 @@ injectAsyncSaga({
 });
 ```
 
+### inject sagas and reducers with config that is the same as InjectorConfig for ReduxStoreLoader:
+
+```javascript
+import { runInjectorConfig } from '@wildberries/redux-core-modules';
+
+// enable SSR mode 
+// and enable manualSagaStart - that means not to run saga inside createAppStore function
+const store = createAppStore({
+  isSSR: true,
+  manualSagaStart: true,
+});
+
+const sagaRunner = store.sagaMiddleware.run(store.rootSaga);
+
+const storeInjectConfig = { /* here place the config */ }
+
+runInjectorConfig({ store, storeInjectConfig });
+```
+
 ### remove sagas:
 
 ```javascript
@@ -332,3 +351,6 @@ removeAsyncReducer({
     name: 'registrationFormStorage',          '-- saga name'
 });
 ```
+
+
+

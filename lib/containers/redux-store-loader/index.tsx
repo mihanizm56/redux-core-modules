@@ -44,7 +44,9 @@ export class ReduxStoreLoader extends React.Component<PropsType, StateType> {
   static getDerivedStateFromProps(props: PropsType, state: any) {
     const isNode = !getIsClient();
 
-    // if SSR and initial load
+    // if SSR and initial load we dont want to replace any of reducers and sagas
+    // moreover - if this is NodeJs render phase - we need to inject reducers and sagas and fetch data BEFORE to render JSX
+    // because of performance
     if (isNode) {
       return { ableToReplace: false };
     }
@@ -53,12 +55,13 @@ export class ReduxStoreLoader extends React.Component<PropsType, StateType> {
       return { ableToReplace: true };
     }
 
-    replaceReducersAndSagas({
-      fromState: props.fromState,
-      toState: props.toState,
-      store: state.reduxStore,
-      withoutRemovingReducers: props.withoutRemovingReducers,
-    });
+    if (!props.withoutRemovingReducers) {
+      replaceReducersAndSagas({
+        fromState: props.fromState,
+        toState: props.toState,
+        store: state.reduxStore,
+      });
+    }
 
     return {};
   }

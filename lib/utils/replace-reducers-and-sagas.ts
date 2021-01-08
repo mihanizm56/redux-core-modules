@@ -7,20 +7,13 @@ type ParamsType = {
   toState?: State;
   fromState?: State;
   store: IAdvancedStore;
-  withoutRemovingReducers?: boolean;
 };
 
 export const replaceReducersAndSagas = ({
   fromState,
   toState,
   store,
-  withoutRemovingReducers,
 }: ParamsType) => {
-  // if we dont want to rmove sagas and reducers
-  if (withoutRemovingReducers) {
-    return;
-  }
-
   // define first route name to navigate from
   const coreRouteFromStateName =
     fromState && fromState.name ? fromState.name.split('.')[0] : null;
