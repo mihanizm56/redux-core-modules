@@ -15,7 +15,6 @@ type RootSagaParams = {
   rootSagas?: Record<string, any>;
   eventNameToCancelRequests?: string;
   store: IAdvancedStore;
-  dependencies?: Record<string, any>;
 };
 
 export const createRootSaga = ({
@@ -24,9 +23,9 @@ export const createRootSaga = ({
   dispatch,
   eventNameToCancelRequests,
   store,
-  dependencies,
 }: RootSagaParams) =>
   function* rootSaga() {
+    const dependencies = store.dependencies;
     const isNode = !getIsClient();
 
     if (isNode) {
@@ -38,8 +37,8 @@ export const createRootSaga = ({
         fork(initLoadManagerWatcherSaga, {
           eventNameToCancelRequests,
           dispatch,
-          dependencies,
           store,
+          dependencies,
         }),
         fork(requestExtraDataHandlerWatcherSaga),
         fork(redirectManagerWatcherSaga, { router, dispatch }),
@@ -47,14 +46,6 @@ export const createRootSaga = ({
 
       yield all(
         Object.entries(rootSagas).map(([name, saga]) => {
-          fork(saga, {
-            router,
-            dispatch,
-            eventNameToCancelRequests,
-            store,
-            dependencies,
-          });
-
           return injectAsyncSaga({
             saga,
             name,
@@ -69,8 +60,8 @@ export const createRootSaga = ({
       yield spawn(initLoadManagerWatcherSaga, {
         eventNameToCancelRequests,
         dispatch,
-        dependencies,
         store,
+        dependencies,
       });
       yield spawn(requestExtraDataHandlerWatcherSaga);
 
@@ -81,14 +72,6 @@ export const createRootSaga = ({
       // run additional root sagas
       yield all(
         Object.entries(rootSagas).map(([name, saga]) => {
-          spawn(saga, {
-            router,
-            dispatch,
-            eventNameToCancelRequests,
-            store,
-            dependencies,
-          });
-
           return injectAsyncSaga({
             saga,
             name,

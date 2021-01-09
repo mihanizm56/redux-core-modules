@@ -98,12 +98,7 @@ export const createAppStore = ({
     dispatch,
     eventNameToCancelRequests,
     store,
-    dependencies,
   });
-
-  if (asyncSagas) {
-    injectInitialAsyncSagas({ asyncSagas, store });
-  }
 
   enrichStore({
     rootReducersPackage,
@@ -117,6 +112,10 @@ export const createAppStore = ({
     initialState,
     rootSaga,
   });
+
+  if (asyncSagas) {
+    injectInitialAsyncSagas({ asyncSagas, store });
+  }
 
   if (!manualSagaStart) {
     sagaMiddleware.run(rootSaga);

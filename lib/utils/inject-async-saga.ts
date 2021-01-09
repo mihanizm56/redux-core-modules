@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import { InjectAsyncSagaParams } from '@/types';
 
 export const injectAsyncSaga = ({
@@ -6,6 +8,8 @@ export const injectAsyncSaga = ({
   saga,
   isRoot,
 }: InjectAsyncSagaParams) => {
+  // get dependencies
+  const dependencies = store.dependencies;
   // get add injected sagas
   const injectedSagas = store.asyncSagas;
   // get root sagas
@@ -22,24 +26,23 @@ export const injectAsyncSaga = ({
   const wasRootSagaInjected = Boolean(rootSagas[name]);
 
   if (wasSagaInjected || wasRootSagaInjected) {
-    // make some noise
-
+    // make some noise if REACT_APP_REDUX_DEBUG was setted in .env file
     if (process.env.REACT_APP_REDUX_DEBUG) {
-      // eslint-disable-next-line
       console.warn(`${name} saga was injected earlier`);
     }
 
     return;
   }
 
-  // get saga to inject
-  const sagaToAdd = runSaga(saga, { dispatch, router });
+  // run saga
+  const sagaToAdd = isRoot
+    ? runSaga(saga, { dispatch, router, dependencies, store })
+    : runSaga(saga, { dispatch, router, dependencies });
 
+  // register saga
   if (isRoot) {
-    // inject root saga
     rootSagas[name] = sagaToAdd;
   } else {
-    // inject saga
     injectedSagas[name] = sagaToAdd;
   }
 

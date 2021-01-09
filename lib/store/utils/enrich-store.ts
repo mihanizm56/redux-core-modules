@@ -25,8 +25,6 @@ export const enrichStore = ({
   store,
   isSSR,
   router,
-  asyncSagas,
-  rootSagas,
   initialState,
   rootSaga,
 }: ParamsType) => {
@@ -39,9 +37,9 @@ export const enrichStore = ({
   // создаем регистр root редюсеров
   store.rootReducers = { ...rootReducersPackage };
   // создаем регистр динамических саг
-  store.asyncSagas = { ...asyncSagas };
+  store.asyncSagas = {};
   // создаем регистр root саг
-  store.rootSagas = { ...rootSagas };
+  store.rootSagas = {};
   // определяем раннер миддливары внутри стора
   store.sagaMiddleware = sagaMiddleware;
   // Функция при вызове которой redux-saga собирает все саги
