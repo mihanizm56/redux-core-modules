@@ -1,5 +1,5 @@
 {
-  "name": "@wildberries/redux-core-modules",
+  "name": "@mihanizm56/redux-core-modules",
   "version": "1.0.1",
   "description": "core redux modules",
   "typings": "./dist/index.d.ts",
