@@ -1,5 +1,5 @@
 import { fork, put, spawn } from 'redux-saga/effects';
-import { uniqueId } from 'lodash-es';
+import uniqueId from 'uniqid';
 import { Dispatch } from 'redux';
 import { getIsClient } from '@/utils';
 import { IAdvancedStore } from '@/types';
