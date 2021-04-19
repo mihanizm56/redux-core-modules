@@ -1,4 +1,4 @@
-import { Store, Reducer, CombinedState } from 'redux';
+import { Store, Reducer, CombinedState, Dispatch } from 'redux';
 import { Router } from 'router5';
 import { Task } from 'redux-saga';
 
@@ -43,6 +43,13 @@ export type InjectAsyncSagaParams = {
   name: string;
   saga: any;
   isRoot?: boolean;
+};
+
+export type InjectedSagaParams = {
+  dispatch: Dispatch;
+  store?: IAdvancedStore;
+  router: Router;
+  dependencies: Record<string, any>;
 };
 
 export type InjectAsyncReducerParams = {
