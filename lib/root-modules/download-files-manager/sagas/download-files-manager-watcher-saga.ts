@@ -8,25 +8,6 @@ type ParamsType = {
   dependencies?: Record<string, any>;
 };
 
-// export function* downloadFilesManagerWatcherSaga({ dependencies }: ParamsType) {
-//   let lastTask;
-
-//   while (true) {
-//     const { payload }: { payload: DownloadFilesManagerType } = yield take(
-//       DOWNLOAD_FILE_MANAGER,
-//     );
-
-//     if (lastTask) {
-//       yield cancel(lastTask);
-//     }
-
-//     lastTask = yield fork(downloadFilesManagerWorkerSaga, {
-//       ...payload,
-//       dependencies,
-//     });
-//   }
-// }
-
 export function* downloadFilesManagerWatcherSaga({ dependencies }: ParamsType) {
   while (true) {
     let action: { payload: DownloadFilesManagerType } = yield take(
