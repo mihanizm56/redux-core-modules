@@ -10,4 +10,5 @@ export type StoreInjectConfig = {
   sagasToInject?: Array<Omit<InjectAsyncSagaParams, 'store'>>;
   reducersToInject?: Array<Omit<InjectAsyncReducerParams, 'store'>>;
   initialLoadManagerConfig?: InitLoadManagerActionPayloadType;
+  customOptions?: Record<string, any>;
 };
