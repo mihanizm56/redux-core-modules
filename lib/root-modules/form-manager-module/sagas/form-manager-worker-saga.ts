@@ -38,9 +38,9 @@ export function* formManagerWorkerSaga({
     textMessageSuccess,
     requestErrorHandlerProcessParams,
     setFormExternalErrorsAction,
-    getErrorModalActionTitle
+    getErrorModalActionTitle,
   },
-  dependencies:{ setModalAction } = {}
+  dependencies: { setModalAction } = {},
 }: IFormManagerWorkerParams) {
   let responseData;
   // set new "initial" form data - react-final-form needs because if rerender form - "initial" values will be from the very beginning
@@ -48,7 +48,7 @@ export function* formManagerWorkerSaga({
     yield put(resetInitialDataAction(formValues));
   }
 
-  if(loadingStartAction){
+  if (loadingStartAction) {
     yield put(loadingStartAction());
   }
 
@@ -141,7 +141,7 @@ export function* formManagerWorkerSaga({
     }
   } catch (error) {
     // parse error data
-    const errorData = getParsedError({sagaName:'FormManagerSaga',error})
+    const errorData = getParsedError({ sagaName: 'FormManagerSaga', error });
 
     // get additionalErrors from rest and json-rpc requests
     // please - instruct your backend to prepare form errors in "errors" field
@@ -175,14 +175,14 @@ export function* formManagerWorkerSaga({
 
     // trigger notification
     if (showNotification && setModalAction) {
-      if(getErrorModalActionTitle){
+      if (getErrorModalActionTitle) {
         yield put(
           setModalAction({
             status: 'error',
             title: getErrorModalActionTitle(errorData.errorText),
           }),
         );
-      } else{
+      } else {
         yield put(
           setModalAction({
             status: 'error',
@@ -190,8 +190,6 @@ export function* formManagerWorkerSaga({
           }),
         );
       }
-
-
     }
 
     // handle error redirect
@@ -206,7 +204,7 @@ export function* formManagerWorkerSaga({
       yield put(redirectManagerSagaAction(redirectData));
     }
   } finally {
-    if(loadingStopAction){
+    if (loadingStopAction) {
       yield put(loadingStopAction());
     }
   }

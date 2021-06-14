@@ -7,12 +7,16 @@ type ParamsType = {
   toState?: State;
   fromState?: State;
   store: IAdvancedStore;
+  reducersNotToReplace?: Array<string>;
+  sagasNotToReplace?: Array<string>;
 };
 
 export const replaceReducersAndSagas = ({
   fromState,
   toState,
   store,
+  reducersNotToReplace = [],
+  sagasNotToReplace = [],
 }: ParamsType) => {
   // define first route name to navigate from
   const coreRouteFromStateName =
@@ -24,8 +28,8 @@ export const replaceReducersAndSagas = ({
 
   // replace all injected reducers and sagas
   if (toState && fromState && coreRouteToStateName !== coreRouteFromStateName) {
-    removeAllInjectedReducers(store);
-    removeAllInjectedSagas(store);
+    removeAllInjectedReducers({ store, reducersNotToReplace });
+    removeAllInjectedSagas({ store, sagasNotToReplace });
 
     // make some noise =)
     console.warn('ReduxStoreLoader replaced old reducers'); // eslint-disable-line

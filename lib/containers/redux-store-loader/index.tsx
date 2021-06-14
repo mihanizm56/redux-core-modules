@@ -60,6 +60,8 @@ export class ReduxStoreLoader extends React.Component<PropsType, StateType> {
         fromState: props.fromState,
         toState: props.toState,
         store: state.reduxStore,
+        reducersNotToReplace: props?.storeInjectConfig?.reducersNotToReplace,
+        sagasNotToReplace: props?.storeInjectConfig?.sagasNotToReplace,
       });
     }
 

@@ -1,16 +1,12 @@
 export { createAppStore } from './store';
 
 export { Action, BaseAction, IAdvancedStore, AnyAction } from './types';
-export {
-  runInjectorConfig,
-} from './containers/redux-store-loader/utils/run-injector-config';
+export { runInjectorConfig } from './containers/redux-store-loader/utils/run-injector-config';
 export { removeAsyncSaga } from './utils/remove-saga';
 export { removeAsyncReducer } from './utils/remove-reducer';
 export { injectAsyncReducer } from './utils/inject-async-reducer';
 export { injectAsyncSaga } from './utils/inject-async-saga';
-export {
-  removeAllInjectedReducers,
-} from './utils/remove-all-injected-reducers';
+export { removeAllInjectedReducers } from './utils/remove-all-injected-reducers';
 export { removeAllInjectedSagas } from './utils/remove-all-injected-sagas';
 
 export {
@@ -26,9 +22,7 @@ export {
   initLoadManagerWatcherSaga,
 } from './root-modules/init-load-manager-module';
 
-export {
-  requestExtraDataHandlerActionSaga,
-} from './root-modules/request-extra-data-handler-module';
+export { requestExtraDataHandlerActionSaga } from './root-modules/request-extra-data-handler-module';
 
 export {
   IRedirectManagerPayload,
@@ -45,9 +39,7 @@ export {
 export { ReduxStoreLoader } from './containers/redux-store-loader';
 export { StoreInjectConfig } from './containers/redux-store-loader/types';
 
-export {
-  requestErrorHandlerProcess,
-} from './utils/request-error-handler-process';
+export { requestErrorHandlerProcess } from './utils/request-error-handler-process';
 
 export { downloadFile } from './utils/download-file';
 
