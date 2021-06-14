@@ -1,9 +1,10 @@
 import { IAdvancedStore, CustomReducerType, IReducersMap } from '@/types';
-import { createReducer } from '@/store/create-reducer';
+import { combineReducers } from './combine-reducers';
 
 export const removeAllInjectedReducers = (store: IAdvancedStore) => {
   // get injected reducers
   const injectedReducers = store.asyncReducers;
+  const rootReducers = store.rootReducers;
   // get all reducers from the store
   const allReducersInStore = store.getState();
 
@@ -19,12 +20,11 @@ export const removeAllInjectedReducers = (store: IAdvancedStore) => {
   // clear injected reducers registry
   store.asyncReducers = {}; // eslint-disable-line
 
-  // create new reducer with createReducer and replacedResult
-  const updatedReducers: CustomReducerType = createReducer({
-    prevState: replacedResult,
-    asyncReducers: {},
-    rootReducers: store.rootReducers,
-  }) as CustomReducerType;
+  // create new reducer
+  const updatedReducers: CustomReducerType = combineReducers({
+    ...replacedResult,
+    ...rootReducers,
+  });
 
   // update reducers
   store.replaceReducer(updatedReducers);

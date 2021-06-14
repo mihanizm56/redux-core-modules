@@ -1,4 +1,4 @@
-import { combineReducers } from '@/utils';
+import { combineReducers } from './combine-reducers';
 
 // Этот ХАК нужен для того, чтобы при инициализации стора с initialState
 // не удалялось прежнее состояние в редюсерах, которые на момент первой клиенской отрисовки еще не были подключены

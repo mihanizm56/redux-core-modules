@@ -27,14 +27,14 @@ export const runInjectorConfig = ({
 
   // inject reducers
   if (reducersToInject) {
-    reducersToInject.forEach(({ reducer, name, isRoot }) =>
+    reducersToInject.forEach(({ reducer, name, isRoot }) => {
       injectAsyncReducer({
         store,
         name,
         reducer,
         isRoot,
-      }),
-    );
+      });
+    });
   }
 
   // inject sagas

@@ -1,5 +1,5 @@
 import { CustomReducerType, InjectAsyncReducerParams } from '@/types';
-import { createReducer } from '@/store/create-reducer';
+import { combineLazyReducers } from './combine-lazy-reducers';
 
 export const injectAsyncReducer = ({
   store,
@@ -9,7 +9,7 @@ export const injectAsyncReducer = ({
 }: InjectAsyncReducerParams) => {
   const asyncReducers = store.asyncReducers;
   const rootReducers = store.rootReducers;
-  const initialState = store.initialState;
+  const initialState = { ...store.initialState, ...store.getState() };
   const wasAsyncReducerInjected = Boolean(asyncReducers[name]);
   const wasRootReducerInjected = Boolean(rootReducers[name]);
 
@@ -38,11 +38,13 @@ export const injectAsyncReducer = ({
   }
 
   // define new reducers
-  const newReducer: CustomReducerType = createReducer({
-    prevState: { ...initialState, ...store.getState() },
-    asyncReducers,
-    rootReducers,
-  }) as CustomReducerType;
+  const newReducer: CustomReducerType = combineLazyReducers(
+    {
+      ...asyncReducers,
+      ...rootReducers,
+    },
+    initialState,
+  );
 
   // log to the devtools
   store.dispatch({
