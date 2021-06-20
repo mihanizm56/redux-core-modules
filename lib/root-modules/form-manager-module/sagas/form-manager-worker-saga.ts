@@ -1,4 +1,5 @@
 import { put, all, call } from 'redux-saga/effects';
+import { Dispatch } from 'redux';
 import { requestExtraDataHandlerActionSaga } from '@/root-modules/request-extra-data-handler-module';
 import {
   redirectManagerSagaAction,
@@ -11,6 +12,7 @@ import { getParsedError } from './_utils/get-parsed-error';
 interface IFormManagerWorkerParams {
   payload: FormManagerType;
   dependencies?: Record<string, any>;
+  dispatch: Dispatch;
 }
 
 export function* formManagerWorkerSaga({
@@ -41,6 +43,7 @@ export function* formManagerWorkerSaga({
     getErrorModalActionTitle,
   },
   dependencies: { setModalAction } = {},
+  dispatch,
 }: IFormManagerWorkerParams) {
   let responseData;
   // set new "initial" form data - react-final-form needs because if rerender form - "initial" values will be from the very beginning
@@ -84,12 +87,8 @@ export function* formManagerWorkerSaga({
     }
 
     // put usual function callback
-    // PLEASE DO NOT USE THIS IN YOUR REGULAR CASES
-    // THIS IS A SYSTEM FEATURE AND IT IS DEPRECATED
     if (callBackOnSuccess) {
-      // eslint-disable-next-line
-      console.warn('You Are using the DEPRECATED method "callBackOnSuccess", this will be REMOVED in next major release!!!');
-      yield callBackOnSuccess();
+      yield callBackOnSuccess({ dispatch });
     }
 
     // format data
@@ -149,12 +148,10 @@ export function* formManagerWorkerSaga({
     const additionalErrors = errorData.additionalErrors?.errors ?? null
 
     // put usual function callback
-    // PLEASE DO NOT USE THIS IN YOUR REGULAR CASES
-    // THIS IS A SYSTEM FEATURE AND IT IS DEPRECATED
     if (callBackOnError) {
       // eslint-disable-next-line
       console.warn('You Are using the DEPRECATED method "callBackOnError", this will be REMOVED in next major release!!!');
-      yield callBackOnError();
+      yield callBackOnError({ errorData, dispatch });
     }
 
     // dispatch fail actions

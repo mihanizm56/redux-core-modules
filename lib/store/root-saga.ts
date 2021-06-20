@@ -33,7 +33,7 @@ export const createRootSaga = ({
       // на клиенте нам надо сделать процессы которые могут быть неубиваемыми (spawn)
       yield all([
         fork(downloadFilesManagerWatcherSaga, { dependencies }),
-        fork(formManagerWatcherSaga, { dependencies }),
+        fork(formManagerWatcherSaga, { dependencies, dispatch }),
         fork(initLoadManagerWatcherSaga, {
           eventNameToCancelRequests,
           dispatch,
@@ -56,7 +56,7 @@ export const createRootSaga = ({
       );
     } else {
       yield spawn(downloadFilesManagerWatcherSaga, { dependencies });
-      yield spawn(formManagerWatcherSaga, { dependencies });
+      yield spawn(formManagerWatcherSaga, { dependencies, dispatch });
       yield spawn(initLoadManagerWatcherSaga, {
         eventNameToCancelRequests,
         dispatch,
