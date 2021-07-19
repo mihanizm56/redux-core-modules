@@ -149,8 +149,6 @@ export function* formManagerWorkerSaga({
 
     // put usual function callback
     if (callBackOnError) {
-      // eslint-disable-next-line
-      console.warn('You Are using the DEPRECATED method "callBackOnError", this will be REMOVED in next major release!!!');
       yield callBackOnError({ errorData, dispatch });
     }
 

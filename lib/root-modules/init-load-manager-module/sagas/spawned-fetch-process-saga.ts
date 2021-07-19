@@ -1,4 +1,5 @@
 import { put, call, all } from 'redux-saga/effects';
+import { Dispatch } from 'redux';
 import { requestExtraDataHandlerActionSaga } from '@/root-modules/request-extra-data-handler-module';
 import {
   redirectManagerSagaAction,
@@ -24,6 +25,7 @@ type ParamsType = InitLoadManagerRequestOptionsType & {
   isBatchRequest?: boolean;
   dependencies?: Record<string, any>;
   store: IAdvancedStore;
+  dispatch: Dispatch;
 };
 
 export function* spawnedFetchProcessSaga({
@@ -60,6 +62,9 @@ export function* spawnedFetchProcessSaga({
   selectorsCheckInitialFetched,
   store,
   dependencies: { setModalAction } = {},
+  callBackOnSuccess,
+  callBackOnError,
+  dispatch,
 }: ParamsType) {
   let responseData;
   const isNode = !getIsClient();
@@ -158,6 +163,11 @@ export function* spawnedFetchProcessSaga({
       );
     }
 
+    // put usual function callback
+    if (callBackOnSuccess) {
+      yield callBackOnSuccess({ dispatch });
+    }
+
     // handle success redirect
     if (redirectRouteParamsSuccess) {
       const redirectData: IRedirectManagerPayload = formatDataToRedirectParamsSuccess
@@ -207,6 +217,10 @@ export function* spawnedFetchProcessSaga({
         yield put(errorAction(error.message));
       } else if (errorActionsArray) {
         yield all(errorActionsArray.map(action => put(action(error.message))));
+      }
+
+      if (callBackOnError) {
+        yield callBackOnError({ dispatch });
       }
 
       // set error notification

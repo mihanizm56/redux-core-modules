@@ -1,3 +1,4 @@
+import { Dispatch } from 'redux';
 import { Action, BaseAction } from '@/types';
 import { RequestErrorHandlerProcessParamsType } from '@/utils/request-error-handler-process';
 import { IRedirectManagerPayload } from '../redirect-manager-module';
@@ -39,6 +40,8 @@ export type InitLoadManagerRequestOptionsType = {
   getErrorModalActionTitle?: (errorText: string) => string;
   initialLoadingFinishAction?: BaseAction;
   selectorsCheckInitialFetched?: Array<SelectorCheckInitialFetchedType>;
+  callBackOnSuccess?: (params: { dispatch: Dispatch }) => void;
+  callBackOnError?: (params: { dispatch: Dispatch }) => void;
 };
 
 export type BeforeRequestConfigType = {

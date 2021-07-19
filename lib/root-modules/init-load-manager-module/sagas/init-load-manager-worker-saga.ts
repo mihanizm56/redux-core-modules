@@ -93,6 +93,7 @@ export function* initLoadManagerWorkerSaga({
       eventToCatchEndedProcesses,
       dependencies,
       store,
+      dispatch,
     });
 
     // go to next request
