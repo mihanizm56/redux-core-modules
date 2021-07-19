@@ -1,3 +1,4 @@
+import { Dispatch } from 'redux';
 import { FILE_TYPES } from '@/constants';
 import { BaseAction, AnyAction } from '../../types';
 
@@ -22,4 +23,6 @@ export type DownloadFilesManagerType = {
   fileType: keyof typeof FILE_TYPES;
   responseDataFormatter?: (response: any) => ResponseDataFormatterReturnType;
   dependencies?: Record<string, any>;
+  callBackOnSuccess?: (params: { dispatch: Dispatch }) => void;
+  callBackOnError?: (params: { dispatch: Dispatch }) => void;
 };

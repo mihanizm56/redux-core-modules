@@ -1,6 +1,11 @@
 import { put, call, all } from 'redux-saga/effects';
+import { Dispatch } from 'redux';
 import { downloadFile } from '@/utils';
 import { DownloadFilesManagerType } from '../types';
+
+type ParamsType = DownloadFilesManagerType & {
+  dispatch: Dispatch;
+};
 
 export function* downloadFilesManagerWorkerSaga({
   downloadFileRequest,
@@ -17,7 +22,10 @@ export function* downloadFilesManagerWorkerSaga({
   fileType,
   responseDataFormatter,
   dependencies: { setModalAction } = {},
-}: DownloadFilesManagerType) {
+  callBackOnSuccess,
+  callBackOnError,
+  dispatch,
+}: ParamsType) {
   try {
     if (loadingStartAction) {
       yield put(loadingStartAction());
@@ -52,6 +60,11 @@ export function* downloadFilesManagerWorkerSaga({
           put(successAction(formattedData)),
         ),
       );
+    }
+
+    // put usual function callback
+    if (callBackOnSuccess) {
+      yield callBackOnSuccess({ dispatch });
     }
 
     // set success notification
@@ -89,6 +102,10 @@ export function* downloadFilesManagerWorkerSaga({
           put(errorAction(error.message)),
         ),
       );
+    }
+
+    if (callBackOnError) {
+      yield callBackOnError({ dispatch });
     }
   } finally {
     if (loadingStopAction) {
