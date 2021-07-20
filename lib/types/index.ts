@@ -26,9 +26,16 @@ export interface IAdvancedStore extends Store {
 
 export type AnyAction = (payload?: any) => { type: string; payload?: any };
 
-export type BaseAction = () => { type: string };
+export type BaseAction<Type = void> = () => {
+  type: Type extends string ? Type : string;
+};
 
-export type Action<T> = (payload: T) => { type: string; payload: T };
+export type Action<Payload, Type = void> = (
+  payload: Payload,
+) => {
+  type: Type extends string ? Type : string;
+  payload: Payload;
+};
 
 export type BaseActionResult = { type: string };
 
