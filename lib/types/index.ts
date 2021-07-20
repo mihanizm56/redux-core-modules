@@ -37,6 +37,23 @@ export type Action<Payload, Type = void> = (
   payload: Payload;
 };
 
+export interface IReduxBaseAction<Type = void> {
+  type: Type;
+
+  (): {
+    type: Type extends string ? Type : string;
+  };
+}
+
+export interface IReduxAction<Payload, Type = void> {
+  type: Type;
+
+  (payload: Payload): {
+    type: Type extends string ? Type : string;
+    payload: Payload;
+  };
+}
+
 export type BaseActionResult = { type: string };
 
 export type ActionResult<T> = { type: string; payload: T | undefined };
