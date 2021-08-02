@@ -352,5 +352,89 @@ removeAsyncReducer({
 });
 ```
 
+## Advanced redux with typescript
+
+### actions:
+
+```javascript
+import { IReduxAction, IReduxBaseAction } from '@mihanizm56/redux-core-modules';
+
+export const FETCH_DEDUCTION_SAGA = 'FETCH_DEDUCTION_SAGA';
+export const fetchDeductionActionSaga: IReduxAction<
+  number,
+  typeof FETCH_DEDUCTION_SAGA
+> = payload => ({
+  type: FETCH_DEDUCTION_SAGA,
+  payload,
+});
+fetchDeductionActionSaga.type = FETCH_DEDUCTION_SAGA;
+
+export const SET_MODAL_OPENED = 'SET_MODAL_OPENED';
+export const setReportModalOpenedAction: IReduxBaseAction<
+  typeof SET_MODAL_OPENED
+> = () => ({
+  type: SET_MODAL_OPENED,
+});
+setReportModalOpenedAction.type = SET_MODAL_OPENED; 
+```
+
+### reducer:
+
+```javascript
+import { ReportModalStorage } from './_types';
+import {
+  setReportModalOpenedAction,
+} from './actions';
+
+type ActionsType =
+  | ReturnType<typeof setReportModalOpenedAction>
+
+export const initialState: ReportModalStorage = {
+  isLoading: false,
+  data: {
+    deduction: null,
+    payStatus: null,
+  },
+  isOpened: false,
+  title: '',
+};
+
+const reducer = (
+  state = initialState,
+  action: ActionsType,
+): ReportModalStorage => {
+  switch (action.type) {
+    case setReportModalOpenedAction.type:
+      return { ...state, isOpened: true };
+
+    default:
+      return state;
+  }
+};
+
+export default reducer;
+```
+
+
+### watcher-saga:
+
+```javascript
+import { take, fork } from 'redux-saga/effects';
+import { fetchDeductionActionSaga } from '../../actions';
+import { fetchDeductionWorderSaga } from './fetch-deduction-data-worker-saga';
+
+export const FETCH_DEDUCTION_WATCHER_SAGA_NAME =
+  'FETCH_DEDUCTION_WATCHER_SAGA_NAME';
+
+export function* fetchDeductionWatcherSaga() {
+  while (true) {
+    const { payload }: ReturnType<typeof fetchDeductionActionSaga> = yield take(
+      fetchDeductionActionSaga.type,
+    );
+
+    yield fork(fetchDeductionWorderSaga, payload);
+  }
+}
+```
 
 
