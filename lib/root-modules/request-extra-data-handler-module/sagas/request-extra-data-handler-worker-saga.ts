@@ -6,6 +6,9 @@ type ParamsType = {
   options: InitRequestHandlerActionType;
 };
 
+// TODO
+// not work in SSR
+
 export function* requestExtraDataHandlerWorkerSaga({
   data,
   options,
