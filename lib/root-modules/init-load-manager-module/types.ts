@@ -40,7 +40,10 @@ export type InitLoadManagerRequestOptionsType = {
   getErrorModalActionTitle?: (errorText: string) => string;
   initialLoadingFinishAction?: BaseAction;
   selectorsCheckInitialFetched?: Array<SelectorCheckInitialFetchedType>;
-  callBackOnSuccess?: (params: { dispatch: Dispatch }) => void;
+  callBackOnSuccess?: (params: {
+    dispatch: Dispatch;
+    responseData: any;
+  }) => void;
   callBackOnError?: (params: { dispatch: Dispatch }) => void;
 };
 

@@ -165,7 +165,7 @@ export function* spawnedFetchProcessSaga({
 
     // put usual function callback
     if (callBackOnSuccess) {
-      yield callBackOnSuccess({ dispatch });
+      yield callBackOnSuccess({ dispatch, responseData: filteredResponseData });
     }
 
     // handle success redirect
