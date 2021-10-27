@@ -6,12 +6,10 @@ import { replaceReducersAndSagas } from '@/utils/replace-reducers-and-sagas';
 import { getIsClient } from '@/utils';
 import { StoreInjectConfig } from './types';
 import { runInjectorConfig } from './utils/run-injector-config';
-import { processDeprecationLogs } from './utils/loggers';
 
 type PropsType = PropsWithChildren<{
   toState?: State;
   fromState?: State;
-  store?: IAdvancedStore;
   storeInjectConfig?: StoreInjectConfig;
   withoutRemovingReducers?: boolean;
 }>;
@@ -37,8 +35,6 @@ export class ReduxStoreLoader extends React.Component<PropsType, StateType> {
       reduxStore: context.store,
       ableToReplace: !context.store.isSSR, // need not to replace after SSR send chunk to the client
     };
-
-    processDeprecationLogs(props);
   }
 
   static getDerivedStateFromProps(props: PropsType, state: any) {
