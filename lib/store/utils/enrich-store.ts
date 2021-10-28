@@ -10,7 +10,6 @@ type ParamsType = {
   asyncReducersPackage: Record<string, any>;
   sagaMiddleware: SagaMiddleware<object>;
   store: IAdvancedStore;
-  isSSR?: boolean;
   router?: Router;
   asyncSagas?: Record<string, any>;
   rootSagas?: Record<string, any>;
@@ -23,7 +22,6 @@ export const enrichStore = ({
   asyncReducersPackage,
   sagaMiddleware,
   store,
-  isSSR,
   router,
   initialState,
   rootSaga,
@@ -45,8 +43,6 @@ export const enrichStore = ({
   // Функция при вызове которой redux-saga собирает все саги
   // и их результаты и завершает прослушивание всех запущенных саг (через fork!)
   store.closeSagas = () => store.dispatch(END);
-  // флаг о том что используется сервер сайд рендеринг и его специфичное поведение на сервере
-  store.isSSR = isSSR;
   // TODO проверить имеет ли смысл
   store.initialState = initialState;
 

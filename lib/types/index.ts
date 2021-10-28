@@ -16,7 +16,6 @@ export interface IAdvancedStore extends Store {
   asyncSagas: IAsyncSagas;
   initialState?: Record<string, any>;
   rootSagas: IAsyncSagas;
-  isSSR?: boolean;
   sagaMiddleware: any;
   closeSagas: () => void;
   router?: Router;

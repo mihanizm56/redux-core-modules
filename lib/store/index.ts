@@ -24,7 +24,6 @@ interface IStoreParams {
   dependencies?: Record<string, any>;
   extraMiddlewares?: Array<any>;
   reduxStoreName?: string;
-  isSSR?: boolean;
   // нужно чтобы отложить запуск саг и запустить их извне
   manualSagaStart?: boolean;
 }
@@ -38,7 +37,6 @@ export const createAppStore = ({
   dependencies,
   extraMiddlewares = [],
   reduxStoreName = 'redux-core-modules',
-  isSSR,
   asyncReducers,
   asyncSagas,
   manualSagaStart,
@@ -105,7 +103,6 @@ export const createAppStore = ({
     asyncReducersPackage,
     sagaMiddleware,
     store,
-    isSSR,
     router,
     asyncSagas,
     rootSagas,

@@ -318,7 +318,6 @@ import { runInjectorConfig } from '@wildberries/redux-core-modules';
 // enable SSR mode 
 // and enable manualSagaStart - that means not to run saga inside createAppStore function
 const store = createAppStore({
-  isSSR: true,
   manualSagaStart: true,
 });
 
