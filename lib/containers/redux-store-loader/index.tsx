@@ -33,7 +33,7 @@ export class ReduxStoreLoader extends React.Component<PropsType, StateType> {
     // link to store in state because of getting "this.context" in getDerivedStateFromProps
     this.state = {
       reduxStore: context.store,
-      ableToReplace: !context.store.isSSR, // need not to replace after SSR send chunk to the client
+      ableToReplace: getIsClient(), // need not to replace on server side
     };
   }
 
