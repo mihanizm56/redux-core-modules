@@ -30,37 +30,46 @@ export class WrappedContainer extends Component<PropsType> {
   }
 
   componentDidUpdate(prevProps: ExternalPropsType) {
-    const shouldRecall = this.props.shouldRecallInitLoadManager({
-      prevProps,
-      currentProps: this.props,
-    });
+    try {
+      const shouldRecall = this.props.shouldRecallInitLoadManager({
+        prevProps,
+        currentProps: this.props,
+      });
 
-    if (shouldRecall && this.wasLazyLoaded) {
-      this.props.initLoadManagerAction(this.props.config);
+      if (shouldRecall && this.wasLazyLoaded) {
+        this.props.initLoadManagerAction(this.props.config);
+      }
+    } catch (error) {
+      console.error(
+        'error in componentDidUpdate in InitLoadManagerViewportLoader',
+        error,
+      );
     }
   }
 
   initLazyLoading = () => {
-    if (this.cardRef.current) {
-      const observer = new window.IntersectionObserver(
-        // always one because triggeren only on our ONE component
-        // 1 component per 1 observer
-        ([entry]) => {
-          if (entry.isIntersecting && !this.wasLazyLoaded) {
-            this.props.initLoadManagerAction(this.props.config);
-
-            this.wasLazyLoaded = true;
-
-            if (this.cardRef.current) {
-              observer.unobserve(this.cardRef.current);
-            }
-          }
-        },
-        { threshold: 0.0000001 },
-      );
-
-      observer.observe(this.cardRef.current);
+    if (!this.cardRef.current) {
+      return;
     }
+
+    const observer = new window.IntersectionObserver(
+      // always one because triggeren only on our ONE component
+      // 1 component per 1 observer
+      ([entry]) => {
+        if (entry.isIntersecting && !this.wasLazyLoaded) {
+          this.props.initLoadManagerAction(this.props.config);
+
+          this.wasLazyLoaded = true;
+
+          if (this.cardRef.current) {
+            observer.unobserve(this.cardRef.current);
+          }
+        }
+      },
+      { threshold: 0.0000001 },
+    );
+
+    observer.observe(this.cardRef.current);
   };
 
   render() {
