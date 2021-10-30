@@ -15,7 +15,7 @@ export type InitLoadManagerViewportLoaderConfigType = {
   requestConfigList: Array<InitLoadManagerRequestOptionsType>;
 };
 
-export type ShouldRecallInitLoadManagerParamsType = {
+export type ShouldRecallParamsType = {
   prevProps: any;
   currentProps: any;
 };

@@ -3,14 +3,12 @@ import { connect } from 'react-redux';
 import { initLoadManagerActionSaga } from '../../root-modules/init-load-manager-module';
 import {
   InitLoadManagerViewportLoaderConfigType,
-  ShouldRecallInitLoadManagerParamsType,
+  ShouldRecallParamsType,
 } from './types';
 
 type ExternalPropsType = {
   config: InitLoadManagerViewportLoaderConfigType;
-  shouldRecallInitLoadManager: (
-    params: ShouldRecallInitLoadManagerParamsType,
-  ) => boolean;
+  shouldRecall: (params: ShouldRecallParamsType) => boolean;
   [key: string]: any;
 };
 
@@ -31,7 +29,7 @@ export class WrappedContainer extends Component<PropsType> {
 
   componentDidUpdate(prevProps: ExternalPropsType) {
     try {
-      const shouldRecall = this.props.shouldRecallInitLoadManager({
+      const shouldRecall = this.props.shouldRecall({
         prevProps,
         currentProps: this.props,
       });

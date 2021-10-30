@@ -45,7 +45,7 @@ export {
 
 export { ReduxStoreLoader } from './containers/redux-store-loader';
 export { InitLoadManagerViewportLoader } from './containers/init-load-manager-lazy-loader';
-export { ShouldRecallInitLoadManagerParamsType } from './containers/init-load-manager-lazy-loader/types';
+export { ShouldRecallParamsType } from './containers/init-load-manager-lazy-loader/types';
 export { StoreInjectConfig } from './containers/redux-store-loader/types';
 
 export { requestErrorHandlerProcess } from './utils/request-error-handler-process';
