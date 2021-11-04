@@ -1,6 +1,6 @@
 {
   "name": "@mihanizm56/redux-core-modules",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "core redux modules",
   "typings": "./dist/index.d.ts",
   "main": "dist/index.js",
@@ -51,7 +51,6 @@
     "@types/uniqid": "5.2.0",
     "@typescript-eslint/eslint-plugin": "2.7.0",
     "@typescript-eslint/parser": "2.7.0",
-    "@wildberries/notifications": "1.0.6",
     "commitizen": "4.2.1",
     "cross-env": "7.0.2",
     "cz-customizable": "6.2.0",
