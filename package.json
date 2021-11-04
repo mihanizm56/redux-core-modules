@@ -1,6 +1,6 @@
 {
   "name": "@mihanizm56/redux-core-modules",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "core redux modules",
   "typings": "./dist/index.d.ts",
   "main": "dist/index.js",
@@ -23,7 +23,7 @@
     "js-file-download": "0.4.11",
     "react-redux": "7.2.0",
     "redux": "4.0.5",
-    "redux-batched-actions": "0.4.1",
+    "redux-batched-actions": "0.5.0",
     "redux-devtools-extension": "2.13.8",
     "redux-saga": "1.1.1",
     "reselect": "4.0.0",
