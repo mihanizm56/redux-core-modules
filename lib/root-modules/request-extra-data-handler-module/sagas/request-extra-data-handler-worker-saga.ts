@@ -26,7 +26,7 @@ export function* requestExtraDataHandlerWorkerSaga({
 
       optionsItem += 1;
     }
-  } catch (error) {
+  } catch (error: any) {
     console.error(
       'requestExtraDataHandlerWorkerSaga catch error',
       error.message,

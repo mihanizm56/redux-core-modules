@@ -14,12 +14,15 @@ export function* extraRequestProcessSaga({
       yield put(requestActionStart());
     }
 
-    const isConfirmed = yield conditionToMakeRequest
+    const isConfirmed = conditionToMakeRequest
       ? conditionToMakeRequest()
       : true;
 
     if (isConfirmed) {
       // make the request
+      // TODO FIX
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       const result = yield call(request, requestParams);
 
       // callback fired

@@ -70,6 +70,9 @@ export function* formManagerWorkerSaga({
           }),
       });
     } else {
+      // TODO FIX
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       responseData = yield call(formRequest, {
         body: formattedFormValues,
         isErrorTextStraightToOutput: Boolean(withoutFormattingError),
@@ -101,7 +104,7 @@ export function* formManagerWorkerSaga({
       yield put(formSuccessAction(formattedData));
     } else if (formSuccessActionsArray && formSuccessActionsArray.length) {
       yield all(
-        formSuccessActionsArray.map(successAction =>
+        formSuccessActionsArray.map((successAction) =>
           put(successAction(formattedData)),
         ),
       );
@@ -129,12 +132,13 @@ export function* formManagerWorkerSaga({
 
     // handle success redirect
     if (redirectSuccessActionParams) {
-      const redirectData: IRedirectManagerPayload = formatDataToRedirectParamsSuccess
-        ? formatDataToRedirectParamsSuccess({
-            ...redirectSuccessActionParams,
-            ...formattedData,
-          })
-        : redirectSuccessActionParams;
+      const redirectData: IRedirectManagerPayload =
+        formatDataToRedirectParamsSuccess
+          ? formatDataToRedirectParamsSuccess({
+              ...redirectSuccessActionParams,
+              ...formattedData,
+            })
+          : redirectSuccessActionParams;
 
       yield put(redirectManagerSagaAction(redirectData));
     }
@@ -157,7 +161,7 @@ export function* formManagerWorkerSaga({
       yield put(setErrorAction(errorData.errorText));
     } else if (setErrorActionsArray && setErrorActionsArray.length) {
       yield all(
-        setErrorActionsArray.map(errorAction =>
+        setErrorActionsArray.map((errorAction) =>
           put(errorAction(errorData.errorText)),
         ), // eslint-disable-line
       );
@@ -189,12 +193,13 @@ export function* formManagerWorkerSaga({
 
     // handle error redirect
     if (redirectErrorActionParams) {
-      const redirectData: IRedirectManagerPayload = formatDataToRedirectParamsError
-        ? formatDataToRedirectParamsError({
-            ...redirectErrorActionParams,
-            ...additionalErrors,
-          })
-        : redirectErrorActionParams;
+      const redirectData: IRedirectManagerPayload =
+        formatDataToRedirectParamsError
+          ? formatDataToRedirectParamsError({
+              ...redirectErrorActionParams,
+              ...additionalErrors,
+            })
+          : redirectErrorActionParams;
 
       yield put(redirectManagerSagaAction(redirectData));
     }

@@ -44,7 +44,7 @@ export function* redirectManagerWorkerSaga({
         callbackAfterRedirect();
       }
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('redirectManagerWorkerSaga catch error', error.message);
   }
 }

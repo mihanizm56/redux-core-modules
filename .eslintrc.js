@@ -3,7 +3,6 @@ module.exports = {
   extends: [
     'airbnb',
     'plugin:prettier/recommended',
-    'prettier/@typescript-eslint',
     'plugin:@typescript-eslint/recommended',
     'plugin:import/typescript',
     'plugin:security/recommended',
@@ -48,6 +47,16 @@ module.exports = {
       },
     ],
     'react/jsx-filename-extension': 'off',
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
     'import/no-extraneous-dependencies': 0,
     'no-console': ['error', { allow: ['error', 'warn'] }],
     quotes: ['error', 'single'],
@@ -88,7 +97,17 @@ module.exports = {
     'consistent-return': 0,
     '@typescript-eslint/indent': 0, // Conflicts with Prettier
     '@typescript-eslint/explicit-member-accessibility': 0,
-    '@typescript-eslint/interface-name-prefix': ['error', 'always'],
+    "@typescript-eslint/naming-convention": [
+      "error",
+      {
+        "selector": "interface",
+        "format": ["PascalCase"],
+        "custom": {
+          "regex": "^I[A-Z]",
+          "match": true
+        }
+      }
+    ],
     '@typescript-eslint/no-explicit-any': 0,
     '@typescript-eslint/no-var-requires': 0,
     '@typescript-eslint/explicit-function-return-type': 0,

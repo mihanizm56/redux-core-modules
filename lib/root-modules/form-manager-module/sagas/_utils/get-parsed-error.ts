@@ -9,7 +9,7 @@ export const getParsedError = ({ error, sagaName }: ParamsType) => {
     const parsedErrorData = JSON.parse(error.message);
 
     return parsedErrorData;
-  } catch (err) {
+  } catch (err: any) {
     console.error(`catch the error in ${sagaName}`, err);
 
     return err.message;

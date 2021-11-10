@@ -19,11 +19,8 @@ export function* initLoadManagerWatcherSaga({
   store,
 }: ParamsType) {
   while (true) {
-    const {
-      payload,
-    }: { payload: InitLoadManagerActionPayloadType } = yield take(
-      INIT_LOAD_MANAGER_ACTION_SAGA,
-    );
+    const { payload }: { payload: InitLoadManagerActionPayloadType } =
+      yield take(INIT_LOAD_MANAGER_ACTION_SAGA);
 
     yield fork(initLoadManagerWorkerSaga, {
       ...payload,

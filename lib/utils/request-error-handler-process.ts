@@ -16,6 +16,9 @@ export function* requestErrorHandlerProcess({
   errorActionsArray,
 }: RequestErrorHandlerProcessParamsType) {
   // get request data
+  // TODO FIX
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   const responseData = yield call(request);
   // get response validation
   const isResponseValid = requestValidator(responseData);
@@ -24,7 +27,7 @@ export function* requestErrorHandlerProcess({
     if (errorAction) {
       yield put(errorAction());
     } else if (errorActionsArray) {
-      yield all(errorActionsArray.map(action => put(action())));
+      yield all(errorActionsArray.map((action) => put(action())));
     }
 
     // provide th default error response

@@ -56,7 +56,7 @@ export function* downloadFilesManagerWorkerSaga({
       yield put(formSuccessAction(formattedData));
     } else if (formSuccessActionsArray && formSuccessActionsArray.length) {
       yield all(
-        formSuccessActionsArray.map(successAction =>
+        formSuccessActionsArray.map((successAction) =>
           put(successAction(formattedData)),
         ),
       );
@@ -80,7 +80,7 @@ export function* downloadFilesManagerWorkerSaga({
         }),
       );
     }
-  } catch (error) {
+  } catch (error: any) {
     console.error('downloadFilesManagerWorkerSaga gets an error', error);
 
     // set error notification
@@ -98,7 +98,7 @@ export function* downloadFilesManagerWorkerSaga({
       yield put(setErrorAction(error.message));
     } else if (setErrorActionsArray && setErrorActionsArray.length) {
       yield all(
-        setErrorActionsArray.map(errorAction =>
+        setErrorActionsArray.map((errorAction) =>
           put(errorAction(error.message)),
         ),
       );

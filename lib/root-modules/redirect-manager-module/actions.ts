@@ -10,9 +10,8 @@ export const redirectManagerSagaAction: Action<IRedirectManagerPayload> = (
 });
 
 export const REDIRECT_ACTION_PLATFORM = '@redux-core-modules/REDIRECT_ACTION';
-export const redirectToPlatformRouteManagerSagaAction: Action<IRedirectManagerPayload> = (
-  payload: IRedirectManagerPayload,
-) => ({
-  type: REDIRECT_ACTION,
-  payload,
-});
+export const redirectToPlatformRouteManagerSagaAction: Action<IRedirectManagerPayload> =
+  (payload: IRedirectManagerPayload) => ({
+    type: REDIRECT_ACTION,
+    payload,
+  });

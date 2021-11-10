@@ -7,8 +7,8 @@ import { combineReducers } from './combine-reducers';
 // который перезапишется инжектом но при этом сохранится начальное значение initialState в редюсере
 export const combineLazyReducers = (reducers: any, initialState: any) => {
   Object.keys(initialState)
-    .filter(k => !reducers[k])
-    .forEach(k => {
+    .filter((k) => !reducers[k])
+    .forEach((k) => {
       // eslint-disable-next-line no-param-reassign
       reducers[k] = (state: any) => (state === undefined ? null : state);
     });

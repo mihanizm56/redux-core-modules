@@ -86,7 +86,7 @@ export function* spawnedFetchProcessSaga({
     if (resetAction) {
       yield put(resetAction());
     } else if (resetActionsArray) {
-      yield all(resetActionsArray.map(action => put(action())));
+      yield all(resetActionsArray.map((action) => put(action())));
     }
 
     if (loadingStartAction) {
@@ -109,6 +109,9 @@ export function* spawnedFetchProcessSaga({
       });
     } else {
       // make the request with language dictionary (optionally with params)
+      // TODO FIX
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       responseData = yield call(request, {
         ...formattedRequestParams,
         isErrorTextStraightToOutput: withoutFormattingError,
@@ -139,7 +142,7 @@ export function* spawnedFetchProcessSaga({
       yield put(actionSuccess(filteredResponseData));
     } else if (actionsArraySuccess) {
       yield all(
-        actionsArraySuccess.map(action => put(action(filteredResponseData))),
+        actionsArraySuccess.map((action) => put(action(filteredResponseData))),
       );
     }
 
@@ -170,16 +173,17 @@ export function* spawnedFetchProcessSaga({
 
     // handle success redirect
     if (redirectRouteParamsSuccess) {
-      const redirectData: IRedirectManagerPayload = formatDataToRedirectParamsSuccess
-        ? formatDataToRedirectParamsSuccess({
-            ...redirectRouteParamsSuccess,
-            ...filteredResponseData,
-          })
-        : redirectRouteParamsSuccess;
+      const redirectData: IRedirectManagerPayload =
+        formatDataToRedirectParamsSuccess
+          ? formatDataToRedirectParamsSuccess({
+              ...redirectRouteParamsSuccess,
+              ...filteredResponseData,
+            })
+          : redirectRouteParamsSuccess;
 
       yield put(redirectManagerSagaAction(redirectData));
     }
-  } catch (error) {
+  } catch (error: any) {
     const isAbortError =
       error.message === ABORTED_ERROR_TEXT_CHROME ||
       error.message === ABORTED_ERROR_TEXT_MOZILLA ||
@@ -216,7 +220,9 @@ export function* spawnedFetchProcessSaga({
       if (errorAction) {
         yield put(errorAction(error.message));
       } else if (errorActionsArray) {
-        yield all(errorActionsArray.map(action => put(action(error.message))));
+        yield all(
+          errorActionsArray.map((action) => put(action(error.message))),
+        );
       }
 
       if (callBackOnError) {
@@ -244,12 +250,13 @@ export function* spawnedFetchProcessSaga({
 
       // handle error redirect
       if (redirectRouteParamsError) {
-        const redirectData: IRedirectManagerPayload = formatDataToRedirectParamsError
-          ? formatDataToRedirectParamsError({
-              ...redirectRouteParamsError,
-              ...error.additionalErrors,
-            })
-          : redirectRouteParamsError;
+        const redirectData: IRedirectManagerPayload =
+          formatDataToRedirectParamsError
+            ? formatDataToRedirectParamsError({
+                ...redirectRouteParamsError,
+                ...error.additionalErrors,
+              })
+            : redirectRouteParamsError;
 
         yield put(redirectManagerSagaAction(redirectData));
       }

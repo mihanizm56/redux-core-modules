@@ -29,9 +29,7 @@ export type BaseAction<Type = void> = () => {
   type: Type extends string ? Type : string;
 };
 
-export type Action<Payload, Type = void> = (
-  payload: Payload,
-) => {
+export type Action<Payload, Type = void> = (payload: Payload) => {
   type: Type extends string ? Type : string;
   payload: Payload;
 };

@@ -3,7 +3,7 @@ export const blobToBase64 = (file: File): Promise<any> =>
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
+    reader.onerror = (error) => reject(error);
   });
 
 export const blobToPureBase64 = (file: File): Promise<any> =>
@@ -16,5 +16,5 @@ export const blobToPureBase64 = (file: File): Promise<any> =>
 
       resolve(base64);
     };
-    reader.onerror = error => reject(error);
+    reader.onerror = (error) => reject(error);
   });

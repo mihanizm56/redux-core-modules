@@ -18,7 +18,7 @@ export const removeAllInjectedReducers = ({
     (acc, asyncReducerName) => {
       const isAsyncReducerStable = Boolean(
         reducersNotToReplace.find(
-          reducerName => reducerName === asyncReducerName,
+          (reducerName) => reducerName === asyncReducerName,
         ),
       );
 

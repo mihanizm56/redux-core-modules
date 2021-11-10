@@ -11,10 +11,10 @@ export const removeAllInjectedSagas = ({
   const injectedSagas = store.asyncSagas;
 
   // delete sagas from injected sagas registry and stop them
-  Object.keys(injectedSagas).forEach(sagaName => {
+  Object.keys(injectedSagas).forEach((sagaName) => {
     const isSagaStable = Boolean(
       sagasNotToReplace.find(
-        notReplacedSagaName => notReplacedSagaName === sagaName,
+        (notReplacedSagaName) => notReplacedSagaName === sagaName,
       ),
     );
 

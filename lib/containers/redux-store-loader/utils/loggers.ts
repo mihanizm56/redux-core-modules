@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable no-console */
 
-type PropsType = {};
+// type PropsType = {};
 
 // export const processDeprecationLogs = ({ prop }: PropsType) => {
 //   if (Boolean(prop)) {
