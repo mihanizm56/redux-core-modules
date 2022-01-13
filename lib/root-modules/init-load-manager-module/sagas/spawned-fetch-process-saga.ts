@@ -10,12 +10,8 @@ import { requestErrorHandlerProcess } from '@/utils/request-error-handler-proces
 import { filterBatchedResponseData } from '@/utils/filter-batch-response-data';
 import { getIsClient } from '@/utils/get-is-client';
 import { InitLoadManagerRequestOptionsType } from '../types';
-import {
-  ABORTED_ERROR_TEXT_CHROME,
-  ABORTED_ERROR_TEXT_MOZILLA,
-  ABORTED_ERROR_TEXT_SAFARI,
-} from '../constants';
 import { checkIsInitialFetched } from './utils/check-is-initial-fetched';
+import { getIsAbortRequestError } from './utils/get-is-abort-request-error';
 
 type ParamsType = InitLoadManagerRequestOptionsType & {
   requestsSectionId: string;
@@ -184,10 +180,7 @@ export function* spawnedFetchProcessSaga({
       yield put(redirectManagerSagaAction(redirectData));
     }
   } catch (error: any) {
-    const isAbortError =
-      error.message === ABORTED_ERROR_TEXT_CHROME ||
-      error.message === ABORTED_ERROR_TEXT_MOZILLA ||
-      error.message === ABORTED_ERROR_TEXT_SAFARI;
+    const isAbortError = getIsAbortRequestError(error.message);
 
     // if the request was not aborted
     if (!isAbortError) {
