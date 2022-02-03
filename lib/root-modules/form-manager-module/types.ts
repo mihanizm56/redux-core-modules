@@ -5,7 +5,7 @@ import { IRedirectManagerPayload } from '../redirect-manager-module';
 
 export type FormManagerType = {
   resetInitialDataAction?: Action<any>;
-  formValues: any;
+  formValues?: any;
   formValuesFormatter?: (data: any) => any;
   loadingStartAction?: BaseAction;
   loadingStopAction?: BaseAction;
