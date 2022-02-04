@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react';
+import React, { Component, PropsWithChildren } from 'react';
 import { State } from 'router5';
 import { ReactReduxContext } from 'react-redux';
 import { IAdvancedStore } from '@/types';
@@ -19,7 +19,7 @@ type StateType = {
   ableToReplace: boolean;
 };
 
-export class ReduxStoreLoader extends React.Component<PropsType, StateType> {
+export class ReduxStoreLoader extends Component<PropsType, StateType> {
   // eslint-disable-next-line
   static contextType = ReactReduxContext;
 
