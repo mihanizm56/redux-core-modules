@@ -229,6 +229,7 @@ export function* spawnedFetchProcessSaga({
             setModalAction({
               status: 'error',
               title: getErrorModalActionTitle(error.message),
+              text: error.message,
             }),
           );
         } else {

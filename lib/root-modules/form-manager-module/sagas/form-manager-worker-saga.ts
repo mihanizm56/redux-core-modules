@@ -179,6 +179,7 @@ export function* formManagerWorkerSaga({
           setModalAction({
             status: 'error',
             title: getErrorModalActionTitle(errorData.errorText),
+            text: errorData.errorText,
           }),
         );
       } else {
