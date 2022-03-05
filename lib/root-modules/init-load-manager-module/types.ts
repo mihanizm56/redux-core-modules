@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux';
-import { Action, BaseAction } from '@/types';
+import { Action, BaseAction, IAdvancedStore } from '@/types';
 import { RequestErrorHandlerProcessParamsType } from '@/utils/request-error-handler-process';
 import { IRedirectManagerPayload } from '../redirect-manager-module';
 
@@ -43,8 +43,12 @@ export type InitLoadManagerRequestOptionsType = {
   callBackOnSuccess?: (params: {
     dispatch: Dispatch;
     responseData: any;
+    store: IAdvancedStore;
   }) => void;
-  callBackOnError?: (params: { dispatch: Dispatch }) => void;
+  callBackOnError?: (params: {
+    dispatch: Dispatch;
+    store: IAdvancedStore;
+  }) => void;
 };
 
 export type BeforeRequestConfigType = {
