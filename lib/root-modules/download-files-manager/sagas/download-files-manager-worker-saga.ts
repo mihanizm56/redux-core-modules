@@ -21,7 +21,7 @@ export function* downloadFilesManagerWorkerSaga({
   notificationSuccessMessage,
   fileType,
   responseDataFormatter,
-  dependencies: { setModalAction } = {},
+  dependencies: { setModalAction, sendErrorLogger } = {},
   callBackOnSuccess,
   callBackOnError,
   dispatch,
@@ -106,6 +106,14 @@ export function* downloadFilesManagerWorkerSaga({
 
     if (callBackOnError) {
       yield callBackOnError({ dispatch });
+    }
+
+    if (sendErrorLogger) {
+      sendErrorLogger({
+        error,
+        message: '[downloadFilesManagerWorkerSaga]: get an error',
+        project: '<PROJECT_APP_NAMESPACE>',
+      });
     }
   } finally {
     if (loadingStopAction) {

@@ -57,7 +57,7 @@ export function* spawnedFetchProcessSaga({
   initialLoadingFinishAction,
   selectorsCheckInitialFetched,
   store,
-  dependencies: { setModalAction } = {},
+  dependencies: { setModalAction, sendErrorLogger } = {},
   callBackOnSuccess,
   callBackOnError,
   dispatch,
@@ -148,6 +148,7 @@ export function* spawnedFetchProcessSaga({
         requestExtraDataHandlerActionSaga({
           data: filteredResponseData,
           options: requestExtraDataHandlerOptions,
+          sendErrorLogger,
         }),
       );
     }
@@ -244,6 +245,14 @@ export function* spawnedFetchProcessSaga({
             }),
           );
         }
+      }
+
+      if (sendErrorLogger) {
+        sendErrorLogger({
+          error,
+          message: '[initLoadManagerWorkerSaga]: get an error',
+          project: '<PROJECT_APP_NAMESPACE>',
+        });
       }
 
       // handle error redirect

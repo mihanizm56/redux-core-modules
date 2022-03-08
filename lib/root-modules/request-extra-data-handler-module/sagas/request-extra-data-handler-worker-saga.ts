@@ -1,18 +1,13 @@
 import { put } from 'redux-saga/effects';
-import { InitRequestHandlerActionType } from '../types';
-
-type ParamsType = {
-  data: any; // 'cause we can have various types of data
-  options: InitRequestHandlerActionType;
-};
+import { RequestExtraDataHandlerActionSagaType } from '../types';
 
 // TODO
 // not work in SSR
-
 export function* requestExtraDataHandlerWorkerSaga({
   data,
   options,
-}: ParamsType) {
+  sendErrorLogger,
+}: RequestExtraDataHandlerActionSagaType) {
   try {
     const optionsLength = options.length;
 
@@ -31,5 +26,13 @@ export function* requestExtraDataHandlerWorkerSaga({
       'requestExtraDataHandlerWorkerSaga catch error',
       error.message,
     );
+
+    if (sendErrorLogger) {
+      sendErrorLogger({
+        error,
+        message: '[formManagerWorkerSaga]: get an error',
+        project: '<PROJECT_APP_NAMESPACE>',
+      });
+    }
   }
 }

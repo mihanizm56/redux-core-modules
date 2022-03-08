@@ -42,7 +42,7 @@ export function* formManagerWorkerSaga({
     setFormExternalErrorsAction,
     getErrorModalActionTitle,
   },
-  dependencies: { setModalAction } = {},
+  dependencies: { setModalAction, sendErrorLogger } = {},
   dispatch,
 }: IFormManagerWorkerParams) {
   let responseData;
@@ -190,6 +190,14 @@ export function* formManagerWorkerSaga({
           }),
         );
       }
+    }
+
+    if (sendErrorLogger) {
+      sendErrorLogger({
+        error,
+        message: '[formManagerWorkerSaga]: get an error',
+        project: '<PROJECT_APP_NAMESPACE>',
+      });
     }
 
     // handle error redirect
