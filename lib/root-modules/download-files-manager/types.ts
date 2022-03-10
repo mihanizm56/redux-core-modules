@@ -25,4 +25,5 @@ export type DownloadFilesManagerType = {
   dependencies?: Record<string, any>;
   callBackOnSuccess?: (params: { dispatch: Dispatch }) => void;
   callBackOnError?: (params: { dispatch: Dispatch }) => void;
+  disableErrorLogger?: boolean;
 };

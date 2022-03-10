@@ -49,6 +49,7 @@ export type InitLoadManagerRequestOptionsType = {
     dispatch: Dispatch;
     store: IAdvancedStore;
   }) => void;
+  disableErrorLogger?: boolean;
 };
 
 export type BeforeRequestConfigType = {
@@ -67,6 +68,7 @@ export type InitLoadManagerActionPayloadType = {
     setAppErrorAction?: BaseAction;
     requestsSectionId?: string;
     requestBeforeAllConfig?: BeforeRequestConfigType;
+    disableErrorLoggerAllRequests?: boolean;
   };
   requestConfigList: Array<InitLoadManagerRequestOptionsType>;
 };

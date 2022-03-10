@@ -22,6 +22,7 @@ type ParamsType = InitLoadManagerRequestOptionsType & {
   dependencies?: Record<string, any>;
   store: IAdvancedStore;
   dispatch: Dispatch;
+  disableErrorLoggerAllRequests?: boolean;
 };
 
 export function* spawnedFetchProcessSaga({
@@ -61,6 +62,8 @@ export function* spawnedFetchProcessSaga({
   callBackOnSuccess,
   callBackOnError,
   dispatch,
+  disableErrorLogger,
+  disableErrorLoggerAllRequests,
 }: ParamsType) {
   let responseData;
   const isNode = !getIsClient();
@@ -247,11 +250,14 @@ export function* spawnedFetchProcessSaga({
         }
       }
 
-      if (sendErrorLogger) {
+      if (
+        sendErrorLogger &&
+        !disableErrorLogger &&
+        !disableErrorLoggerAllRequests
+      ) {
         sendErrorLogger({
           error,
           message: '[initLoadManagerWorkerSaga]: get an error',
-          project: '<PROJECT_APP_NAMESPACE>',
         });
       }
 

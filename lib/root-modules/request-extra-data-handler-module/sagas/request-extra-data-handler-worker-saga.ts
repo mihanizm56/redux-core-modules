@@ -31,7 +31,6 @@ export function* requestExtraDataHandlerWorkerSaga({
       sendErrorLogger({
         error,
         message: '[formManagerWorkerSaga]: get an error',
-        project: '<PROJECT_APP_NAMESPACE>',
       });
     }
   }

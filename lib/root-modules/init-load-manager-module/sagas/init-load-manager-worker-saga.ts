@@ -25,6 +25,7 @@ export function* initLoadManagerWorkerSaga({
     fullActionLoadingStart,
     setAppErrorAction,
     requestBeforeAllConfig,
+    disableErrorLoggerAllRequests,
   } = {},
   dependencies,
   store,
@@ -94,6 +95,7 @@ export function* initLoadManagerWorkerSaga({
       dependencies,
       store,
       dispatch,
+      disableErrorLoggerAllRequests,
     });
 
     // go to next request

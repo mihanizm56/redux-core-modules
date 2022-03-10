@@ -25,6 +25,7 @@ export function* downloadFilesManagerWorkerSaga({
   callBackOnSuccess,
   callBackOnError,
   dispatch,
+  disableErrorLogger,
 }: ParamsType) {
   try {
     if (loadingStartAction) {
@@ -108,11 +109,10 @@ export function* downloadFilesManagerWorkerSaga({
       yield callBackOnError({ dispatch });
     }
 
-    if (sendErrorLogger) {
+    if (sendErrorLogger && !disableErrorLogger) {
       sendErrorLogger({
         error,
         message: '[downloadFilesManagerWorkerSaga]: get an error',
-        project: '<PROJECT_APP_NAMESPACE>',
       });
     }
   } finally {

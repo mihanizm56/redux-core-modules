@@ -41,6 +41,7 @@ export function* formManagerWorkerSaga({
     requestErrorHandlerProcessParams,
     setFormExternalErrorsAction,
     getErrorModalActionTitle,
+    disableErrorLogger,
   },
   dependencies: { setModalAction, sendErrorLogger } = {},
   dispatch,
@@ -192,11 +193,10 @@ export function* formManagerWorkerSaga({
       }
     }
 
-    if (sendErrorLogger) {
+    if (sendErrorLogger && !disableErrorLogger) {
       sendErrorLogger({
         error,
         message: '[formManagerWorkerSaga]: get an error',
-        project: '<PROJECT_APP_NAMESPACE>',
       });
     }
 

@@ -37,4 +37,5 @@ export type FormManagerType = {
   >;
   setFormExternalErrorsAction?: Action<any>;
   getErrorModalActionTitle?: (errorText: string) => string;
+  disableErrorLogger?: boolean;
 };
