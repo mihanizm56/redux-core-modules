@@ -6,12 +6,13 @@ import {
   IRedirectManagerPayload,
 } from '@/root-modules/redirect-manager-module';
 import { requestErrorHandlerProcess } from '@/utils/request-error-handler-process';
+import { IAdvancedStore } from '@/types';
 import { FormManagerType } from '../types';
 import { getParsedError } from './_utils/get-parsed-error';
 
 interface IFormManagerWorkerParams {
   payload: FormManagerType;
-  dependencies?: Record<string, any>;
+  store: IAdvancedStore;
   dispatch: Dispatch;
 }
 
@@ -43,9 +44,11 @@ export function* formManagerWorkerSaga({
     getErrorModalActionTitle,
     disableErrorLogger,
   },
-  dependencies: { setModalAction, sendErrorLogger } = {},
+  store,
   dispatch,
 }: IFormManagerWorkerParams) {
+  const { setModalAction, sendErrorLogger } = store?.dependencies ?? {};
+
   let responseData;
   // set new "initial" form data - react-final-form needs because if rerender form - "initial" values will be from the very beginning
   if (resetInitialDataAction) {

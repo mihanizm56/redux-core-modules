@@ -58,7 +58,6 @@ export function* spawnedFetchProcessSaga({
   initialLoadingFinishAction,
   selectorsCheckInitialFetched,
   store,
-  dependencies: { setModalAction, sendErrorLogger } = {},
   callBackOnSuccess,
   callBackOnError,
   dispatch,
@@ -67,6 +66,8 @@ export function* spawnedFetchProcessSaga({
 }: ParamsType) {
   let responseData;
   const isNode = !getIsClient();
+
+  const { setModalAction, sendErrorLogger } = store?.dependencies ?? {};
 
   // not to refetch if data was fetched earlier
   if (selectorsCheckInitialFetched) {

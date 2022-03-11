@@ -1,6 +1,5 @@
 import { spawn, all, fork } from 'redux-saga/effects';
 import { Router } from 'router5';
-import { Dispatch } from 'redux';
 import { formManagerWatcherSaga } from '@/root-modules/form-manager-module';
 import { initLoadManagerWatcherSaga } from '@/root-modules/init-load-manager-module';
 import { redirectManagerWatcherSaga } from '@/root-modules/redirect-manager-module';
@@ -11,7 +10,6 @@ import { IAdvancedStore } from '@/types';
 
 type RootSagaParams = {
   router?: Router;
-  dispatch: Dispatch;
   rootSagas?: Record<string, any>;
   eventNameToCancelRequests?: string;
   store: IAdvancedStore;
@@ -20,25 +18,25 @@ type RootSagaParams = {
 export const createRootSaga = ({
   rootSagas = {},
   router,
-  dispatch,
   eventNameToCancelRequests,
   store,
 }: RootSagaParams) =>
   function* rootSaga() {
-    const dependencies = store.dependencies;
+    // вытаскиваем диспатч для корневый саги
+    const dispatch = store.dispatch;
+
     const isNode = !getIsClient();
 
     if (isNode) {
       // на сервере нам надо сделать процессы которые могут быть отслеживаемыми (fork)
       // на клиенте нам надо сделать процессы которые могут быть неубиваемыми (spawn)
       yield all([
-        fork(downloadFilesManagerWatcherSaga, { dependencies, dispatch }),
-        fork(formManagerWatcherSaga, { dependencies, dispatch }),
+        fork(downloadFilesManagerWatcherSaga, { dispatch, store }),
+        fork(formManagerWatcherSaga, { dispatch, store }),
         fork(initLoadManagerWatcherSaga, {
           eventNameToCancelRequests,
           dispatch,
           store,
-          dependencies,
         }),
         fork(requestExtraDataHandlerWatcherSaga),
         fork(redirectManagerWatcherSaga, { router, dispatch }),
@@ -55,13 +53,12 @@ export const createRootSaga = ({
         }),
       );
     } else {
-      yield spawn(downloadFilesManagerWatcherSaga, { dependencies, dispatch });
-      yield spawn(formManagerWatcherSaga, { dependencies, dispatch });
+      yield spawn(downloadFilesManagerWatcherSaga, { store, dispatch });
+      yield spawn(formManagerWatcherSaga, { store, dispatch });
       yield spawn(initLoadManagerWatcherSaga, {
         eventNameToCancelRequests,
         dispatch,
         store,
-        dependencies,
       });
       yield spawn(requestExtraDataHandlerWatcherSaga);
 

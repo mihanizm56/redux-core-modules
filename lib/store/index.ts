@@ -34,7 +34,7 @@ export const createAppStore = ({
   rootSagas,
   eventNameToCancelRequests,
   initialState,
-  dependencies,
+  dependencies = {},
   extraMiddlewares = [],
   reduxStoreName = 'redux-core-modules',
   asyncReducers,
@@ -84,16 +84,10 @@ export const createAppStore = ({
       ) as IAdvancedStore)
     : (createStore(enableBatching(rootReducer), enhancers) as IAdvancedStore);
 
-  // вытаскиваем диспатч для корневый саги
-  const dispatch = store.dispatch;
-  // передаём зависимости
-  store.dependencies = dependencies;
-
   // создаем корневую сагу прокидывая в нее доп параметры
   const rootSaga = createRootSaga({
     rootSagas,
     router,
-    dispatch,
     eventNameToCancelRequests,
     store,
   });
@@ -108,6 +102,7 @@ export const createAppStore = ({
     rootSagas,
     initialState,
     rootSaga,
+    dependencies,
   });
 
   if (asyncSagas) {

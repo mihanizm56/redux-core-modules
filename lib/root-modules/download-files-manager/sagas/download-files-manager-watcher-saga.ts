@@ -1,17 +1,18 @@
 import { take, fork, race, delay } from 'redux-saga/effects';
 import { Dispatch } from 'redux';
 import { THROTTLE_TIMEOUT } from '@/constants';
+import { IAdvancedStore } from '@/types';
 import { DOWNLOAD_FILE_MANAGER } from '../actions';
 import { DownloadFilesManagerType } from '../types';
 import { downloadFilesManagerWorkerSaga } from './download-files-manager-worker-saga';
 
 type ParamsType = {
-  dependencies?: Record<string, any>;
+  store: IAdvancedStore;
   dispatch: Dispatch;
 };
 
 export function* downloadFilesManagerWatcherSaga({
-  dependencies,
+  store,
   dispatch,
 }: ParamsType) {
   while (true) {
@@ -28,7 +29,7 @@ export function* downloadFilesManagerWatcherSaga({
       if (debounced) {
         yield fork(downloadFilesManagerWorkerSaga, {
           ...action.payload,
-          dependencies,
+          store,
           dispatch,
         });
         break;

@@ -15,6 +15,7 @@ type ParamsType = {
   rootSagas?: Record<string, any>;
   initialState?: Record<string, any>;
   rootSaga: any;
+  dependencies: Record<string, any>;
 };
 
 export const enrichStore = ({
@@ -25,7 +26,15 @@ export const enrichStore = ({
   router,
   initialState,
   rootSaga,
+  dependencies,
 }: ParamsType) => {
+  // передаём зависимости
+  store.dependencies = dependencies;
+  // определяем сеттер зависимостей стора
+  store.setDependencies = (newDependencies: Record<string, any>) => {
+    store.dependencies = { ...store.dependencies, ...newDependencies };
+  };
+
   const isNode = !getIsClient();
 
   // прокидываем роутер в стор
@@ -43,7 +52,7 @@ export const enrichStore = ({
   // Функция при вызове которой redux-saga собирает все саги
   // и их результаты и завершает прослушивание всех запущенных саг (через fork!)
   store.closeSagas = () => store.dispatch(END);
-  // TODO проверить имеет ли смысл
+  // задаем весь начальный стейт
   store.initialState = initialState;
 
   // для возможности при инициализации на сервере сделать

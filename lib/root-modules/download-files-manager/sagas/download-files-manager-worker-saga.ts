@@ -1,10 +1,12 @@
 import { put, call, all } from 'redux-saga/effects';
 import { Dispatch } from 'redux';
 import { downloadFile } from '@/utils';
+import { IAdvancedStore } from '@/types';
 import { DownloadFilesManagerType } from '../types';
 
 type ParamsType = DownloadFilesManagerType & {
   dispatch: Dispatch;
+  store: IAdvancedStore;
 };
 
 export function* downloadFilesManagerWorkerSaga({
@@ -21,12 +23,14 @@ export function* downloadFilesManagerWorkerSaga({
   notificationSuccessMessage,
   fileType,
   responseDataFormatter,
-  dependencies: { setModalAction, sendErrorLogger } = {},
+  store,
   callBackOnSuccess,
   callBackOnError,
   dispatch,
   disableErrorLogger,
 }: ParamsType) {
+  const { setModalAction, sendErrorLogger } = store?.dependencies ?? {};
+
   try {
     if (loadingStartAction) {
       yield put(loadingStartAction());

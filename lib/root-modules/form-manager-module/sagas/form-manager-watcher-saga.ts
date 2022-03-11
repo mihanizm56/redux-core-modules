@@ -1,19 +1,17 @@
 import { take, fork, race, delay } from 'redux-saga/effects';
 import { Dispatch } from 'redux';
 import { THROTTLE_TIMEOUT } from '@/constants';
+import { IAdvancedStore } from '@/types';
 import { FETCH_FORM_MANAGER } from '../actions';
 import { FormManagerType } from '../types';
 import { formManagerWorkerSaga } from './form-manager-worker-saga';
 
 type ParamsType = {
-  dependencies?: Record<string, any>;
   dispatch: Dispatch;
+  store: IAdvancedStore;
 };
 
-export function* formManagerWatcherSaga({
-  dependencies,
-  dispatch,
-}: ParamsType) {
+export function* formManagerWatcherSaga({ store, dispatch }: ParamsType) {
   while (true) {
     let action: { payload: FormManagerType } = yield take(FETCH_FORM_MANAGER);
 
@@ -26,7 +24,7 @@ export function* formManagerWatcherSaga({
       if (debounced) {
         yield fork(formManagerWorkerSaga, {
           payload: action.payload,
-          dependencies,
+          store,
           dispatch,
         });
         break;

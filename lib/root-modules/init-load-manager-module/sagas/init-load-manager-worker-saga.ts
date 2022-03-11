@@ -27,7 +27,6 @@ export function* initLoadManagerWorkerSaga({
     requestBeforeAllConfig,
     disableErrorLoggerAllRequests,
   } = {},
-  dependencies,
   store,
 }: ParamsType) {
   const isNode = !getIsClient();
@@ -92,7 +91,6 @@ export function* initLoadManagerWorkerSaga({
       setAppErrorAction,
       eventNameToCancelRequests,
       eventToCatchEndedProcesses,
-      dependencies,
       store,
       dispatch,
       disableErrorLoggerAllRequests,

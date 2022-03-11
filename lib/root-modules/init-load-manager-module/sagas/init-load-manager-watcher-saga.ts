@@ -8,14 +8,12 @@ import { initLoadManagerWorkerSaga } from './init-load-manager-worker-saga';
 type ParamsType = {
   eventNameToCancelRequests?: string;
   dispatch: Dispatch;
-  dependencies?: Record<string, any>;
   store: IAdvancedStore;
 };
 
 export function* initLoadManagerWatcherSaga({
   eventNameToCancelRequests,
   dispatch,
-  dependencies,
   store,
 }: ParamsType) {
   while (true) {
@@ -26,7 +24,6 @@ export function* initLoadManagerWatcherSaga({
       ...payload,
       eventNameToCancelRequests,
       dispatch,
-      dependencies,
       store,
     });
   }
