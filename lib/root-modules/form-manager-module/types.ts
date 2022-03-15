@@ -18,7 +18,10 @@ export type FormManagerType = {
   formSuccessAction?: Action<any> | BaseAction;
   formSuccessActionsArray?: Array<Action<any> | BaseAction>;
   showNotification?: boolean;
-  callBackOnSuccess?: (params: { dispatch: Dispatch }) => void;
+  callBackOnSuccess?: (params: {
+    dispatch: Dispatch;
+    responseData: any;
+  }) => void;
   callBackOnError?: (params: { errorData: any; dispatch: Dispatch }) => void;
   requestExtraDataHandlerOptions?: Array<{
     fieldName: string;

@@ -93,15 +93,15 @@ export function* formManagerWorkerSaga({
       );
     }
 
-    // put usual function callback
-    if (callBackOnSuccess) {
-      yield callBackOnSuccess({ dispatch });
-    }
-
     // format data
     const formattedData = responseDataFormatter
       ? responseDataFormatter(responseData.data)
       : responseData.data;
+
+    // put usual function callback
+    if (callBackOnSuccess) {
+      yield callBackOnSuccess({ dispatch, responseData: formattedData });
+    }
 
     // dispatch success actions
     if (formSuccessAction) {
