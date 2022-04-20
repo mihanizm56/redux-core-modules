@@ -32,6 +32,7 @@ export type InitLoadManagerRequestOptionsType = {
   redirectRouteParamsSuccess?: IRedirectManagerPayload;
   formatDataToRedirectParamsError?: (data: any) => any;
   redirectRouteParamsError?: IRedirectManagerPayload;
+  titleMessageSuccess?: string;
   textMessageSuccess?: string;
   requestErrorHandlerProcessParams?: Omit<
     RequestErrorHandlerProcessParamsType,
@@ -48,6 +49,7 @@ export type InitLoadManagerRequestOptionsType = {
   callBackOnError?: (params: {
     dispatch: Dispatch;
     store: IAdvancedStore;
+    error: any;
   }) => void;
   disableErrorLogger?: boolean;
 };

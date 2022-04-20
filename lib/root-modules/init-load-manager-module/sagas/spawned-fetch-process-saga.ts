@@ -48,6 +48,7 @@ export function* spawnedFetchProcessSaga({
   formatDataToRedirectParamsError,
   redirectRouteParamsError,
   textMessageSuccess,
+  titleMessageSuccess,
   setAppErrorAction,
   requestsSectionId,
   eventNameToCancelRequests,
@@ -158,11 +159,16 @@ export function* spawnedFetchProcessSaga({
     }
 
     // set success notification
-    if (showSuccessNotification && textMessageSuccess && setModalAction) {
+    if (
+      showSuccessNotification &&
+      (textMessageSuccess || titleMessageSuccess) &&
+      setModalAction
+    ) {
       yield put(
         setModalAction({
           status: 'success',
-          title: textMessageSuccess,
+          title: titleMessageSuccess,
+          text: textMessageSuccess,
         }),
       );
     }
@@ -228,7 +234,7 @@ export function* spawnedFetchProcessSaga({
       }
 
       if (callBackOnError) {
-        yield callBackOnError({ dispatch, store });
+        yield callBackOnError({ dispatch, store, error });
       }
 
       // set error notification
