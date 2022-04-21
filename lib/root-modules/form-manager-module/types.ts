@@ -34,6 +34,7 @@ export type FormManagerType = {
   formatDataToRedirectParamsSuccess?: (data: any) => any;
   formatDataToRedirectParamsError?: (data: any) => any;
   textMessageSuccess?: string;
+  titleMessageSuccess?: string;
   requestErrorHandlerProcessParams?: Omit<
     RequestErrorHandlerProcessParamsType,
     'request'

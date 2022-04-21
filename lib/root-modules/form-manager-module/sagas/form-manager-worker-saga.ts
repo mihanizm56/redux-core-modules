@@ -43,6 +43,7 @@ export function* formManagerWorkerSaga({
     setFormExternalErrorsAction,
     getErrorModalActionTitle,
     disableErrorLogger,
+    titleMessageSuccess,
   },
   store,
   dispatch,
@@ -125,11 +126,16 @@ export function* formManagerWorkerSaga({
     }
 
     // trigger success notification
-    if (showNotification && textMessageSuccess && setModalAction) {
+    if (
+      showNotification &&
+      (textMessageSuccess || titleMessageSuccess) &&
+      setModalAction
+    ) {
       yield put(
         setModalAction({
           status: 'success',
-          title: textMessageSuccess,
+          title: titleMessageSuccess,
+          text: textMessageSuccess,
         }),
       );
     }
