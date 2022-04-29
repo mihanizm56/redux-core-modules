@@ -6,9 +6,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "test:watch": "jest --watch",
-    "test": "set CI=true && jest",
-    "test:coverage": "jest --coverage",
+    "test": "echo tests",
     "alias-resolve": "tscpaths -p tsconfig.json -s ./lib -o ./dist",
     "compile": "tsc --project tsconfig.json",
     "lint": "npx eslint . --ext .ts --fix",
@@ -39,7 +37,6 @@
   "homepage": "https://github.com/mihanizm56/redux-core-modules#readme",
   "devDependencies": {
     "@commitlint/cli": "9.1.2",
-    "@types/jest": "24.9.1",
     "@types/react": "16.9.11",
     "@types/react-redux": "7.1.20",
     "@types/redux-batched-actions": "0.1.5",
@@ -66,12 +63,10 @@
     "eslint-plugin-react": "7.27.0",
     "eslint-plugin-react-hooks": "4.3.0",
     "eslint-plugin-security": "1.4.0",
-    "react": "16.14.0",
-    "prettier": "2.4.1",
     "husky": "3.0.9",
-    "jest": "25.1.0",
     "npm-audit-resolver": "2.1.0",
-    "ts-jest": "25.4.0",
+    "prettier": "2.4.1",
+    "react": "16.14.0",
     "tscpaths": "0.0.9",
     "typescript": "4.4.4"
   },
