@@ -51,6 +51,7 @@
     "cross-env": "7.0.3",
     "cz-customizable": "6.2.0",
     "minimist": "1.2.6",
+    "ansi-regex": "5.0.1",
     "eslint": "8.2.0",
     "eslint-config-airbnb": "18.2.1",
     "eslint-config-prettier": "8.3.0",
