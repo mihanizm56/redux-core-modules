@@ -38,12 +38,16 @@ export function* formManagerWorkerSaga({
     redirectErrorActionParams,
     formatDataToRedirectParamsSuccess,
     formatDataToRedirectParamsError,
-    textMessageSuccess,
     requestErrorHandlerProcessParams,
     setFormExternalErrorsAction,
-    getErrorModalActionTitle,
     disableErrorLogger,
+    textMessageSuccess,
     titleMessageSuccess,
+    getErrorModalActionTitle,
+    titleMessageError,
+    scrollToErrorOnField,
+    scrollFormErrorsFormatterOnSuccess,
+    scrollFormErrorsFormatterOnError,
   },
   store,
   dispatch,
@@ -140,6 +144,16 @@ export function* formManagerWorkerSaga({
       );
     }
 
+    // if scroll util and no redirect
+    // to use simple responseData.data => "errors" field should be used
+    if (scrollToErrorOnField && !redirectErrorActionParams) {
+      const formErrors =
+        scrollFormErrorsFormatterOnSuccess?.(responseData.data) ??
+        responseData.data?.errors;
+
+      scrollToErrorOnField({ formErrors });
+    }
+
     // handle success redirect
     if (redirectSuccessActionParams) {
       const redirectData: IRedirectManagerPayload =
@@ -159,7 +173,7 @@ export function* formManagerWorkerSaga({
     // get additionalErrors from rest and json-rpc requests
     // please - instruct your backend to prepare form errors in "errors" field
     // eslint-disable-next-line
-    const additionalErrors = errorData.additionalErrors?.errors ?? null
+    const additionalErrors = errorData?.additionalErrors?.errors ?? null
 
     // put usual function callback
     if (callBackOnError) {
@@ -177,6 +191,19 @@ export function* formManagerWorkerSaga({
       );
     }
 
+    // if scroll util and no redirect
+    if (
+      scrollToErrorOnField &&
+      !redirectErrorActionParams &&
+      errorData?.errorText
+    ) {
+      const formErrors =
+        scrollFormErrorsFormatterOnError?.(errorData) ??
+        errorData.additionalErrors;
+
+      scrollToErrorOnField({ formErrors });
+    }
+
     // dispatch actions with additionalErrors to set errors to the form
     if (setFormExternalErrorsAction && additionalErrors) {
       yield put(setFormExternalErrorsAction(additionalErrors));
@@ -184,11 +211,13 @@ export function* formManagerWorkerSaga({
 
     // trigger notification
     if (showNotification && setModalAction) {
-      if (getErrorModalActionTitle) {
+      if (getErrorModalActionTitle || titleMessageError) {
         yield put(
           setModalAction({
             status: 'error',
-            title: getErrorModalActionTitle(errorData.errorText),
+            title:
+              getErrorModalActionTitle?.(errorData.errorText) ||
+              titleMessageError,
             text: errorData.errorText,
           }),
         );
@@ -196,7 +225,7 @@ export function* formManagerWorkerSaga({
         yield put(
           setModalAction({
             status: 'error',
-            title: errorData.errorText,
+            text: errorData.errorText,
           }),
         );
       }

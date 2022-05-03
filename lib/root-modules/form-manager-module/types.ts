@@ -33,13 +33,18 @@ export type FormManagerType = {
   redirectErrorActionParams?: IRedirectManagerPayload;
   formatDataToRedirectParamsSuccess?: (data: any) => any;
   formatDataToRedirectParamsError?: (data: any) => any;
-  textMessageSuccess?: string;
-  titleMessageSuccess?: string;
+
   requestErrorHandlerProcessParams?: Omit<
     RequestErrorHandlerProcessParamsType,
     'request'
   >;
+  disableErrorLogger?: boolean;
   setFormExternalErrorsAction?: Action<any>;
   getErrorModalActionTitle?: (errorText: string) => string;
-  disableErrorLogger?: boolean;
+  textMessageSuccess?: string;
+  titleMessageSuccess?: string;
+  titleMessageError?: string;
+  scrollFormErrorsFormatterOnError?: (data: any) => any;
+  scrollFormErrorsFormatterOnSuccess?: (data: any) => any;
+  scrollToErrorOnField?: (errorFieldsData: any) => void;
 };
