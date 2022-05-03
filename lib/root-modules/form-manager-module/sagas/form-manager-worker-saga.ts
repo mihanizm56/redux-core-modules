@@ -198,8 +198,7 @@ export function* formManagerWorkerSaga({
       errorData?.errorText
     ) {
       const formErrors =
-        scrollFormErrorsFormatterOnError?.(errorData) ??
-        errorData.additionalErrors;
+        scrollFormErrorsFormatterOnError?.(errorData) ?? additionalErrors;
 
       scrollToErrorOnField({ formErrors });
     }
