@@ -80,6 +80,7 @@ router.start(() => {
  - trigger notifications actions on success and error
  - send data (formatted of not) to the Request-extra-data-handler-module to make some operations with splitted data from response
  - trigger success or error router redirections
+ - trigger scroll to error fields (if you provide scroll util)
 
 #### Example:
 
@@ -99,6 +100,16 @@ const formManagerSubmitOptions: FormManagerType = {
     redirectSuccessActionParams: {
         pathName: 'some.path',
     },
+    scrollToErrorOnField:()=>{
+      // scroll here
+    },
+    // if you need data to be formatted before sended to scrollToErrorOnField
+    scrollFormErrorsFormatterOnSuccess: (data) => {
+      // responseData.data will be provided from response
+    },
+    scrollFormErrorsFormatterOnError: () => {
+      // {errorText, additionalErrors} will be provided from response
+    }
 };
 
 store.dispatch(fetchFormManagerSagaAction(formManagerSubmitOptions));
