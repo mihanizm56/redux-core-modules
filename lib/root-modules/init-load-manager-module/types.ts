@@ -39,6 +39,7 @@ export type InitLoadManagerRequestOptionsType = {
     'request'
   >;
   getErrorModalActionTitle?: (errorText: string) => string;
+  titleMessageError?: string;
   initialLoadingFinishAction?: BaseAction;
   selectorsCheckInitialFetched?: Array<SelectorCheckInitialFetchedType>;
   callBackOnSuccess?: (params: {

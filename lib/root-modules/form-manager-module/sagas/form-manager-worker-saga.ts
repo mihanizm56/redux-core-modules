@@ -210,24 +210,21 @@ export function* formManagerWorkerSaga({
 
     // trigger notification
     if (showNotification && setModalAction) {
-      if (getErrorModalActionTitle || titleMessageError) {
-        yield put(
-          setModalAction({
+      const customModalTitle =
+        titleMessageError || getErrorModalActionTitle?.(errorData.errorText);
+
+      const params = customModalTitle
+        ? {
             status: 'error',
-            title:
-              getErrorModalActionTitle?.(errorData.errorText) ||
-              titleMessageError,
+            title: customModalTitle,
             text: errorData.errorText,
-          }),
-        );
-      } else {
-        yield put(
-          setModalAction({
+          }
+        : {
             status: 'error',
             text: errorData.errorText,
-          }),
-        );
-      }
+          };
+
+      yield put(setModalAction(params));
     }
 
     if (sendErrorLogger && !disableErrorLogger) {

@@ -64,6 +64,7 @@ export function* spawnedFetchProcessSaga({
   dispatch,
   disableErrorLogger,
   disableErrorLoggerAllRequests,
+  titleMessageError,
 }: ParamsType) {
   let responseData;
   const isNode = !getIsClient();
@@ -239,22 +240,21 @@ export function* spawnedFetchProcessSaga({
 
       // set error notification
       if (showErrorNotification && setModalAction) {
-        if (getErrorModalActionTitle) {
-          yield put(
-            setModalAction({
+        const customModalTitle =
+          titleMessageError || getErrorModalActionTitle?.(error.message);
+
+        const params = customModalTitle
+          ? {
               status: 'error',
-              title: getErrorModalActionTitle(error.message),
+              title: customModalTitle,
               text: error.message,
-            }),
-          );
-        } else {
-          yield put(
-            setModalAction({
+            }
+          : {
               status: 'error',
               title: error.message,
-            }),
-          );
-        }
+            };
+
+        yield put(setModalAction(params));
       }
 
       if (
