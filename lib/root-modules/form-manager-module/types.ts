@@ -46,5 +46,5 @@ export type FormManagerType = {
   titleMessageError?: string;
   scrollFormErrorsFormatterOnError?: (data: any) => any;
   scrollFormErrorsFormatterOnSuccess?: (data: any) => any;
-  scrollToErrorOnField?: (errorFieldsData: any) => void;
+  scrollToErrorOnField?: (errorFieldsData: any) => void; // any because any data from api
 };
