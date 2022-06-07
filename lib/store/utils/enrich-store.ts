@@ -34,6 +34,8 @@ export const enrichStore = ({
   store.setDependencies = (newDependencies: Record<string, any>) => {
     store.dependencies = { ...store.dependencies, ...newDependencies };
   };
+  // определяем геттер зависимостей стора
+  store.getDependencies = () => store.dependencies || {};
 
   const isNode = !getIsClient();
 

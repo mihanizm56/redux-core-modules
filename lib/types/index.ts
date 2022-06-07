@@ -22,6 +22,7 @@ export interface IAdvancedStore extends Store {
   dependencies?: Record<string, any>;
   rootSaga: any;
   setDependencies: (params: Record<string, any>) => void;
+  getDependencies: () => Record<string, any>;
 }
 
 export type AnyAction = (payload?: any) => { type: string; payload?: any };
