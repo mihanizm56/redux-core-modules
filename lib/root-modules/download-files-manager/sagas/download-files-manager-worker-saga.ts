@@ -2,6 +2,7 @@ import { put, call, all } from 'redux-saga/effects';
 import { Dispatch } from 'redux';
 import { downloadFile } from '@/utils';
 import { IAdvancedStore } from '@/types';
+import { getParsedError } from '@/root-modules/form-manager-module/sagas/_utils/get-parsed-error';
 import { DownloadFilesManagerType } from '../types';
 
 type ParamsType = DownloadFilesManagerType & {
@@ -28,6 +29,8 @@ export function* downloadFilesManagerWorkerSaga({
   callBackOnError,
   dispatch,
   disableErrorLogger,
+  titleMessageError,
+  getErrorModalActionTitle,
 }: ParamsType) {
   const { setModalAction, sendErrorLogger } = store?.dependencies ?? {};
 
@@ -36,13 +39,19 @@ export function* downloadFilesManagerWorkerSaga({
       yield put(loadingStartAction());
     }
 
-    const { error, errorText, data } = yield call(
+    const { error, errorText, data, additionalErrors } = yield call(
       downloadFileRequest,
       requestParams,
     );
 
     if (error) {
-      throw new Error(errorText);
+      // serialize data to be catched to the "catch" block and to be parsed
+      throw new Error(
+        JSON.stringify({
+          errorText,
+          additionalErrors,
+        }),
+      );
     }
 
     const formattedData = responseDataFormatter
@@ -69,7 +78,7 @@ export function* downloadFilesManagerWorkerSaga({
 
     // put usual function callback
     if (callBackOnSuccess) {
-      yield callBackOnSuccess({ dispatch });
+      yield callBackOnSuccess({ dispatch, responseData: formattedData });
     }
 
     // set success notification
@@ -85,32 +94,45 @@ export function* downloadFilesManagerWorkerSaga({
         }),
       );
     }
-  } catch (error: any) {
-    console.error('downloadFilesManagerWorkerSaga gets an error', error);
+  } catch (error) {
+    // parse error data
+    const errorData = getParsedError({
+      sagaName: 'downloadFilesManagerWorkerSaga',
+      error,
+    });
 
     // set error notification
     if (showNotificationError && setModalAction) {
-      yield put(
-        setModalAction({
-          status: 'error',
-          title: error.message,
-        }),
-      );
+      const customModalTitle =
+        titleMessageError || getErrorModalActionTitle?.(errorData.errorText);
+
+      const params = customModalTitle
+        ? {
+            status: 'error',
+            title: customModalTitle,
+            text: errorData.errorText,
+          }
+        : {
+            status: 'error',
+            text: errorData.errorText,
+          };
+
+      yield put(setModalAction(params));
     }
 
     // dispatch fail actions
     if (setErrorAction) {
-      yield put(setErrorAction(error.message));
+      yield put(setErrorAction(errorData.errorText));
     } else if (setErrorActionsArray && setErrorActionsArray.length) {
       yield all(
         setErrorActionsArray.map((errorAction) =>
-          put(errorAction(error.message)),
+          put(errorAction(errorData.errorText)),
         ),
       );
     }
 
     if (callBackOnError) {
-      yield callBackOnError({ dispatch });
+      yield callBackOnError({ dispatch, errorData });
     }
 
     if (sendErrorLogger && !disableErrorLogger) {

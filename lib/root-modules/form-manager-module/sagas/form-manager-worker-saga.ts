@@ -167,6 +167,8 @@ export function* formManagerWorkerSaga({
       yield put(redirectManagerSagaAction(redirectData));
     }
   } catch (error) {
+    console.error('formManagerWorkerSaga gets an error', error);
+
     // parse error data
     const errorData = getParsedError({ sagaName: 'FormManagerSaga', error });
 

@@ -23,7 +23,12 @@ export type DownloadFilesManagerType = {
   fileType: keyof typeof FILE_TYPES;
   responseDataFormatter?: (response: any) => ResponseDataFormatterReturnType;
   dependencies?: Record<string, any>;
-  callBackOnSuccess?: (params: { dispatch: Dispatch }) => void;
-  callBackOnError?: (params: { dispatch: Dispatch }) => void;
+  callBackOnSuccess?: (params: {
+    dispatch: Dispatch;
+    responseData: any;
+  }) => void;
+  callBackOnError?: (params: { errorData: any; dispatch: Dispatch }) => void;
   disableErrorLogger?: boolean;
+  getErrorModalActionTitle?: (errorText: string) => string;
+  titleMessageError?: string;
 };
