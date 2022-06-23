@@ -149,7 +149,8 @@ export function* formManagerWorkerSaga({
     if (scrollToErrorOnField && !redirectErrorActionParams) {
       const formErrors =
         scrollFormErrorsFormatterOnSuccess?.(responseData.data) ??
-        responseData.data?.errors;
+        responseData.data?.errors ??
+        {};
 
       scrollToErrorOnField({ formErrors });
     }
@@ -200,7 +201,7 @@ export function* formManagerWorkerSaga({
       errorData?.errorText
     ) {
       const formErrors =
-        scrollFormErrorsFormatterOnError?.(errorData) ?? additionalErrors;
+        scrollFormErrorsFormatterOnError?.(errorData) ?? additionalErrors ?? {};
 
       scrollToErrorOnField({ formErrors });
     }
