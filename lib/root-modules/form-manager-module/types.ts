@@ -14,7 +14,7 @@ export type FormManagerType = {
     isErrorTextStraightToOutput: boolean;
   }) => Promise<any>;
   setErrorAction?: Action<any>;
-  setErrorActionsArray?: Array<Action<string>>;
+  setErrorActionsArray?: Array<Action<string> | BaseAction>;
   formSuccessAction?: Action<any> | BaseAction;
   formSuccessActionsArray?: Array<Action<any> | BaseAction>;
   showNotification?: boolean;
