@@ -6,7 +6,7 @@ import { RequestExtraDataHandlerActionSagaType } from '../types';
 export function* requestExtraDataHandlerWorkerSaga({
   data,
   options,
-  sendErrorLogger,
+  errorLogger,
 }: RequestExtraDataHandlerActionSagaType) {
   try {
     const optionsLength = options.length;
@@ -27,10 +27,10 @@ export function* requestExtraDataHandlerWorkerSaga({
       error.message,
     );
 
-    if (sendErrorLogger) {
-      sendErrorLogger({
+    if (errorLogger) {
+      errorLogger({
         error,
-        message: '[formManagerWorkerSaga]: get an error',
+        message: '[requestExtraDataHandlerWorkerSaga]: get an error',
       });
     }
   }

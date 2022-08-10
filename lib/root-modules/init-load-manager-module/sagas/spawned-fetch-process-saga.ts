@@ -5,7 +5,7 @@ import {
   redirectManagerSagaAction,
   IRedirectManagerPayload,
 } from '@/root-modules/redirect-manager-module';
-import { BaseAction, IAdvancedStore } from '@/types';
+import { BaseAction, IAdvancedStore, IErrorLogger } from '@/types';
 import { requestErrorHandlerProcess } from '@/utils/request-error-handler-process';
 import { filterBatchedResponseData } from '@/utils/filter-batch-response-data';
 import { getIsClient } from '@/utils/get-is-client';
@@ -23,6 +23,7 @@ type ParamsType = InitLoadManagerRequestOptionsType & {
   store: IAdvancedStore;
   dispatch: Dispatch;
   disableErrorLoggerAllRequests?: boolean;
+  errorLogger?: IErrorLogger;
 };
 
 export function* spawnedFetchProcessSaga({
@@ -63,13 +64,13 @@ export function* spawnedFetchProcessSaga({
   callBackOnError,
   dispatch,
   disableErrorLogger,
-  disableErrorLoggerAllRequests,
   titleMessageError,
+  errorLogger,
 }: ParamsType) {
   let responseData;
   const isNode = !getIsClient();
 
-  const { setModalAction, sendErrorLogger } = store?.dependencies ?? {};
+  const { setModalAction } = store?.dependencies ?? {};
 
   // not to refetch if data was fetched earlier
   if (selectorsCheckInitialFetched) {
@@ -154,7 +155,7 @@ export function* spawnedFetchProcessSaga({
         requestExtraDataHandlerActionSaga({
           data: filteredResponseData,
           options: requestExtraDataHandlerOptions,
-          sendErrorLogger,
+          errorLogger,
         }),
       );
     }
@@ -257,12 +258,8 @@ export function* spawnedFetchProcessSaga({
         yield put(setModalAction(params));
       }
 
-      if (
-        sendErrorLogger &&
-        !disableErrorLogger &&
-        !disableErrorLoggerAllRequests
-      ) {
-        sendErrorLogger({
+      if (errorLogger && !disableErrorLogger) {
+        errorLogger({
           error,
           message: '[initLoadManagerWorkerSaga]: get an error',
         });

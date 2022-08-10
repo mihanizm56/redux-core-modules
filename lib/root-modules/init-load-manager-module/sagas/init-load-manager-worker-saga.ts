@@ -25,7 +25,7 @@ export function* initLoadManagerWorkerSaga({
     fullActionLoadingStart,
     setAppErrorAction,
     requestBeforeAllConfig,
-    disableErrorLoggerAllRequests,
+    errorLogger,
   } = {},
   store,
 }: ParamsType) {
@@ -93,7 +93,7 @@ export function* initLoadManagerWorkerSaga({
       eventToCatchEndedProcesses,
       store,
       dispatch,
-      disableErrorLoggerAllRequests,
+      errorLogger,
     });
 
     // go to next request

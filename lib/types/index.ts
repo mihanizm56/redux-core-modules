@@ -82,8 +82,9 @@ export type InjectAsyncReducerParams = {
   isRoot?: boolean;
 };
 
-export abstract class ILogger<InitParamsType, SendEventParamsType> {
-  public abstract init: (params: InitParamsType) => void;
+export type LoggerParamsType = {
+  error: Error;
+  message: string;
+};
 
-  public abstract sendEvent: (params: SendEventParamsType) => void;
-}
+export type IErrorLogger = (params: LoggerParamsType) => void;
