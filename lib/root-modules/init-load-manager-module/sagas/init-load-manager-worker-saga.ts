@@ -93,7 +93,8 @@ export function* initLoadManagerWorkerSaga({
       eventToCatchEndedProcesses,
       store,
       dispatch,
-      errorLogger,
+      errorLogger:
+        errorLogger || requestConfigList[counterRequests].errorLogger,
     });
 
     // go to next request

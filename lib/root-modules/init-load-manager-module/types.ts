@@ -53,6 +53,7 @@ export type InitLoadManagerRequestOptionsType = {
     error: any;
   }) => void;
   disableErrorLogger?: boolean;
+  errorLogger?: IErrorLogger;
 };
 
 export type BeforeRequestConfigType = {

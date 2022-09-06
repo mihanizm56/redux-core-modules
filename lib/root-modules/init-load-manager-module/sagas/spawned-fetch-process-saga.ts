@@ -5,7 +5,7 @@ import {
   redirectManagerSagaAction,
   IRedirectManagerPayload,
 } from '@/root-modules/redirect-manager-module';
-import { BaseAction, IAdvancedStore, IErrorLogger } from '@/types';
+import { BaseAction, IAdvancedStore } from '@/types';
 import { requestErrorHandlerProcess } from '@/utils/request-error-handler-process';
 import { filterBatchedResponseData } from '@/utils/filter-batch-response-data';
 import { getIsClient } from '@/utils/get-is-client';
@@ -23,7 +23,6 @@ type ParamsType = InitLoadManagerRequestOptionsType & {
   store: IAdvancedStore;
   dispatch: Dispatch;
   disableErrorLoggerAllRequests?: boolean;
-  errorLogger?: IErrorLogger;
 };
 
 export function* spawnedFetchProcessSaga({
@@ -124,7 +123,8 @@ export function* spawnedFetchProcessSaga({
     // if an error in request
     if (responseData.error) {
       // eslint-disable-next-line
-      throw { 
+      throw {
+        requestParams: formattedRequestParams,
         message: responseData.errorText,
         additionalErrors: responseData.additionalErrors,
       };
