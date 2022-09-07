@@ -11,7 +11,6 @@ import { extraRequestProcessSaga } from './extra-request-process-saga';
 type ParamsType = InitLoadManagerActionPayloadType & {
   eventNameToCancelRequests?: string;
   dispatch: Dispatch;
-  dependencies?: Record<string, any>;
   store: IAdvancedStore;
 };
 
@@ -29,6 +28,8 @@ export function* initLoadManagerWorkerSaga({
   } = {},
   store,
 }: ParamsType) {
+  const { errorLoggerGlobal, setModalAction } = store?.dependencies ?? {};
+
   const isNode = !getIsClient();
 
   // на сервере нам надо сделать процессы которые могут быть отслеживаемыми (fork)
@@ -94,7 +95,11 @@ export function* initLoadManagerWorkerSaga({
       store,
       dispatch,
       errorLogger:
-        errorLogger || requestConfigList[counterRequests].errorLogger,
+        errorLogger ||
+        requestConfigList[counterRequests].errorLogger ||
+        errorLoggerGlobal,
+      counterRequests,
+      setModalAction,
     });
 
     // go to next request

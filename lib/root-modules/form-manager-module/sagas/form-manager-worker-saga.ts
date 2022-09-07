@@ -52,7 +52,7 @@ export function* formManagerWorkerSaga({
   store,
   dispatch,
 }: IFormManagerWorkerParams) {
-  const { setModalAction } = store?.dependencies ?? {};
+  const { setModalAction, errorLoggerGlobal } = store?.dependencies ?? {};
 
   let responseData;
   // set new "initial" form data - react-final-form needs because if rerender form - "initial" values will be from the very beginning
@@ -230,8 +230,10 @@ export function* formManagerWorkerSaga({
       yield put(setModalAction(params));
     }
 
-    if (errorLogger) {
-      errorLogger({
+    if (errorLogger || errorLoggerGlobal) {
+      const logger = errorLogger || errorLoggerGlobal;
+
+      logger({
         error,
         message: '[formManagerWorkerSaga]: get an error',
       });

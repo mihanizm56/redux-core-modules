@@ -32,7 +32,7 @@ export function* downloadFilesManagerWorkerSaga({
   getErrorModalActionTitle,
   errorLogger,
 }: ParamsType) {
-  const { setModalAction } = store?.dependencies ?? {};
+  const { setModalAction, errorLoggerGlobal } = store?.dependencies ?? {};
 
   try {
     if (loadingStartAction) {
@@ -135,8 +135,10 @@ export function* downloadFilesManagerWorkerSaga({
       yield callBackOnError({ dispatch, errorData });
     }
 
-    if (errorLogger) {
-      errorLogger({
+    if (errorLogger || errorLoggerGlobal) {
+      const logger = errorLogger || errorLoggerGlobal;
+
+      logger({
         error,
         message: '[downloadFilesManagerWorkerSaga]: get an error',
       });

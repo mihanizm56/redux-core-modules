@@ -38,7 +38,7 @@ export const createRootSaga = ({
           dispatch,
           store,
         }),
-        fork(requestExtraDataHandlerWatcherSaga),
+        fork(requestExtraDataHandlerWatcherSaga, { dispatch, store }),
         fork(redirectManagerWatcherSaga, { router, dispatch }),
       ]);
 
@@ -60,7 +60,7 @@ export const createRootSaga = ({
         dispatch,
         store,
       });
-      yield spawn(requestExtraDataHandlerWatcherSaga);
+      yield spawn(requestExtraDataHandlerWatcherSaga, { dispatch, store });
 
       if (Boolean(router)) {
         yield spawn(redirectManagerWatcherSaga, { router, dispatch });
