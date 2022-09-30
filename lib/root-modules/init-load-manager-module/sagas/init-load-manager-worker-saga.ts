@@ -25,6 +25,8 @@ export function* initLoadManagerWorkerSaga({
     setAppErrorAction,
     requestBeforeAllConfig,
     errorLogger,
+    callbackOnFinish,
+    callbackOnStart,
   } = {},
   store,
 }: ParamsType) {
@@ -69,6 +71,13 @@ export function* initLoadManagerWorkerSaga({
             dispatch(fullActionLoadingStop());
           }
 
+          if (callbackOnFinish) {
+            callbackOnFinish({
+              dispatch,
+              store,
+            });
+          }
+
           // remove listener to end the whole list of requests
           document.removeEventListener(
             eventToCatchEndedProcesses,
@@ -82,6 +91,13 @@ export function* initLoadManagerWorkerSaga({
 
     if (fullActionLoadingStart) {
       yield put(fullActionLoadingStart());
+    }
+
+    if (callbackOnStart) {
+      callbackOnStart({
+        dispatch,
+        store,
+      });
     }
   }
 

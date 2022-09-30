@@ -73,6 +73,14 @@ export type InitLoadManagerActionPayloadType = {
     requestsSectionId?: string;
     requestBeforeAllConfig?: BeforeRequestConfigType;
     errorLogger?: IErrorLogger;
+    callbackOnStart?: (params: {
+      dispatch: Dispatch;
+      store: IAdvancedStore;
+    }) => void;
+    callbackOnFinish?: (params: {
+      dispatch: Dispatch;
+      store: IAdvancedStore;
+    }) => void;
   };
   requestConfigList: Array<InitLoadManagerRequestOptionsType>;
 };

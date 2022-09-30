@@ -95,6 +95,8 @@ export function* downloadFilesManagerWorkerSaga({
       );
     }
   } catch (error: any) {
+    console.error('downloadFilesManagerWorkerSaga gets an error', error);
+
     // parse error data
     const errorData = getParsedError({
       sagaName: 'downloadFilesManagerWorkerSaga',
