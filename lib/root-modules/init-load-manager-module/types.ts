@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux';
-import { Action, BaseAction, IAdvancedStore } from '@/types';
+import { Action, BaseAction, IAdvancedStore, IErrorLogger } from '@/types';
 import { RequestErrorHandlerProcessParamsType } from '@/utils/request-error-handler-process';
 import { IRedirectManagerPayload } from '../redirect-manager-module';
 
@@ -53,6 +53,7 @@ export type InitLoadManagerRequestOptionsType = {
     error: any;
   }) => void;
   disableErrorLogger?: boolean;
+  errorLogger?: IErrorLogger;
 };
 
 export type BeforeRequestConfigType = {
@@ -71,7 +72,15 @@ export type InitLoadManagerActionPayloadType = {
     setAppErrorAction?: BaseAction;
     requestsSectionId?: string;
     requestBeforeAllConfig?: BeforeRequestConfigType;
-    disableErrorLoggerAllRequests?: boolean;
+    errorLogger?: IErrorLogger;
+    callbackOnStart?: (params: {
+      dispatch: Dispatch;
+      store: IAdvancedStore;
+    }) => void;
+    callbackOnFinish?: (params: {
+      dispatch: Dispatch;
+      store: IAdvancedStore;
+    }) => void;
   };
   requestConfigList: Array<InitLoadManagerRequestOptionsType>;
 };

@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 import { RequestErrorHandlerProcessParamsType } from '@/utils/request-error-handler-process';
-import { Action, BaseAction } from '../../types';
+import { Action, BaseAction, IErrorLogger } from '../../types';
 import { IRedirectManagerPayload } from '../redirect-manager-module';
 
 export type FormManagerType = {
@@ -38,7 +38,6 @@ export type FormManagerType = {
     RequestErrorHandlerProcessParamsType,
     'request'
   >;
-  disableErrorLogger?: boolean;
   setFormExternalErrorsAction?: Action<any>;
   getErrorModalActionTitle?: (errorText: string) => string;
   textMessageSuccess?: string;
@@ -47,4 +46,5 @@ export type FormManagerType = {
   scrollFormErrorsFormatterOnError?: (data: any) => any;
   scrollFormErrorsFormatterOnSuccess?: (data: any) => any;
   scrollToErrorOnField?: (errorFieldsData: any) => void; // any because any data from api
+  errorLogger?: IErrorLogger;
 };

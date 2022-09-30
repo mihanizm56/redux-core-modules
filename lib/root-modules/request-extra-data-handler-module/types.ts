@@ -1,4 +1,4 @@
-import { Action, BaseAction } from '../../types';
+import { Action, BaseAction, IErrorLogger } from '../../types';
 
 export type InitRequestHandlerActionType = Array<{
   fieldName: string;
@@ -8,5 +8,5 @@ export type InitRequestHandlerActionType = Array<{
 export type RequestExtraDataHandlerActionSagaType = {
   data: any;
   options: InitRequestHandlerActionType;
-  sendErrorLogger?: (params: any) => void;
+  errorLogger?: IErrorLogger;
 };

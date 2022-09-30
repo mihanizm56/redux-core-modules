@@ -28,11 +28,11 @@ export function* downloadFilesManagerWorkerSaga({
   callBackOnSuccess,
   callBackOnError,
   dispatch,
-  disableErrorLogger,
   titleMessageError,
   getErrorModalActionTitle,
+  errorLogger,
 }: ParamsType) {
-  const { setModalAction, sendErrorLogger } = store?.dependencies ?? {};
+  const { setModalAction, errorLoggerGlobal } = store?.dependencies ?? {};
 
   try {
     if (loadingStartAction) {
@@ -94,7 +94,9 @@ export function* downloadFilesManagerWorkerSaga({
         }),
       );
     }
-  } catch (error) {
+  } catch (error: any) {
+    console.error('downloadFilesManagerWorkerSaga gets an error', error);
+
     // parse error data
     const errorData = getParsedError({
       sagaName: 'downloadFilesManagerWorkerSaga',
@@ -135,8 +137,10 @@ export function* downloadFilesManagerWorkerSaga({
       yield callBackOnError({ dispatch, errorData });
     }
 
-    if (sendErrorLogger && !disableErrorLogger) {
-      sendErrorLogger({
+    if (errorLogger || errorLoggerGlobal) {
+      const logger = errorLogger || errorLoggerGlobal;
+
+      logger({
         error,
         message: '[downloadFilesManagerWorkerSaga]: get an error',
       });

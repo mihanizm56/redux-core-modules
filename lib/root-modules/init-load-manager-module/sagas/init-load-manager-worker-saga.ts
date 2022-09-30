@@ -11,7 +11,6 @@ import { extraRequestProcessSaga } from './extra-request-process-saga';
 type ParamsType = InitLoadManagerActionPayloadType & {
   eventNameToCancelRequests?: string;
   dispatch: Dispatch;
-  dependencies?: Record<string, any>;
   store: IAdvancedStore;
 };
 
@@ -25,10 +24,14 @@ export function* initLoadManagerWorkerSaga({
     fullActionLoadingStart,
     setAppErrorAction,
     requestBeforeAllConfig,
-    disableErrorLoggerAllRequests,
+    errorLogger,
+    callbackOnFinish,
+    callbackOnStart,
   } = {},
   store,
 }: ParamsType) {
+  const { errorLoggerGlobal, setModalAction } = store?.dependencies ?? {};
+
   const isNode = !getIsClient();
 
   // на сервере нам надо сделать процессы которые могут быть отслеживаемыми (fork)
@@ -68,6 +71,13 @@ export function* initLoadManagerWorkerSaga({
             dispatch(fullActionLoadingStop());
           }
 
+          if (callbackOnFinish) {
+            callbackOnFinish({
+              dispatch,
+              store,
+            });
+          }
+
           // remove listener to end the whole list of requests
           document.removeEventListener(
             eventToCatchEndedProcesses,
@@ -82,6 +92,13 @@ export function* initLoadManagerWorkerSaga({
     if (fullActionLoadingStart) {
       yield put(fullActionLoadingStart());
     }
+
+    if (callbackOnStart) {
+      callbackOnStart({
+        dispatch,
+        store,
+      });
+    }
   }
 
   while (counterRequests < requestConfigList.length) {
@@ -93,7 +110,12 @@ export function* initLoadManagerWorkerSaga({
       eventToCatchEndedProcesses,
       store,
       dispatch,
-      disableErrorLoggerAllRequests,
+      errorLogger:
+        errorLogger ||
+        requestConfigList[counterRequests].errorLogger ||
+        errorLoggerGlobal,
+      counterRequests,
+      setModalAction,
     });
 
     // go to next request

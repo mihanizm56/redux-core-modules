@@ -1,13 +1,21 @@
 import { put } from 'redux-saga/effects';
+import { IAdvancedStore } from '@/types';
 import { RequestExtraDataHandlerActionSagaType } from '../types';
+
+type ParamsType = RequestExtraDataHandlerActionSagaType & {
+  store: IAdvancedStore;
+};
 
 // TODO
 // not work in SSR
 export function* requestExtraDataHandlerWorkerSaga({
   data,
   options,
-  sendErrorLogger,
-}: RequestExtraDataHandlerActionSagaType) {
+  errorLogger,
+  store,
+}: ParamsType) {
+  const { errorLoggerGlobal } = store?.dependencies ?? {};
+
   try {
     const optionsLength = options.length;
 
@@ -27,10 +35,12 @@ export function* requestExtraDataHandlerWorkerSaga({
       error.message,
     );
 
-    if (sendErrorLogger) {
-      sendErrorLogger({
+    if (errorLogger || errorLoggerGlobal) {
+      const logger = errorLogger || errorLoggerGlobal;
+
+      logger({
         error,
-        message: '[formManagerWorkerSaga]: get an error',
+        message: '[requestExtraDataHandlerWorkerSaga]: get an error',
       });
     }
   }

@@ -40,7 +40,6 @@ export function* formManagerWorkerSaga({
     formatDataToRedirectParamsError,
     requestErrorHandlerProcessParams,
     setFormExternalErrorsAction,
-    disableErrorLogger,
     textMessageSuccess,
     titleMessageSuccess,
     getErrorModalActionTitle,
@@ -48,11 +47,12 @@ export function* formManagerWorkerSaga({
     scrollToErrorOnField,
     scrollFormErrorsFormatterOnSuccess,
     scrollFormErrorsFormatterOnError,
+    errorLogger,
   },
   store,
   dispatch,
 }: IFormManagerWorkerParams) {
-  const { setModalAction, sendErrorLogger } = store?.dependencies ?? {};
+  const { setModalAction, errorLoggerGlobal } = store?.dependencies ?? {};
 
   let responseData;
   // set new "initial" form data - react-final-form needs because if rerender form - "initial" values will be from the very beginning
@@ -167,7 +167,7 @@ export function* formManagerWorkerSaga({
 
       yield put(redirectManagerSagaAction(redirectData));
     }
-  } catch (error) {
+  } catch (error: any) {
     console.error('formManagerWorkerSaga gets an error', error);
 
     // parse error data
@@ -230,8 +230,10 @@ export function* formManagerWorkerSaga({
       yield put(setModalAction(params));
     }
 
-    if (sendErrorLogger && !disableErrorLogger) {
-      sendErrorLogger({
+    if (errorLogger || errorLoggerGlobal) {
+      const logger = errorLogger || errorLoggerGlobal;
+
+      logger({
         error,
         message: '[formManagerWorkerSaga]: get an error',
       });

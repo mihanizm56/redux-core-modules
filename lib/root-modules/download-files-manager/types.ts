@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 import { FILE_TYPES } from '@/constants';
-import { BaseAction, AnyAction } from '../../types';
+import { BaseAction, AnyAction, IErrorLogger } from '../../types';
 
 export type ResponseDataFormatterReturnType = {
   file: any;
@@ -28,7 +28,7 @@ export type DownloadFilesManagerType = {
     responseData: any;
   }) => void;
   callBackOnError?: (params: { errorData: any; dispatch: Dispatch }) => void;
-  disableErrorLogger?: boolean;
   getErrorModalActionTitle?: (errorText: string) => string;
   titleMessageError?: string;
+  errorLogger?: IErrorLogger;
 };

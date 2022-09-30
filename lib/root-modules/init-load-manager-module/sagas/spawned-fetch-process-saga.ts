@@ -5,7 +5,7 @@ import {
   redirectManagerSagaAction,
   IRedirectManagerPayload,
 } from '@/root-modules/redirect-manager-module';
-import { BaseAction, IAdvancedStore } from '@/types';
+import { BaseAction, IAdvancedStore, Action } from '@/types';
 import { requestErrorHandlerProcess } from '@/utils/request-error-handler-process';
 import { filterBatchedResponseData } from '@/utils/filter-batch-response-data';
 import { getIsClient } from '@/utils/get-is-client';
@@ -23,6 +23,8 @@ type ParamsType = InitLoadManagerRequestOptionsType & {
   store: IAdvancedStore;
   dispatch: Dispatch;
   disableErrorLoggerAllRequests?: boolean;
+  counterRequests: number;
+  setModalAction: Action<any>;
 };
 
 export function* spawnedFetchProcessSaga({
@@ -63,13 +65,13 @@ export function* spawnedFetchProcessSaga({
   callBackOnError,
   dispatch,
   disableErrorLogger,
-  disableErrorLoggerAllRequests,
   titleMessageError,
+  errorLogger,
+  counterRequests,
+  setModalAction,
 }: ParamsType) {
   let responseData;
   const isNode = !getIsClient();
-
-  const { setModalAction, sendErrorLogger } = store?.dependencies ?? {};
 
   // not to refetch if data was fetched earlier
   if (selectorsCheckInitialFetched) {
@@ -123,7 +125,8 @@ export function* spawnedFetchProcessSaga({
     // if an error in request
     if (responseData.error) {
       // eslint-disable-next-line
-      throw { 
+      throw {
+        requestParams: formattedRequestParams,
         message: responseData.errorText,
         additionalErrors: responseData.additionalErrors,
       };
@@ -154,7 +157,7 @@ export function* spawnedFetchProcessSaga({
         requestExtraDataHandlerActionSaga({
           data: filteredResponseData,
           options: requestExtraDataHandlerOptions,
-          sendErrorLogger,
+          errorLogger,
         }),
       );
     }
@@ -200,7 +203,10 @@ export function* spawnedFetchProcessSaga({
 
     // if the request was not aborted
     if (!isAbortError) {
-      console.error('error in initLoadManagerWorkerSaga', error.message);
+      console.error(
+        `error in initLoadManagerWorkerSaga at section ${counterRequests}`,
+        error.message,
+      );
 
       // if data in request is critical and we dont get it -> set app global error
       if (isDataCritical) {
@@ -257,14 +263,10 @@ export function* spawnedFetchProcessSaga({
         yield put(setModalAction(params));
       }
 
-      if (
-        sendErrorLogger &&
-        !disableErrorLogger &&
-        !disableErrorLoggerAllRequests
-      ) {
-        sendErrorLogger({
+      if (errorLogger && !disableErrorLogger) {
+        errorLogger({
           error,
-          message: '[initLoadManagerWorkerSaga]: get an error',
+          message: `[initLoadManagerWorkerSaga]: get an error at section ${counterRequests}`,
         });
       }
 
