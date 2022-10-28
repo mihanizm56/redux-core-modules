@@ -9,6 +9,7 @@ import { BaseAction, IAdvancedStore, Action } from '@/types';
 import { requestErrorHandlerProcess } from '@/utils/request-error-handler-process';
 import { filterBatchedResponseData } from '@/utils/filter-batch-response-data';
 import { getIsClient } from '@/utils/get-is-client';
+import { isFormData } from '@/utils/is-form-data';
 import { InitLoadManagerRequestOptionsType } from '../types';
 import { checkIsInitialFetched } from './utils/check-is-initial-fetched';
 import { getIsAbortRequestError } from './utils/get-is-abort-request-error';
@@ -116,10 +117,14 @@ export function* spawnedFetchProcessSaga({
       // TODO FIX
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      responseData = yield call(request, {
-        ...formattedRequestParams,
-        isErrorTextStraightToOutput: withoutFormattingError,
-      });
+      responseData = yield call(
+        request,
+        isFormData(formattedRequestParams)
+          ? formattedRequestParams
+          : {
+              isErrorTextStraightToOutput: withoutFormattingError,
+            },
+      );
     }
 
     // if an error in request
