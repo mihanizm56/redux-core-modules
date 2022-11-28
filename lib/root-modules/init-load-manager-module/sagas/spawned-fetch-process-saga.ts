@@ -122,6 +122,7 @@ export function* spawnedFetchProcessSaga({
         isFormData(formattedRequestParams)
           ? formattedRequestParams
           : {
+              ...formattedRequestParams,
               isErrorTextStraightToOutput: withoutFormattingError,
             },
       );
